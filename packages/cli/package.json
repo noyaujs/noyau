@@ -2,6 +2,14 @@
   "name": "@noyau/cli",
   "version": "0.0.1",
   "description": "",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://https://github.com/noyaujs/noyau",
+    "directory": "packages/cli"
+  },
+  "license": "MIT",
+  "author": "Aaron Bassett <arbassett4@outlook.com>",
   "type": "module",
   "bin": {
     "noyau": "./bin/noyau.mjs"
@@ -9,14 +17,6 @@
   "scripts": {
     "prepack": "unbuild"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://https://github.com/noyaujs/noyau",
-    "directory": "packages/cli"
-  },
-  "keywords": [],
-  "author": "Aaron Bassett <arbassett4@outlook.com>",
-  "license": "MIT",
   "devDependencies": {
     "c12": "^1.4.1",
     "colorette": "^2.0.20",
