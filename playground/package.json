@@ -1,0 +1,15 @@
+{
+  "name": "@noyau/playground",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "noyau dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@noyau/cli": "workspace:*"
+  }
+}
