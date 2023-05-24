@@ -1,15 +1,18 @@
 {
   "name": "@noyau/playground",
-  "private": true,
   "version": "1.0.0",
+  "private": true,
+  "type": "module",
   "description": "",
+  "keywords": [],
+  "license": "MIT",
+  "author": "",
   "scripts": {
     "dev": "noyau dev"
   },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
   "dependencies": {
-    "@noyau/cli": "workspace:*"
+    "@noyau/cli": "workspace:*",
+    "@noyau/core": "workspace:*",
+    "@noyau/kit": "workspace:*"
   }
 }

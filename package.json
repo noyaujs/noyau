@@ -7,6 +7,9 @@
   "license": "MIT",
   "author": "Aaron Bassett <arbassett4@outlook.com>",
   "scripts": {
+    "build": "pnpm --filter './packages/**' prepack",
+    "build:stub": "pnpm --filter './packages/**' prepack --stub",
+    "dev": "pnpm --filter './playground' dev",
     "lint": "eslint --ext .vue,.ts,.js,.mjs .",
     "typecheck": "tsc --noEmit"
   },

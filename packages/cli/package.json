@@ -18,11 +18,17 @@
     "prepack": "unbuild"
   },
   "devDependencies": {
+    "@noyau/kit": "workspace:*",
+    "@nuxt/ui-templates": "^1.1.1",
     "c12": "^1.4.1",
     "colorette": "^2.0.20",
     "consola": "^3.1.0",
     "mri": "^1.2.0",
     "pathe": "^1.1.0",
     "unbuild": "^1.2.1"
+  },
+  "dependencies": {
+    "h3": "^1.6.6",
+    "listhen": "^1.0.4"
   }
 }

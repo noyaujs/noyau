@@ -2,13 +2,30 @@
   "name": "@noyau/core",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.mjs"
+    },
+    "./config": {
+      "types": "./dist/config.d.ts",
+      "import": "./dist/config.mjs",
+      "require": "./dist/config.mjs"
+    }
+  },
   "scripts": {
     "prepack": "unbuild"
   },
   "keywords": [],
   "author": "Aaron Bassett <arbassett4@outlook.com>",
   "license": "MIT",
+  "dependencies": {
+    "@noyau/schema": "workspace:*",
+    "c12": "^1.4.1"
+  },
   "devDependencies": {
     "unbuild": "^1.2.1"
   }
