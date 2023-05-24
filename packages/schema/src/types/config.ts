@@ -1,3 +1,4 @@
+import type { SchemaDefinition } from "untyped";
 import type { ConfigSchema } from "../../schema/config";
 
 // look into changing function to something else
@@ -15,4 +16,9 @@ export interface NoyauConfig
   // // Avoid DeepPartial for vite config interface (https://github.com/nuxt/nuxt/issues/#4772)
   // vite?: ConfigSchema["vite"];
   // TODO: add support for extending schema will probably follow nuxt https://github.com/nuxt/nuxt/issues/15592
+  $schema?: SchemaDefinition;
+}
+
+export interface NoyauOptions extends ConfigSchema {
+  $schema?: SchemaDefinition;
 }

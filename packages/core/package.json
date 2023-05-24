@@ -2,8 +2,10 @@
   "name": "@noyau/core",
   "version": "0.0.1",
   "description": "",
+  "keywords": [],
+  "license": "MIT",
+  "author": "Aaron Bassett <arbassett4@outlook.com>",
   "type": "module",
-  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -16,15 +18,15 @@
       "require": "./dist/config.mjs"
     }
   },
+  "types": "./dist/index.d.ts",
   "scripts": {
     "prepack": "unbuild"
   },
-  "keywords": [],
-  "author": "Aaron Bassett <arbassett4@outlook.com>",
-  "license": "MIT",
   "dependencies": {
+    "@noyau/kit": "workspace:*",
     "@noyau/schema": "workspace:*",
-    "c12": "^1.4.1"
+    "c12": "^1.4.1",
+    "hookable": "^5.5.3"
   },
   "devDependencies": {
     "unbuild": "^1.2.1"

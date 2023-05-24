@@ -1,11 +1,17 @@
 import { loadNoyauConfig } from "@noyau/kit";
 import { defineCommand } from "./index";
-import { RequestListener } from "node:http";
+import { debounce } from "perfect-debounce";
+import type { RequestListener } from "node:http";
+import watcher from "@parcel/watcher";
+import { relative, resolve } from "pathe";
+import consola from "consola";
+import { loadNoyau } from "@noyau/core";
+import { Noyau } from "@noyau/schema";
 
 export default defineCommand({
   meta: {
     name: "dev",
-    usage: "noyau dev",
+    usage: "noyau dev [rootDir]",
     description: "Run noyau development server",
   },
   async invoke(args) {
@@ -25,6 +31,8 @@ export default defineCommand({
         : loadingHandler(req, res);
     };
 
+    const rootDir = resolve(args._[0] || ".");
+
     const config = await loadNoyauConfig({
       overrides: {
         dev: true,
@@ -38,6 +46,50 @@ export default defineCommand({
       hostname: args.host || args.h || config.devServer.host,
     });
 
+    let currentNoyau: Noyau;
+
+    const load = async (isRestart: boolean, reason?: string) => {
+      if (isRestart) {
+        consola.info(
+          `${reason ? reason + ". " : ""}${
+            isRestart ? "Restarting" : "Starting"
+          } noyau...`
+        );
+      }
+
+      if (currentNoyau) {
+        await currentNoyau.close();
+      }
+
+      currentNoyau = await loadNoyau({
+        cwd: rootDir,
+        overrides: {
+          dev: true,
+        },
+      });
+
+      currentNoyau.hook("ready", async () => {
+        consola.log("ready");
+      });
+
+      await currentNoyau.ready();
+    };
+
+    const dLoad = debounce(load, 500);
+    watcher.subscribe(".", (err, events) => {
+      consola.log("watcher", err, events);
+      for (const event of events) {
+        const file = relative(rootDir, event.path);
+        if (RESTART_RE.test(file)) {
+          dLoad(true, `${file} updated`);
+        }
+      }
+    });
+
+    load(false);
+
     return "wait" as const;
   },
 });
+
+const RESTART_RE = /^noyau\.config\.(js|ts|mjs|cjs)$/;

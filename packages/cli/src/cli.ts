@@ -1,7 +1,8 @@
 import mri from "mri";
 
 import { consola } from "consola";
-import { Command, Commands, commands } from "./commands";
+import type { Command, Commands} from "./commands";
+import { commands } from "./commands";
 import { showHelp } from "./utils/help";
 import { red } from "colorette";
 

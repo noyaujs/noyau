@@ -1,8 +1,8 @@
 import type { LoadConfigOptions } from "c12";
 import { loadConfig } from "c12";
 import { applyDefaults } from "untyped";
-import { NoyauConfig, NoyauConfigSchema } from "@noyau/schema";
-// import { NoyauConfigSchema } from "@noyau/schema";
+import type { NoyauConfig, NoyauOptions } from "@noyau/schema";
+import { NoyauConfigSchema } from "@noyau/schema";
 
 export type LoadNoyauConfigOptions = LoadConfigOptions<NoyauConfig>;
 
@@ -13,5 +13,5 @@ export const loadNoyauConfig = async (options?: LoadNoyauConfigOptions) => {
     dotenv: true,
     ...options,
   });
-  return await applyDefaults(NoyauConfigSchema, config!);
+  return (await applyDefaults(NoyauConfigSchema, config!)) as NoyauOptions;
 };
