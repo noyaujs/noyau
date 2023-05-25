@@ -6,7 +6,7 @@ import watcher from "@parcel/watcher";
 import { relative, resolve } from "pathe";
 import consola from "consola";
 import { loadNoyau } from "@noyau/core";
-import { Noyau } from "@noyau/schema";
+import { type Noyau } from "@noyau/schema";
 
 export default defineCommand({
   meta: {
@@ -49,30 +49,37 @@ export default defineCommand({
     let currentNoyau: Noyau;
 
     const load = async (isRestart: boolean, reason?: string) => {
-      if (isRestart) {
-        consola.info(
-          `${reason ? reason + ". " : ""}${
-            isRestart ? "Restarting" : "Starting"
-          } noyau...`
-        );
+      try {
+        if (isRestart) {
+          consola.info(
+            `${reason ? reason + ". " : ""}${
+              isRestart ? "Restarting" : "Starting"
+            } noyau...`
+          );
+        }
+
+        if (currentNoyau) {
+          await currentNoyau.close();
+        }
+
+        currentNoyau = await loadNoyau({
+          cwd: rootDir,
+          overrides: {
+            dev: true,
+          },
+        });
+
+        currentNoyau.hook("ready", async () => {
+          consola.log("ready");
+        });
+
+        await currentNoyau.ready();
+
+        currentHandler = toNodeListener(currentNoyau.server.app);
+      } catch (err) {
+        consola.error(`Cannot ${isRestart ? "restart" : "start"} nuxt: `, err);
+        currentHandler = undefined;
       }
-
-      if (currentNoyau) {
-        await currentNoyau.close();
-      }
-
-      currentNoyau = await loadNoyau({
-        cwd: rootDir,
-        overrides: {
-          dev: true,
-        },
-      });
-
-      currentNoyau.hook("ready", async () => {
-        consola.log("ready");
-      });
-
-      await currentNoyau.ready();
     };
 
     const dLoad = debounce(load, 500);

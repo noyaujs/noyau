@@ -1,4 +1,4 @@
-import type { NoyauConfig } from "./config";
+import type { NoyauOptions } from "./config";
 import type { Hookable } from "hookable";
 import type { NoyauHooks } from "./hooks";
 
@@ -8,7 +8,7 @@ export type Noyau = {
   // _ignore?: Ignore;
 
   /** The resolved Nuxt configuration. */
-  options: NoyauConfig;
+  options: NoyauOptions;
   hooks: Hookable<NoyauHooks>;
   hook: Noyau["hooks"]["hook"];
   callHook: Noyau["hooks"]["callHook"];

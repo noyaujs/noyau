@@ -26,7 +26,9 @@
     "@noyau/kit": "workspace:*",
     "@noyau/schema": "workspace:*",
     "c12": "^1.4.1",
-    "hookable": "^5.5.3"
+    "hookable": "^5.5.3",
+    "nitropack": "^2.4.1",
+    "pathe": "^1.1.0"
   },
   "devDependencies": {
     "unbuild": "^1.2.1"

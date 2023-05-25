@@ -2,7 +2,8 @@ import { createHooks } from "hookable";
 import { version } from "../package.json";
 import { loadNoyauConfig, type LoadNoyauConfigOptions } from "@noyau/kit";
 import type { NoyauHooks, NoyauOptions, Noyau } from "@noyau/schema";
-import { noyauCtx } from "@noyau/kit/src/context";
+import { noyauCtx } from "@noyau/kit";
+import { initNitro } from "./nitro";
 
 function createNoyau(options: NoyauOptions) {
   const hooks = createHooks<NoyauHooks>();
@@ -11,9 +12,9 @@ function createNoyau(options: NoyauOptions) {
     _version: version,
     options,
     hooks,
-    callHook: hooks.callHook,
-    addHooks: hooks.addHooks,
-    hook: hooks.hook,
+    callHook: (...args) => hooks.callHook(...args),
+    addHooks: (...args) => hooks.addHooks(...args),
+    hook: (...args) => hooks.hook(...args),
     ready: () => initNoyau(noyau),
     close: () => Promise.resolve(hooks.callHook("close", noyau)),
     vfs: {},
@@ -23,11 +24,15 @@ function createNoyau(options: NoyauOptions) {
 }
 
 const initNoyau = async (noyau: Noyau) => {
+  console.log("context", noyauCtx);
   noyauCtx.set(noyau);
   noyau.hook("close", () => {
     noyauCtx.unset();
   });
 
+  await initNitro(noyau);
+
+  await noyau.hooks.callHook("build:done", noyau);
   await noyau.hooks.callHook("ready", noyau);
 };
 
