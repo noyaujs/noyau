@@ -1,6 +1,6 @@
 import {
   mergeConfig,
-  type UserConfig as ViteUserConfig,
+  type InlineConfig as ViteInlineConfig,
   createServer as createViteServer,
 } from "vite";
 import { type ViteBuildContext } from ".";
@@ -8,6 +8,7 @@ import { joinURL } from "ufo";
 import { resolve } from "pathe";
 import { defineEventHandler } from "h3";
 import { type IncomingMessage, type ServerResponse } from "node:http";
+import { viteNodePlugin } from "./vite-node";
 
 export const buildClient = async (ctx: ViteBuildContext) => {
   const clientConfig: ViteUserConfig = mergeConfig(ctx.config, {
@@ -37,12 +38,13 @@ export const buildClient = async (ctx: ViteBuildContext) => {
         input: { entry: ctx.entry },
       },
     },
+    plugins: [viteNodePlugin(ctx)],
     appType: "custom",
     server: {
       middlewareMode: true,
     },
-  } satisfies ViteUserConfig);
-  console.log("clientConfig", clientConfig.build?.outDir);
+  } satisfies ViteInlineConfig);
+
   if (ctx.noyau.options.dev) {
     const viteServer = await createViteServer(clientConfig);
     ctx.clientServer = viteServer;
@@ -70,9 +72,7 @@ export const buildClient = async (ctx: ViteBuildContext) => {
       },
     });
 
-    console.log("vite:client:build");
     const viteMiddleware = defineEventHandler(async (event) => {
-      console.log("vite:client:build:middleware");
       // Workaround: vite devmiddleware modifies req.url
       const originalURL = event.node.req.url!;
 

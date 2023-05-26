@@ -54,6 +54,8 @@ export default defineUntypedSchema({
     $resolve: (val) =>
       [".js", ".jsx", ".mjs", ".ts"].concat(val).filter(Boolean),
   },
-
+  ssr: {
+    $resolve: (val) => val ?? true,
+  },
   $schema: {},
 });

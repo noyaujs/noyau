@@ -8,6 +8,7 @@ import {
 import { buildClient } from "./client";
 import { resolve } from "pathe";
 import { resolvePath } from "@noyau/kit";
+import { buildServer } from "./server";
 
 export interface ViteBuildContext {
   noyau: Noyau;
@@ -62,4 +63,5 @@ export const buildNoyau = async (noyau: Noyau) => {
   };
 
   await buildClient(ctx);
+  await buildServer(ctx);
 };
