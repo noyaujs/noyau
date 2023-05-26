@@ -8,5 +8,7 @@ export default defineBuildConfig({
     {
       input: "src/config",
     },
+    // App
+    { input: "src/app/", outDir: "dist/app/", ext: "js" },
   ],
 });

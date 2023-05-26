@@ -23,6 +23,7 @@
     "untyped": "^1.3.2"
   },
   "devDependencies": {
-    "unbuild": "^1.2.1"
+    "unbuild": "^1.2.1",
+    "h3": "^1.6.6"
   }
 }

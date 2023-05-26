@@ -5,7 +5,7 @@ import type { RequestListener } from "node:http";
 import watcher from "@parcel/watcher";
 import { relative, resolve } from "pathe";
 import consola from "consola";
-import { loadNoyau } from "@noyau/core";
+import { buildNoyau, loadNoyau } from "@noyau/core";
 import { type Noyau } from "@noyau/schema";
 
 export default defineCommand({
@@ -74,6 +74,8 @@ export default defineCommand({
         });
 
         await currentNoyau.ready();
+
+        await buildNoyau(currentNoyau);
 
         currentHandler = toNodeListener(currentNoyau.server.app);
       } catch (err) {

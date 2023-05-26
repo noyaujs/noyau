@@ -10,7 +10,11 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   parserOptions: {
     sourceType: "module",
-    project: ["./tsconfig.eslint.json", "./packages/*/tsconfig.json"],
+    project: [
+      "./tsconfig.eslint.json",
+      "./packages/*/tsconfig.json",
+      "./playground/tsconfig.json",
+    ],
   },
   root: true,
   rules: {

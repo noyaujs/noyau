@@ -32,6 +32,7 @@ export default defineUntypedSchema({
         val || (await get("dir.static")) || "public",
     },
   },
+  /** @type {Record<string, string>} */
   alias: {
     $resolve: async (val, get) => ({
       "~": await get("srcDir"),
@@ -49,5 +50,10 @@ export default defineUntypedSchema({
       ...val,
     }),
   },
+  extensions: {
+    $resolve: (val) =>
+      [".js", ".jsx", ".mjs", ".ts"].concat(val).filter(Boolean),
+  },
+
   $schema: {},
 });

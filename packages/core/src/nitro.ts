@@ -1,11 +1,6 @@
 import type { Noyau } from "@noyau/schema";
-import {
-  Nitro,
-  NitroConfig,
-  build,
-  copyPublicAssets,
-  prepare,
-} from "nitropack";
+import { dynamicEventHandler } from "h3";
+import { type Nitro, type NitroConfig, build } from "nitropack";
 import { createDevServer } from "nitropack";
 import { createNitro } from "nitropack";
 import { join, resolve } from "pathe";
@@ -54,6 +49,10 @@ export const initNitro = async (noyau: Noyau & { _nitro?: Nitro }) => {
   // Expose nitro to modules and kit
   noyau._nitro = nitro;
 
+  // Setup handlers
+  const devMiddlewareHandler = dynamicEventHandler();
+  nitro.options.devHandlers.unshift({ handler: devMiddlewareHandler });
+
   // nuxt build/dev
   noyau.hook("build:done", async () => {
     // await nuxt.callHook("nitro:build:before", nitro);
@@ -86,9 +85,9 @@ export const initNitro = async (noyau: Noyau & { _nitro?: Nitro }) => {
     //   nuxt.server.reload();
     // });
 
-    // nuxt.hook("server:devHandler", (h) => {
-    //   devMiddlewareHandler.set(h);
-    // });
+    noyau.hook("server:devHandler", (h) => {
+      devMiddlewareHandler.set(h);
+    });
     noyau.server = createDevServer(nitro);
 
     const waitUntilCompile = new Promise<void>((resolve) =>
