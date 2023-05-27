@@ -4,6 +4,7 @@ import { type Nitro, type NitroConfig, build } from "nitropack";
 import { createDevServer } from "nitropack";
 import { createNitro } from "nitropack";
 import { join, resolve } from "pathe";
+import { distDir } from "./dirs";
 
 export const initNitro = async (noyau: Noyau & { _nitro?: Nitro }) => {
   const nitroConfig: NitroConfig = {
@@ -19,6 +20,13 @@ export const initNitro = async (noyau: Noyau & { _nitro?: Nitro }) => {
       strict: true,
       generateTsConfig: true,
       tsconfigPath: "tsconfig.server.json",
+    },
+    renderer: resolve(distDir, "runtime/nitro/renderer"),
+    baseURL: noyau.options.app.baseURL,
+    runtimeConfig: {
+      nitro: {
+        envPrefix: "NOYAU_",
+      },
     },
     publicAssets: [
       noyau.options.dev
@@ -36,6 +44,12 @@ export const initNitro = async (noyau: Noyau & { _nitro?: Nitro }) => {
     alias: {
       ...noyau.options.alias,
     },
+    externals: {
+      inline: [
+        ...(noyau.options.dev ? [] : ["@noyau/", noyau.options.buildDir]),
+        distDir,
+      ],
+    },
     rollupConfig: {
       output: {},
       plugins: [],
@@ -44,6 +58,9 @@ export const initNitro = async (noyau: Noyau & { _nitro?: Nitro }) => {
 
   // Init nitro
   const nitro = await createNitro(nitroConfig);
+
+  // Connect vfs storages
+  nitro.vfs = noyau.vfs = nitro.vfs || noyau.vfs || {};
   noyau.hook("close", () => nitro.hooks.callHook("close"));
 
   // Expose nitro to modules and kit

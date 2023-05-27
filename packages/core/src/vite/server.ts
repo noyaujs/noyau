@@ -27,6 +27,7 @@ export const buildServer = async (ctx: ViteBuildContext) => {
       "typeof XMLHttpRequest": '"undefined"',
     },
     ssr: {
+      external: ["#internal/nitro", "#internal/nitro/utils"],
       noExternal: [
         /\/esm\/.*\.js$/,
         /\.(es|esm|esm-browser|esm-bundler).js$/,
@@ -73,8 +74,10 @@ export const buildServer = async (ctx: ViteBuildContext) => {
 
   await writeManifest(ctx);
 
+  const onBuild = () => ctx.noyau.callHook("vite:compiled");
+
   if (!ctx.noyau.options.ssr) {
-    // await onBuild();
+    await onBuild();
     return;
   }
 
@@ -82,10 +85,10 @@ export const buildServer = async (ctx: ViteBuildContext) => {
   const viteServer = await createViteServer(serverConfig);
   ctx.ssrServer = viteServer;
 
-  // await ctx.noyau.callHook("vite:serverCreated", viteServer, {
-  //   isClient: false,
-  //   isServer: true,
-  // });
+  await ctx.noyau.callHook("vite:serverCreated", viteServer, {
+    isClient: false,
+    isServer: true,
+  });
 
   // Close server on exit
   ctx.noyau.hook("close", () => viteServer.close());

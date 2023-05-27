@@ -26,6 +26,15 @@ export const buildClient = async (ctx: ViteBuildContext) => {
     optimizeDeps: {
       entries: [ctx.entry],
     },
+    resolve: {
+      alias: {
+        // "#build/plugins": resolve(ctx.noyau.options.buildDir, "plugins/client"),
+        "#internal/nitro": resolve(
+          ctx.noyau.options.buildDir,
+          "nitro.client.mjs"
+        ),
+      },
+    },
     cacheDir: resolve(
       ctx.noyau.options.rootDir,
       "node_modules/.cache/vite",
@@ -48,10 +57,10 @@ export const buildClient = async (ctx: ViteBuildContext) => {
   if (ctx.noyau.options.dev) {
     const viteServer = await createViteServer(clientConfig);
     ctx.clientServer = viteServer;
-    // await ctx.noyau.callHook("vite:serverCreated", viteServer, {
-    //   isClient: true,
-    //   isServer: false,
-    // });
+    await ctx.noyau.callHook("vite:serverCreated", viteServer, {
+      isClient: true,
+      isServer: false,
+    });
     const transformHandler = viteServer.middlewares.stack.findIndex(
       (m) =>
         m.handle instanceof Function &&

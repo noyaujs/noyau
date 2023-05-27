@@ -10,4 +10,5 @@ export default defineBuildConfig({
       outDir: "dist",
     },
   ],
+  externals: ["@noyau/kit", "@noyau/core"],
 });

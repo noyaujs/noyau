@@ -6,7 +6,6 @@
   "keywords": [],
   "license": "MIT",
   "author": "",
-  "type": "module",
   "scripts": {
     "dev": "noyau dev"
   },

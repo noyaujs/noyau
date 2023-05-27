@@ -1,5 +1,3 @@
 import { defineNoyauConfig } from "@noyau/core/config";
 
-export default defineNoyauConfig({
-  dev: false,
-});
+export default defineNoyauConfig({});

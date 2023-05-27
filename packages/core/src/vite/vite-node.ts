@@ -38,6 +38,7 @@ import { distDir } from "../dirs";
 import type { ViteBuildContext } from ".";
 import { isCSS } from "./utils";
 import { createIsExternal } from "./utils/external";
+import { normalizeViteManifest } from "vue-bundle-renderer";
 // import { transpile } from "./utils/transpile";
 
 // TODO: Remove this in favor of registerViteNodeMiddleware
@@ -224,15 +225,19 @@ function createViteNodeApp(
 export async function initViteNodeServer(ctx: ViteBuildContext) {
   // Serialize and pass vite-node runtime options
   const viteNodeServerOptions = {
-    baseURL: `${ctx.noyau.options.devServer.url}__noyau_vite_node__`,
+    baseURL: `${ctx.noyau.options.devServer.url}/__noyau_vite_node__`,
     root: ctx.noyau.options.srcDir,
     entryPath: ctx.entry,
     base: ctx.ssrServer!.config.base || "/noyau/",
   };
-  process.env.NUXT_VITE_NODE_OPTIONS = JSON.stringify(viteNodeServerOptions);
+  process.env.NOYAU_VITE_NODE_OPTIONS = JSON.stringify(viteNodeServerOptions);
+  console.log("NOYAU_VITE_NODE_OPTIONS", viteNodeServerOptions);
 
-  const serverResolvedPath = resolve(distDir, "runtime/vite-node.mjs");
-  const manifestResolvedPath = resolve(distDir, "runtime/client.manifest.mjs");
+  const serverResolvedPath = resolve(distDir, "runtime/vite/vite-node.mjs");
+  const manifestResolvedPath = resolve(
+    distDir,
+    "runtime/vite/client.manifest.mjs"
+  );
 
   await fse.writeFile(
     resolve(ctx.noyau.options.buildDir, "dist/server/server.mjs"),

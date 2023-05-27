@@ -86,7 +86,7 @@ export default defineCommand({
 
     const dLoad = debounce(load, 500);
     watcher.subscribe(".", (err, events) => {
-      consola.log("watcher", err, events);
+      // consola.log("watcher", err, events);
       for (const event of events) {
         const file = relative(rootDir, event.path);
         if (RESTART_RE.test(file)) {
