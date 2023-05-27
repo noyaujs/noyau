@@ -25,12 +25,27 @@ export default defineUntypedSchema({
     $resolve: async (val, get) =>
       resolve(await get("rootDir"), val || ".noyau"),
   },
+  modulesDir: {
+    $default: ["node_modules"],
+    $resolve: async (val, get) => [
+      ...(await Promise.all(
+        val.map(async (dir: string) => resolve(await get("rootDir"), dir))
+      )),
+      resolve(process.cwd(), "node_modules"),
+    ],
+  },
   dir: {
     assets: "assets",
     public: {
       $resolve: async (val, get) =>
         val || (await get("dir.static")) || "public",
     },
+  },
+  /**
+   * @type {(typeof import('../src/types/module').NoyauModule | string)[]}
+   */
+  modules: {
+    $resolve: (val) => [].concat(val).filter(Boolean),
   },
   /** @type {Record<string, string>} */
   alias: {

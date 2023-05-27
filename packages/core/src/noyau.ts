@@ -1,5 +1,4 @@
 import { createHooks } from "hookable";
-import watcher from "@parcel/watcher";
 import { version } from "../package.json";
 import { loadNoyauConfig, type LoadNoyauConfigOptions } from "@noyau/kit";
 import type { NoyauHooks, NoyauOptions, Noyau } from "@noyau/schema";
@@ -8,6 +7,7 @@ import { initNitro } from "./nitro";
 import { resolve } from "pathe";
 import { distDir } from "./dirs";
 import { bundle } from "./vite";
+import { installModule } from "./module/install";
 
 export const buildNoyau = async (noyau: Noyau) => {
   await bundle(noyau);
@@ -37,13 +37,19 @@ function createNoyau(options: NoyauOptions) {
 }
 
 const initNoyau = async (noyau: Noyau) => {
-  console.log("context", noyauCtx);
   noyauCtx.set(noyau);
   noyau.hook("close", () => {
     noyauCtx.unset();
   });
 
   await initNitro(noyau);
+
+  // add modules
+  // await noyau.callHook("modules:before", noyau);
+  for (const m of noyau.options.modules) {
+    await installModule(m, noyau);
+  }
+  // await noyau.callHook("modules:done", noyau);
 
   await noyau.hooks.callHook("ready", noyau);
 };
