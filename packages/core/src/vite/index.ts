@@ -61,6 +61,8 @@ export const bundle = async (noyau: Noyau) => {
     },
   };
 
+  await noyau.callHook("vite:extend", ctx);
+
   noyau.hook("vite:serverCreated", (server: ViteDevServer, env) => {
     if (
       // https://github.com/nuxt/nuxt/issues/14898

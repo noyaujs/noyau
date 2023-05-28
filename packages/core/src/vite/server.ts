@@ -72,9 +72,14 @@ export const buildServer = async (ctx: ViteBuildContext) => {
     },
   } satisfies ViteInlineConfig);
 
-  await writeManifest(ctx);
+  await ctx.noyau.callHook("vite:extendConfig", serverConfig, {
+    isClient: false,
+    isServer: true,
+  });
 
   const onBuild = () => ctx.noyau.callHook("vite:compiled");
+
+  await writeManifest(ctx);
 
   if (!ctx.noyau.options.ssr) {
     await onBuild();

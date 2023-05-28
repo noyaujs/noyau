@@ -2,6 +2,7 @@ import {
   mergeConfig,
   type InlineConfig as ViteInlineConfig,
   createServer as createViteServer,
+  type UserConfig as ViteUserConfig,
 } from "vite";
 import { type ViteBuildContext } from ".";
 import { joinURL } from "ufo";
@@ -53,6 +54,11 @@ export const buildClient = async (ctx: ViteBuildContext) => {
       middlewareMode: true,
     },
   } satisfies ViteInlineConfig);
+
+  await ctx.noyau.callHook("vite:extendConfig", clientConfig, {
+    isClient: true,
+    isServer: false,
+  });
 
   if (ctx.noyau.options.dev) {
     const viteServer = await createViteServer(clientConfig);
