@@ -2,6 +2,7 @@ import {
   defineNoyauModule,
   createResolver,
   setServerRenderer,
+  setAppEntry,
 } from "@noyau/kit";
 
 // Module options TypeScript interface definition
@@ -18,5 +19,6 @@ export default defineNoyauModule<ModuleOptions>({
     const resolver = createResolver(import.meta.url);
 
     setServerRenderer(await resolver.resolvePath("./runtime/renderer"));
+    setAppEntry("~/entry.ts");
   },
 });
