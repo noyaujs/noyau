@@ -33,11 +33,11 @@ export const setServerRenderer = (handler: string) => {
 //   useNoyau().options.devServerHandlers.push(handler);
 // }
 
-// export function addServerPlugin(plugin: string) {
-//   const noyau = useNoyau();
-//   noyau.options.nitro.plugins = noyau.options.nitro.plugins || [];
-//   noyau.options.nitro.plugins.push(normalize(plugin));
-// }
+export const addServerPlugin = (plugin: string) => {
+  const noyau = useNoyau();
+  noyau.options.nitro.plugins = noyau.options.nitro.plugins || [];
+  noyau.options.nitro.plugins.push(normalize(plugin));
+};
 
 // export function addPrerenderRoutes(routes: string | string[]) {
 //   const noyau = useNoyau();

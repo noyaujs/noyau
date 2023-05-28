@@ -13,6 +13,13 @@
     "@noyau/cli": "workspace:*",
     "@noyau/core": "workspace:*",
     "@noyau/kit": "workspace:*",
-    "@noyau/module-spa": "workspace:*"
+    "@noyau/module-spa": "workspace:*",
+    "@noyau/module-react": "workspace:*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.37",
+    "@types/react-dom": "^18.0.11"
   }
 }

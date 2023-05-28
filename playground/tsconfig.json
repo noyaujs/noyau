@@ -1,3 +1,6 @@
 {
   "extends": "./.noyau/tsconfig.server.json",
+  "compilerOptions": {
+    "jsx": "react",
+  }
 }

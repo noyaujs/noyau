@@ -1,4 +1,5 @@
 import { defineRenderHandler } from "#internal/nitro";
+import { useNitroApp } from "#internal/nitro/app";
 import { buildAssetsURL } from "#paths";
 import { type RenderResponse } from "nitropack";
 import { buildAssetsURL, publicAssetsURL } from "#paths";
@@ -28,12 +29,22 @@ function renderScriptToString(attrs: Record<string, string | null>) {
 
 export default defineRenderHandler(
   async (event): Promise<Partial<RenderResponse>> => {
+    const nitroApp = useNitroApp();
     const manifest = await getClientManifest();
-    console.log("test", buildAssetsURL("/@vite/client"));
+
+    const htmlContext = {
+      bodyAppend: [],
+      bodyPrepend: [],
+      headAppend: [],
+      headPrepend: [],
+    };
+
+    await nitroApp.hooks.callHook("render:html", htmlContext);
+
     const response: RenderResponse = {
       body: `<!DOCTYPE html><head></head><body><div id="app"></div>${renderManifestScript(
         manifest
-      )}</body></html>`,
+      )}${htmlContext.bodyAppend.join("/n")}</body></html>`,
       statusCode: event.node.res.statusCode,
       statusMessage: event.node.res.statusMessage,
       headers: {

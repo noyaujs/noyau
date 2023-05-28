@@ -2,6 +2,9 @@
 import { defineUntypedSchema } from "untyped";
 
 export default defineUntypedSchema({
+  /**
+   * @type {typeof import('nitropack')['NitroConfig']}
+   */
   nitro: {
     renderer: "",
   },

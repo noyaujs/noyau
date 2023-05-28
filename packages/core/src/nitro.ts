@@ -68,6 +68,7 @@ export const initNitro = async (noyau: Noyau & { _nitro?: Nitro }) => {
         distDir,
       ],
     },
+    plugins: noyau.options.nitro.plugins,
     rollupConfig: {
       output: {},
       plugins: [],

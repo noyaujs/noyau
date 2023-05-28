@@ -1,0 +1,14 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": false,
+    "rootDir": ".",
+    "paths": {
+      "#internal/nitro": [
+        "./node_modules/nitropack/dist/runtime"
+      ],
+    }
+  },
+  "include": ["src", "build.config.ts"],
+  "references": []
+}
