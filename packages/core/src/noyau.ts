@@ -5,7 +5,7 @@ import type { NoyauHooks, NoyauOptions, Noyau } from "@noyau/schema";
 import { noyauCtx } from "@noyau/kit";
 import { initNitro } from "./nitro";
 import { resolve } from "pathe";
-import { distDir } from "./dirs";
+import { distDir, pkgDir } from "./dirs";
 import { bundle } from "./vite";
 import { installModule } from "./module/install";
 
@@ -58,6 +58,8 @@ export const loadNoyau = async (options: LoadNoyauConfigOptions) => {
   const config = await loadNoyauConfig(options);
 
   config.appDir = config.alias["#app"] = resolve(distDir, "app");
+  // config.modulesDir.push(resolve(options.workspaceDir, "node_modules"));
+  config.modulesDir.push(resolve(pkgDir, "node_modules"));
 
   return createNoyau(config);
 };

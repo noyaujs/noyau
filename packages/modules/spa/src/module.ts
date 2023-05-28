@@ -21,7 +21,6 @@ export default defineNoyauModule<ModuleOptions>({
   },
   async setup(options, nuxt) {
     const resolver = createResolver(import.meta.url);
-    console.log("options", options);
     setServerRenderer(await resolver.resolvePath("./runtime/renderer"));
     setAppEntry(options.entry);
   },

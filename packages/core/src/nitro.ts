@@ -92,7 +92,6 @@ export const initNitro = async (noyau: Noyau & { _nitro?: Nitro }) => {
   // nuxt build/dev
   noyau.hook("build:done", async () => {
     // await nuxt.callHook("nitro:build:before", nitro);
-    console.log("nitro:build:before");
     if (noyau.options.dev) {
       await build(nitro);
     } else {

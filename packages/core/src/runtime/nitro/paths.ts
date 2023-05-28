@@ -10,7 +10,6 @@ export function buildAssetsDir(): string {
 }
 
 export function buildAssetsURL(...path: string[]): string {
-  console.log("test", useRuntimeConfig().app.buildAssetsDir);
   return joinURL(
     publicAssetsURL(),
     useRuntimeConfig().app.buildAssetsDir,

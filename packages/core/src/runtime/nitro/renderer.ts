@@ -27,8 +27,6 @@ export default defineRenderHandler(
   async (event): Promise<Partial<RenderResponse>> => {
     const manifest = await getClientManifest();
 
-    console.log("manifest", manifest);
-
     const { loading: loadingTemplate } = await import("@nuxt/ui-templates");
 
     const response: RenderResponse = {

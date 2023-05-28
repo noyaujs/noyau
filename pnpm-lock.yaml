@@ -8,6 +8,9 @@ importers:
 
   .:
     devDependencies:
+      '@noyau/cli':
+        specifier: workspace:*
+        version: link:packages/cli
       '@types/node':
         specifier: ^20.2.3
         version: 20.2.3

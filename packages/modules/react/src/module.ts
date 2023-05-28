@@ -21,7 +21,6 @@ export default defineNoyauModule<ModuleOptions>({
   async setup(options, noyau) {
     const resolver = createResolver(import.meta.url);
     // noyau.options.ssr === false; // Force SSR to false
-    console.log("react", react);
     addVitePlugin(
       react({
         jsxRuntime: "automatic",

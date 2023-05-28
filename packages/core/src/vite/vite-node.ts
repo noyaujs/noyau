@@ -232,7 +232,6 @@ export async function initViteNodeServer(ctx: ViteBuildContext) {
     base: ctx.ssrServer!.config.base || "/noyau/",
   };
   process.env.NOYAU_VITE_NODE_OPTIONS = JSON.stringify(viteNodeServerOptions);
-  console.log("NOYAU_VITE_NODE_OPTIONS", viteNodeServerOptions);
 
   const serverResolvedPath = resolve(distDir, "runtime/vite/vite-node.mjs");
   const manifestResolvedPath = resolve(
