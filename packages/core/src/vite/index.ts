@@ -17,7 +17,9 @@ export interface ViteBuildContext {
 
 export const bundle = async (noyau: Noyau) => {
   // TODO: make this configurable
-  const entry = await resolvePath(resolve(noyau.options.appDir, "entry"));
+  const entry = await resolvePath(
+    noyau.options.app.entry || resolve(noyau.options.appDir, "entry")
+  );
   console.log("entry", entry);
 
   let allowDirs = [noyau.options.alias["#app"], noyau.options.rootDir].filter(

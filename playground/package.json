@@ -12,6 +12,7 @@
   "dependencies": {
     "@noyau/cli": "workspace:*",
     "@noyau/core": "workspace:*",
-    "@noyau/kit": "workspace:*"
+    "@noyau/kit": "workspace:*",
+    "@noyau/module-spa": "workspace:*"
   }
 }

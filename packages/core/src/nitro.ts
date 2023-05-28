@@ -21,12 +21,29 @@ export const initNitro = async (noyau: Noyau & { _nitro?: Nitro }) => {
       generateTsConfig: true,
       tsconfigPath: "tsconfig.server.json",
     },
-    renderer: resolve(distDir, "runtime/nitro/renderer"),
+    renderer:
+      noyau.options.nitro.renderer ||
+      resolve(distDir, "runtime/nitro/renderer"),
     baseURL: noyau.options.app.baseURL,
     runtimeConfig: {
+      ...noyau.options.runtimeConfig,
       nitro: {
         envPrefix: "NOYAU_",
       },
+    },
+    imports: {
+      imports: [
+        {
+          as: "__buildAssetsURL",
+          name: "buildAssetsURL",
+          from: resolve(distDir, "runtime/nitro/paths"),
+        },
+        {
+          as: "__publicAssetsURL",
+          name: "publicAssetsURL",
+          from: resolve(distDir, "runtime/nitro/paths"),
+        },
+      ],
     },
     publicAssets: [
       noyau.options.dev
@@ -42,6 +59,7 @@ export const initNitro = async (noyau: Noyau & { _nitro?: Nitro }) => {
           },
     ],
     alias: {
+      "#paths": resolve(distDir, "runtime/nitro/paths"),
       ...noyau.options.alias,
     },
     externals: {

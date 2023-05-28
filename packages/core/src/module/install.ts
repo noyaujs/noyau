@@ -71,7 +71,6 @@ async function normalizeModule(noyauModule: string | NoyauModule | unknown) {
   // Throw error if input is not a function
   if (typeof noyauModule !== "function") {
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    console.log(noyauModule);
     throw new TypeError(`Noyau module should be a function: ${noyauModule}`);
   }
 

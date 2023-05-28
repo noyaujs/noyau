@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { defineUntypedSchema } from "untyped";
+import defu from "defu";
 import { join, resolve } from "pathe";
 import { isDebug, isDevelopment } from "std-env";
 
@@ -72,5 +73,27 @@ export default defineUntypedSchema({
   ssr: {
     $resolve: (val) => val ?? true,
   },
+  runtimeConfig: {
+    $resolve: async (val, get) => {
+      provideFallbackValues(val);
+      return defu(val, {
+        public: {},
+        app: {
+          baseURL: (await get("app")).baseURL,
+          buildAssetsDir: (await get("app")).buildAssetsDir,
+        },
+      });
+    },
+  },
   $schema: {},
 });
+
+function provideFallbackValues(obj: Record<string, any>) {
+  for (const key in obj) {
+    if (typeof obj[key] === "undefined" || obj[key] === null) {
+      obj[key] = "";
+    } else if (typeof obj[key] === "object") {
+      provideFallbackValues(obj[key]);
+    }
+  }
+}

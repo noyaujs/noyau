@@ -12,7 +12,7 @@ module.exports = {
     sourceType: "module",
     project: [
       "./tsconfig.eslint.json",
-      "./packages/*/tsconfig.json",
+      "./packages/**/tsconfig.json",
       "./playground/tsconfig.json",
     ],
   },

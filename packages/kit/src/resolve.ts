@@ -99,11 +99,9 @@ export async function resolvePath(
   // Try to resolve as module id
   // Remove all this nonsense when https://github.com/unjs/mlly/pull/172 gets merged which fixes the types
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-  const resolveModulePath: string | null = (
-    await _resolvePath(_path, {
-      url: [cwd /* ...modulesDir */],
-    })
-  ).catch(() => null);
+  const resolveModulePath: string | null = await _resolvePath(_path, {
+    url: [cwd /* ...modulesDir */],
+  }).catch(() => null);
 
   if (resolveModulePath) {
     return resolveModulePath;

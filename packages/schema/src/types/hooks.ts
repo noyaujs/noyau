@@ -13,4 +13,5 @@ export type NoyauHooks = {
     server: ViteDevServer,
     env: { isClient: boolean; isServer: boolean }
   ) => HookResult;
+  "nitro:renderer": (renderer: string) => HookResult;
 };

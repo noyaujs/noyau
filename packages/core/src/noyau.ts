@@ -42,14 +42,14 @@ const initNoyau = async (noyau: Noyau) => {
     noyauCtx.unset();
   });
 
-  await initNitro(noyau);
-
   // add modules
   // await noyau.callHook("modules:before", noyau);
   for (const m of noyau.options.modules) {
     await installModule(m, noyau);
   }
   // await noyau.callHook("modules:done", noyau);
+
+  await initNitro(noyau);
 
   await noyau.hooks.callHook("ready", noyau);
 };

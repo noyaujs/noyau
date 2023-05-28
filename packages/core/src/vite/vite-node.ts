@@ -128,6 +128,7 @@ function getManifest(ctx: ViteBuildContext) {
       css,
       module: true,
       isEntry: true,
+      resourceType: "script",
     },
     [ctx.entry]: {
       file: ctx.entry,
