@@ -6,7 +6,6 @@
   "keywords": [],
   "license": "MIT",
   "author": "",
-  "type": "module",
   "scripts": {
     "dev": "noyau dev"
   },
@@ -21,6 +20,7 @@
   },
   "devDependencies": {
     "@types/react": "^18.0.37",
-    "@types/react-dom": "^18.0.11"
+    "@types/react-dom": "^18.0.11",
+    "h3": "^1.6.6"
   }
 }

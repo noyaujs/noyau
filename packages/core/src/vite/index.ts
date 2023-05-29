@@ -20,7 +20,6 @@ export const bundle = async (noyau: Noyau) => {
   const entry = await resolvePath(
     noyau.options.app.entry || resolve(noyau.options.appDir, "entry")
   );
-  console.log("entry", entry);
 
   let allowDirs = [noyau.options.alias["#app"], noyau.options.rootDir].filter(
     (d) => d && existsSync(d)

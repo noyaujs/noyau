@@ -22,5 +22,7 @@ module.exports = {
       "error",
       { fixStyle: "inline-type-imports" },
     ],
+    // todo: enable this rule
+    "@typescript-eslint/no-unsafe-call": "off",
   },
 };

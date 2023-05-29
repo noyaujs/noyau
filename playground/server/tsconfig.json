@@ -1,3 +1,0 @@
-{
-  "extends": "../.noyau/tsconfig.server.json"
-}

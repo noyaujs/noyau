@@ -69,10 +69,6 @@ export default defineCommand({
           },
         });
 
-        currentNoyau.hook("ready", async () => {
-          consola.log("ready");
-        });
-
         await currentNoyau.ready();
 
         await buildNoyau(currentNoyau);
@@ -95,7 +91,7 @@ export default defineCommand({
       }
     });
 
-    load(false);
+    void load(false);
 
     return "wait" as const;
   },
