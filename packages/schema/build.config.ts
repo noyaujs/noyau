@@ -17,5 +17,5 @@ export default defineBuildConfig({
     },
     "src/index",
   ],
-  externals: ["h3", "Hookable", "vite"],
+  externals: ["h3", "Hookable", "vite", "@patcel/watcher"],
 });

@@ -8,8 +8,13 @@ import { resolve } from "pathe";
 import { distDir, pkgDir } from "./dirs";
 import { bundle } from "./vite";
 import { installModule } from "./module/install";
+import { watch } from "./watch";
 
 export const buildNoyau = async (noyau: Noyau) => {
+  if (noyau.options.dev) {
+    await watch(noyau);
+  }
+
   await bundle(noyau);
   await noyau.callHook("build:done", noyau);
 

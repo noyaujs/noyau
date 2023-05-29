@@ -12,26 +12,26 @@ export const setServerRenderer = (handler: string) => {
   noyau.options.nitro.renderer = handler;
 };
 
-// function normalizeHandlerMethod(handler: NitroEventHandler) {
-//   // retrieve method from handler file name
-//   const [, method = undefined] =
-//     handler.handler.match(
-//       /\.(get|head|patch|post|put|delete|connect|options|trace)(\.\w+)*$/
-//     ) || [];
-//   return {
-//     method,
-//     ...handler,
-//     handler: normalize(handler.handler),
-//   };
-// }
+function normalizeHandlerMethod(handler: NitroEventHandler) {
+  // retrieve method from handler file name
+  const [, method = undefined] =
+    handler.handler.match(
+      /\.(get|head|patch|post|put|delete|connect|options|trace)(\.\w+)*$/
+    ) || [];
+  return {
+    method,
+    ...handler,
+    handler: normalize(handler.handler),
+  };
+}
 
-// export function addServerHandler(handler: NitroEventHandler) {
-//   useNoyau().options.serverHandlers.push(normalizeHandlerMethod(handler));
-// }
+export function addServerHandler(handler: NitroEventHandler) {
+  useNoyau().options.serverHandlers.push(normalizeHandlerMethod(handler));
+}
 
-// export function addDevServerHandler(handler: NitroDevEventHandler) {
-//   useNoyau().options.devServerHandlers.push(handler);
-// }
+export function addDevServerHandler(handler: NitroDevEventHandler) {
+  useNoyau().options.devServerHandlers.push(handler);
+}
 
 export const addServerPlugin = (plugin: string) => {
   const noyau = useNoyau();
@@ -55,21 +55,6 @@ export const addServerPlugin = (plugin: string) => {
 //   });
 // }
 
-/**
- * Access to the Nitro instance
- *
- * **Note:** You can call `useNitro()` only after `ready` hook.
- *
- * **Note:** Changes to the Nitro instance configuration are not applied.
- *
- * @example
- *
- * ```ts
- * noyau.hook('ready', () => {
- *   console.log(useNitro())
- * })
- * ```
- */
 export function useNitro(): Nitro {
   const noyau = useNoyau();
   if (!(noyau as any)._nitro) {

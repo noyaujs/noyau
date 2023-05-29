@@ -8,4 +8,13 @@ export default defineUntypedSchema({
   nitro: {
     renderer: "",
   },
+  /**
+   * @type {typeof import('nitropack')['NitroEventHandler'][]}
+   */
+  serverHandlers: [],
+
+  /**
+   * @type {typeof import('nitropack')['NitroDevEventHandler'][]}
+   */
+  devServerHandlers: [],
 });

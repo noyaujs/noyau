@@ -1,6 +1,7 @@
 import type { Noyau } from "./noyau";
 import type { EventHandler } from "h3";
 import type { ViteDevServer, UserConfig as ViteConfig } from "vite";
+import type { EventType as ParcelWatcherEventType } from "@parcel/watcher";
 
 type HookResult = void | Promise<void>;
 
@@ -22,4 +23,5 @@ export type NoyauHooks = {
     env: { isClient: boolean; isServer: boolean }
   ) => HookResult;
   "nitro:renderer": (renderer: string) => HookResult;
+  watch: (type: ParcelWatcherEventType, path: string) => HookResult;
 };
