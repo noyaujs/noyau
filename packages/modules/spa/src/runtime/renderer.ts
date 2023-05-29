@@ -30,7 +30,6 @@ export default defineNoyauRenderer(async (event) => {
   return {
     htmlContext: {
       body: ['<div id="app"></div>'],
-      head: [],
       bodyAppend: [...renderManifestScript(manifest)],
     },
   } satisfies RendererResponse;
