@@ -5,5 +5,8 @@ export default defineBuildConfig({
     {
       input: "src/index",
     },
+    {
+      input: "config",
+    },
   ],
 });

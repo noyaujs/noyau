@@ -4,6 +4,6 @@
     "composite": false,
     "rootDir": "."
   },
-  "include": ["src"],
+  "include": ["src", "config.ts", "build.config.ts"],
   "references": []
 }
