@@ -1,8 +1,5 @@
-import { defineRenderHandler } from "#internal/nitro";
-import { useNitroApp } from "#internal/nitro/app";
-import { buildAssetsURL } from "#paths";
-import { type RenderResponse } from "nitropack";
-import { buildAssetsURL, publicAssetsURL } from "#paths";
+import { buildAssetsURL, publicAssetsURL } from "#noyau/paths";
+import { defineNoyauRenderer, type RendererResponse } from "#noyau/renderer";
 
 // @ts-expect-error private property consumed by vite-generated url helpers
 globalThis.__buildAssetsURL = buildAssetsURL;
@@ -11,8 +8,8 @@ globalThis.__publicAssetsURL = publicAssetsURL;
 
 interface ClientManifest {}
 
-// @ts-expect-error file will be produced after app build
-const getClientManifest: () => Promise<Manifest> = () =>
+const getClientManifest: () => Promise<ClientManifest> = () =>
+  // @ts-expect-error file will be produced after app build
   import("#build/dist/server/client.manifest.mjs")
     .then((r) => r.default || r)
     .then((r) =>
@@ -27,35 +24,17 @@ function renderScriptToString(attrs: Record<string, string | null>) {
     .join("")}></script>`;
 }
 
-export default defineRenderHandler(
-  async (event): Promise<Partial<RenderResponse>> => {
-    const nitroApp = useNitroApp();
-    const manifest = await getClientManifest();
+export default defineNoyauRenderer(async (event) => {
+  const manifest = await getClientManifest();
 
-    const htmlContext = {
-      bodyAppend: [],
-      bodyPrepend: [],
-      headAppend: [],
-      headPrepend: [],
-    };
-
-    await nitroApp.hooks.callHook("render:html", htmlContext);
-
-    const response: RenderResponse = {
-      body: `<!DOCTYPE html><head></head><body><div id="app"></div>${renderManifestScript(
-        manifest
-      )}${htmlContext.bodyAppend.join("/n")}</body></html>`,
-      statusCode: event.node.res.statusCode,
-      statusMessage: event.node.res.statusMessage,
-      headers: {
-        "content-type": "text/html;charset=utf-8",
-        "x-powered-by": "Noyau",
-      },
-    };
-
-    return response;
-  }
-);
+  return {
+    htmlContext: {
+      body: ['<div id="app"></div>'],
+      head: [],
+      bodyAppend: [...renderManifestScript(manifest)],
+    },
+  } satisfies RendererResponse;
+});
 
 const renderManifestScript = (manifest: ClientManifest) => {
   return Object.values(manifest)

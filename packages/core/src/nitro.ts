@@ -23,7 +23,7 @@ export const initNitro = async (noyau: Noyau & { _nitro?: Nitro }) => {
     },
     renderer:
       noyau.options.nitro.renderer ||
-      resolve(distDir, "runtime/nitro/renderer"),
+      resolve(distDir, "runtime/nitro/defaultRenderer"),
     baseURL: noyau.options.app.baseURL,
     runtimeConfig: {
       ...noyau.options.runtimeConfig,
@@ -59,7 +59,8 @@ export const initNitro = async (noyau: Noyau & { _nitro?: Nitro }) => {
           },
     ],
     alias: {
-      "#paths": resolve(distDir, "runtime/nitro/paths"),
+      "#noyau/paths": resolve(distDir, "runtime/nitro/paths"),
+      "#noyau/renderer": resolve(distDir, "runtime/nitro/renderer"),
       ...noyau.options.alias,
     },
     externals: {

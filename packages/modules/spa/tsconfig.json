@@ -2,7 +2,21 @@
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
     "composite": false,
-    "rootDir": "."
+    "rootDir": ".",
+    "paths": {
+      "#internal/nitro/app": [
+        "./node_modules/nitropack/dist/runtime/app"
+      ],
+      "#internal/nitro/utils": [
+        "./node_modules/nitropack/dist/runtime/utils"
+      ],
+      "#noyau/paths": [
+        "./node_modules/@noyau/kit/node_modules/@noyau/core/dist/runtime/nitro/paths"
+      ],
+      "#noyau/renderer": [
+        "./node_modules/@noyau/kit/node_modules/@noyau/core/dist/runtime/nitro/renderer"
+      ]
+    }
   },
   "include": ["src", "build.config.ts"],
   "references": []
