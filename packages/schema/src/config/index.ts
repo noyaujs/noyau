@@ -3,6 +3,7 @@ import dev from "./dev";
 import app from "./app";
 import internal from "./internal";
 import nitro from "./nitro";
+import build from "./build";
 
 export default {
   ...common,
@@ -10,4 +11,5 @@ export default {
   ...app,
   ...internal,
   ...nitro,
+  ...build,
 };

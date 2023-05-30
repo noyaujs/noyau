@@ -6,3 +6,4 @@ export * from "./import/esm";
 export * from "./nitro";
 export * from "./app";
 export * from "./build";
+export * from "./template";

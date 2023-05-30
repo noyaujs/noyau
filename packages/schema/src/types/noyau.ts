@@ -2,6 +2,21 @@ import type { NoyauOptions } from "./config";
 import type { Hookable } from "hookable";
 import type { NoyauHooks } from "./hooks";
 
+// interface so it can be extended
+export interface NoyauTemplateContext {
+  noyau: Noyau;
+}
+
+export type NoyauTemplate = {
+  filename: string;
+  getContents: (ctx: NoyauTemplateContext) => string | Promise<string>;
+  write?: boolean;
+};
+
+export type ResolvedNoyauTemplate = NoyauTemplate & {
+  path: string;
+};
+
 export type Noyau = {
   // Private fields.
   _version: string;
