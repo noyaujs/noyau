@@ -75,7 +75,7 @@ export default defineCommand({
 
         currentHandler = toNodeListener(currentNoyau.server.app);
       } catch (err) {
-        consola.error(`Cannot ${isRestart ? "restart" : "start"} nuxt: `, err);
+        consola.error(`Cannot ${isRestart ? "restart" : "start"} noyau: `, err);
         currentHandler = undefined;
       }
     };

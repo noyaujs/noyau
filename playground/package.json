@@ -13,6 +13,7 @@
     "@noyau/cli": "workspace:*",
     "@noyau/core": "workspace:*",
     "@noyau/kit": "workspace:*",
+    "@noyau/schema": "workspace:*",
     "@noyau/module-spa": "workspace:*",
     "@noyau/module-react": "workspace:*",
     "react": "^18.2.0",

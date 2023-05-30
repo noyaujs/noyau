@@ -1,6 +1,70 @@
 import { mkdir, writeFile } from "node:fs/promises";
-import { normalizeTemplate } from "@noyau/kit";
-import { Noyau, NoyauTemplateContext } from "@noyau/schema";
+import {
+  genImport,
+  genString,
+  genInlineTypeImport,
+  genAugmentation,
+} from "knitwork";
+import { addTemplate, normalizeTemplate } from "@noyau/kit";
+import { type Noyau, type NoyauTemplateContext } from "@noyau/schema";
+import { dirname, join, relative, resolve } from "pathe";
+
+type DeepNotNullable<T> = {
+  [P in keyof T]: NonNullable<T[P]>;
+};
+type SelectiveRequired<T, K extends keyof T> = Omit<T, K> &
+  DeepNotNullable<Required<Pick<T, K>>>;
+
+export const setupDefaultTemplates = (noyau: Noyau) => {
+  const schemaDtsPath = addTemplate({
+    filename: "types/schema.d.ts",
+    getContents(ctx) {
+      const moduleInfo = ctx.noyau.options._installedModules
+        .map((m) => ({
+          ...(m.meta || {}),
+          importName: m.entryPath || m.meta?.name,
+        }))
+        .filter(
+          (m): m is SelectiveRequired<typeof m, "configKey" | "importName"> =>
+            Boolean(m.configKey) && Boolean(m.importName)
+        );
+
+      const relativeRoot = relative(
+        resolve(noyau.options.buildDir, "types"),
+        noyau.options.rootDir
+      );
+      const getImportName = (name: string) =>
+        (name.startsWith(".") ? "./" + join(relativeRoot, name) : name).replace(
+          /\.\w+$/,
+          ""
+        );
+      const modules = moduleInfo.map((meta) => [
+        genString(meta.configKey),
+        getImportName(meta.importName),
+      ]);
+
+      return [
+        genImport(getImportName("@noyau/schema"), ["NoyauModule"]),
+        genAugmentation("noyau/schema", {
+          NoyauConfig: Object.fromEntries(
+            modules.map(([configKey, importName]) => [
+              configKey,
+              `${genInlineTypeImport(
+                importName
+              )} extends NoyauModule<infer O> ? Partial<O> : Record<string, any> `,
+            ])
+          ),
+        }),
+      ].join("\n");
+    },
+  }).path;
+
+  noyau.hook("types:prepare", ({ references }) => {
+    references.push({
+      path: schemaDtsPath,
+    });
+  });
+};
 
 export const generateTemplates = async (noyau: Noyau) => {
   // ensure templates are normalized
@@ -18,7 +82,7 @@ export const generateTemplates = async (noyau: Noyau) => {
       ] = contents;
 
       if (template.write) {
-        await mkdir(template.path, { recursive: true });
+        await mkdir(dirname(template.path), { recursive: true });
         await writeFile(template.path, contents, "utf8");
       }
     })

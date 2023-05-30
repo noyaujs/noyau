@@ -3,7 +3,9 @@ import {
   createResolver,
   setServerRenderer,
   setAppEntry,
+  useLogger,
 } from "@noyau/kit";
+import { existsSync } from "node:fs";
 
 // Module options TypeScript interface definition
 export interface ModuleOptions {
@@ -17,11 +19,19 @@ export default defineNoyauModule<ModuleOptions>({
   },
   // Default configuration options of the Nuxt module
   defaults: {
-    entry: "./entry.ts",
+    entry: "~/entry.ts",
   },
   async setup(options, nuxt) {
     const resolver = createResolver(import.meta.url);
+    const logger = useLogger("@noyau/module-spa");
     setServerRenderer(await resolver.resolvePath("./runtime/renderer"));
+    if (!existsSync(await resolver.resolvePath(options.entry))) {
+      logger.warn(
+        `Entry file ${
+          options.entry
+        } does not exist resolved ${await resolver.resolvePath(options.entry)}`
+      );
+    }
     setAppEntry(options.entry);
   },
 });

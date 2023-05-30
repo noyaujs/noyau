@@ -5,6 +5,7 @@ const _rDefault = (r: any) => r.default || r;
 export const commands = {
   dev: () => import("./dev").then(_rDefault),
   usage: () => import("./usage").then(_rDefault),
+  prepare: () => import("./prepare").then(_rDefault),
 };
 
 export type Commands = keyof typeof commands;

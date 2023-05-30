@@ -9,7 +9,7 @@ import { distDir, pkgDir } from "./dirs";
 import { bundle } from "./vite";
 import { installModule } from "./module/install";
 import { watch } from "./watch";
-import { generateTemplates } from "./templates";
+import { generateTemplates, setupDefaultTemplates } from "./templates";
 
 export const buildNoyau = async (noyau: Noyau) => {
   await generateTemplates(noyau);
@@ -56,6 +56,8 @@ const initNoyau = async (noyau: Noyau) => {
     await installModule(m, noyau);
   }
   // await noyau.callHook("modules:done", noyau);
+
+  setupDefaultTemplates(noyau);
 
   await initNitro(noyau);
 

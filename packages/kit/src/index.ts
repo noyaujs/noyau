@@ -7,3 +7,4 @@ export * from "./nitro";
 export * from "./app";
 export * from "./build";
 export * from "./template";
+export * from "./logger";
