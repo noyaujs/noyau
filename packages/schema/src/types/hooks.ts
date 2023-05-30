@@ -5,6 +5,9 @@ import type { EventType as ParcelWatcherEventType } from "@parcel/watcher";
 
 type HookResult = void | Promise<void>;
 
+// https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html
+export type TSReference = { types: string } | { path: string };
+
 export type NoyauHooks = {
   ready: (noyau: Noyau) => HookResult;
   close: (noyau: Noyau) => HookResult;

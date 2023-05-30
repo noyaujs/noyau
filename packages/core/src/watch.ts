@@ -1,4 +1,4 @@
-import { Noyau } from "@noyau/schema";
+import { type Noyau } from "@noyau/schema";
 import watcher from "@parcel/watcher";
 import { normalize } from "pathe";
 

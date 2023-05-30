@@ -26,7 +26,10 @@ export async function importModule<T>(
   return import(pathToFileURL(resolvedPath).href).then(interopDefault) as T;
 }
 
-export async function tryImportModule<T>(id: string, url = import.meta.url) {
+export async function tryImportModule<T>(
+  id: string,
+  url: string | string[] = import.meta.url
+) {
   try {
     return await importModule<T>(id, url);
   } catch {}
