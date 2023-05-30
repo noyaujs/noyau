@@ -1,9 +1,15 @@
 import type { Noyau } from "@noyau/schema";
 import { dynamicEventHandler } from "h3";
-import { type Nitro, type NitroConfig, build } from "nitropack";
+import {
+  type Nitro,
+  type NitroConfig,
+  build,
+  scanHandlers,
+  writeTypes,
+} from "nitropack";
 import { createDevServer } from "nitropack";
 import { createNitro } from "nitropack";
-import { join, resolve } from "pathe";
+import { join, relative, resolve } from "pathe";
 import { distDir } from "./dirs";
 
 export const initNitro = async (noyau: Noyau & { _nitro?: Nitro }) => {
@@ -89,6 +95,24 @@ export const initNitro = async (noyau: Noyau & { _nitro?: Nitro }) => {
   // Setup handlers
   const devMiddlewareHandler = dynamicEventHandler();
   nitro.options.devHandlers.unshift({ handler: devMiddlewareHandler });
+
+  noyau.hook("types:prepare", async (opts) => {
+    if (!noyau.options.dev) {
+      await scanHandlers(nitro);
+      await writeTypes(nitro);
+    }
+    // Exclude nitro output dir from typescript
+    opts.tsConfig.exclude = opts.tsConfig.exclude || [];
+    opts.tsConfig.exclude.push(
+      relative(
+        noyau.options.buildDir,
+        resolve(noyau.options.rootDir, nitro.options.output.dir)
+      )
+    );
+    opts.references.push({
+      path: resolve(noyau.options.buildDir, "types/nitro.d.ts"),
+    });
+  });
 
   // nuxt build/dev
   noyau.hook("build:done", async () => {

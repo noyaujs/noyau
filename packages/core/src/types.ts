@@ -77,6 +77,8 @@ export const writeTypes = async (noyau: Noyau) => {
 
   const declarations: string[] = [];
 
+  await noyau.callHook("types:prepare", { references, declarations, tsConfig });
+
   const declaration = [
     ...references.map((ref) => {
       if ("path" in ref && isAbsolute(ref.path)) {
