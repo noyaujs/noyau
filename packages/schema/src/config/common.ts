@@ -68,7 +68,7 @@ export default defineUntypedSchema({
   },
   extensions: {
     $resolve: (val) =>
-      [".js", ".jsx", ".mjs", ".ts"].concat(val).filter(Boolean),
+      [".js", ".jsx", ".mjs", ".ts", ".tsx"].concat(val).filter(Boolean),
   },
   ssr: {
     $resolve: (val) => val ?? true,

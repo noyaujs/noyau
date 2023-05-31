@@ -1,4 +1,4 @@
-import type { Noyau } from "./noyau";
+import type { Noyau, ResolvedNoyauTemplate } from "./noyau";
 import type { EventHandler } from "h3";
 import type { ViteDevServer, UserConfig as ViteConfig } from "vite";
 import type { EventType as ParcelWatcherEventType } from "@parcel/watcher";
@@ -14,6 +14,9 @@ export type NoyauHooks = {
   close: (noyau: Noyau) => HookResult;
   "build:done": (noyau: Noyau) => HookResult;
   "server:devHandler": (handler: EventHandler) => HookResult;
+  "template:generate": (
+    filter?: (template: ResolvedNoyauTemplate) => boolean
+  ) => HookResult;
   "vite:extend": (viteBuildContext: {
     noyau: Noyau;
     config: ViteConfig;

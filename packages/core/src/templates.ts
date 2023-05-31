@@ -6,7 +6,11 @@ import {
   genAugmentation,
 } from "knitwork";
 import { addTemplate, normalizeTemplate } from "@noyau/kit";
-import { type Noyau, type NoyauTemplateContext } from "@noyau/schema";
+import {
+  type ResolvedNoyauTemplate,
+  type Noyau,
+  type NoyauTemplateContext,
+} from "@noyau/schema";
 import { dirname, join, relative, resolve } from "pathe";
 
 type DeepNotNullable<T> = {
@@ -66,7 +70,10 @@ export const setupDefaultTemplates = (noyau: Noyau) => {
   });
 };
 
-export const generateTemplates = async (noyau: Noyau) => {
+export const generateTemplates = async (
+  noyau: Noyau,
+  filter: (template: ResolvedNoyauTemplate) => boolean = () => true
+) => {
   // ensure templates are normalized
   const templates = noyau.options.build.templates.map(normalizeTemplate);
 
@@ -74,7 +81,7 @@ export const generateTemplates = async (noyau: Noyau) => {
 
   // generate templates
   await Promise.all(
-    templates.map(async (template) => {
+    templates.filter(filter).map(async (template) => {
       const contents = await template.getContents(context);
       // available from its path or #build/ without extension
       noyau.vfs[template.path] = noyau.vfs[

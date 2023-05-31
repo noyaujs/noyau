@@ -2,6 +2,7 @@ import { createHooks } from "hookable";
 import { version } from "../package.json";
 import { loadNoyauConfig, type LoadNoyauConfigOptions } from "@noyau/kit";
 import type { NoyauHooks, NoyauOptions, Noyau } from "@noyau/schema";
+import { debounce } from "perfect-debounce";
 import { noyauCtx } from "@noyau/kit";
 import { initNitro } from "./nitro";
 import { resolve } from "pathe";
@@ -15,7 +16,18 @@ export const buildNoyau = async (noyau: Noyau) => {
   await generateTemplates(noyau);
 
   if (noyau.options.dev) {
+    const debouncedGenerateTemplates = debounce(
+      () => generateTemplates(noyau),
+      undefined,
+      { leading: true }
+    );
     await watch(noyau);
+    noyau.hook("template:generate", async (filter) => {
+      if (filter) {
+        await generateTemplates(noyau, filter);
+      }
+      await debouncedGenerateTemplates();
+    });
   }
 
   await bundle(noyau);

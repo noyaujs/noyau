@@ -6,6 +6,7 @@ import { join, resolve } from "pathe";
 import { resolvePath } from "@noyau/kit";
 import { buildServer } from "./server";
 import { warmupViteServer } from "./utils/warmup";
+import virtual from "./plugins/virtual";
 
 export interface ViteBuildContext {
   noyau: Noyau;
@@ -52,6 +53,7 @@ export const bundle = async (noyau: Noyau) => {
           },
         },
       },
+      plugins: [virtual(noyau.vfs, noyau.options.extensions)],
       server: {
         fs: {
           allow: allowDirs,

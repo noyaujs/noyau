@@ -1,5 +1,6 @@
 import { type NoyauHooks } from "./hooks";
 import { type Noyau } from "./noyau";
+import { type ConsolaInstance } from "consola";
 
 export interface ModuleMeta {
   /** Module name. */
@@ -35,7 +36,11 @@ export interface ModuleDefinition<T extends ModuleOptions = ModuleOptions> {
   defaults?: T | ((noyau: Noyau) => T);
   schema?: T;
   hooks?: Partial<NoyauHooks>;
-  setup?: (this: void, resolvedOptions: T, noyau: Noyau) => _ModuleSetupReturn;
+  setup?: (
+    this: void,
+    resolvedOptions: T,
+    context: { noyau: Noyau; logger: ConsolaInstance }
+  ) => _ModuleSetupReturn;
 }
 
 export interface NoyauModule<T extends ModuleOptions = ModuleOptions> {

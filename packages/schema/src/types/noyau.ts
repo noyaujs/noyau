@@ -1,6 +1,7 @@
 import type { NoyauOptions } from "./config";
 import type { Hookable } from "hookable";
 import type { NoyauHooks } from "./hooks";
+import { R } from "untyped/dist/types-a20127ea";
 
 // interface so it can be extended
 export interface NoyauTemplateContext {
@@ -15,6 +16,19 @@ export type NoyauTemplate = {
 
 export type ResolvedNoyauTemplate = NoyauTemplate & {
   path: string;
+};
+
+export type RouteSegmentType = "static" | "dynamic" | "optional" | "splat";
+export type RouteSegment = {
+  type: RouteSegmentType;
+  value: string;
+};
+
+export type NoyauRoute = {
+  name: string;
+  path: RouteSegment | RouteSegment[];
+  file: string;
+  children?: NoyauRoute[];
 };
 
 export type Noyau = {

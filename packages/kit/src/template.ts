@@ -39,8 +39,8 @@ export function normalizeTemplate(
   };
 }
 
-// export async function updateTemplates(options?: {
-//   filter?: (template: ResolvedNoyauTemplate) => boolean;
-// }) {
-//   return await tryUseNoyau()?.hooks.callHook("builder:generateApp", options);
-// }
+export async function updateTemplates(
+  filter?: (template: ResolvedNoyauTemplate) => boolean
+) {
+  return await tryUseNoyau()?.hooks.callHook("template:generate", filter);
+}

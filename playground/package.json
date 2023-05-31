@@ -16,8 +16,11 @@
     "@noyau/schema": "workspace:*",
     "@noyau/module-spa": "workspace:*",
     "@noyau/module-react": "workspace:*",
+    "@noyau/module-routes": "workspace:*",
+    "@noyau/module-tanstack-router": "workspace:*",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "@tanstack/router": "0.0.1-beta.86"
   },
   "devDependencies": {
     "@types/react": "^18.0.37",

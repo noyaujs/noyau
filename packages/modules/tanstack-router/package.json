@@ -1,5 +1,5 @@
 {
-  "name": "@noyau/module-routes",
+  "name": "@noyau/module-tanstack-router",
   "version": "0.0.1",
   "description": "",
   "keywords": [],
@@ -11,7 +11,8 @@
       "types": "./dist/types.d.ts",
       "import": "./dist/module.mjs",
       "require": "./dist/module.cjs"
-    }
+    },
+    "./package.json": "./package.json"
   },
   "types": "./dist/types.d.ts",
   "files": [
@@ -22,8 +23,10 @@
   },
   "dependencies": {
     "@noyau/kit": "workspace:*",
-    "escape-string-regexp": "^5.0.0",
-    "perfect-debounce": "^1.0.0"
+    "@types/common-tags": "^1.8.1",
+    "@vitejs/plugin-react": "4.0.0",
+    "common-tags": "^1.8.2",
+    "knitwork": "^1.0.0"
   },
   "devDependencies": {
     "@noyau/schema": "workspace:*",
@@ -33,5 +36,8 @@
     "nitropack": "^2.4.1",
     "pathe": "^1.1.0",
     "unbuild": "^1.2.1"
+  },
+  "peerDependencies": {
+    "@tanstack/router": "0.0.1-beta.86"
   }
 }

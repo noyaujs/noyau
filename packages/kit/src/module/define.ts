@@ -10,6 +10,7 @@ import type {
   NoyauOptions,
 } from "@noyau/schema";
 import { useNoyau } from "../context";
+import { useLogger } from "../logger";
 // import { logger } from "../logger";
 
 /**
@@ -69,8 +70,12 @@ export function defineNoyauModule<OptionsT extends ModuleOptions>(
       uniqueKey || Math.round(Math.random() * 10000)
     }`;
     const mark = performance.mark(key);
+    const logger = useLogger(key);
     const res =
-      (await definition.setup?.call(undefined, _options, noyau)) ?? {};
+      (await definition.setup?.call(undefined, _options, {
+        noyau,
+        logger,
+      })) ?? {};
     const perf = performance.measure(key, mark?.name); // TODO: remove when Node 14 reaches EOL
     const setupTime = perf ? Math.round(perf.duration * 100) / 100 : 0; // TODO: remove when Node 14 reaches EOL
 

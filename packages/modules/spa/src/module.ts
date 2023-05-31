@@ -21,7 +21,7 @@ export default defineNoyauModule<ModuleOptions>({
   defaults: {
     entry: "~/entry.ts",
   },
-  async setup(options, nuxt) {
+  async setup(options, { noyau }) {
     const resolver = createResolver(import.meta.url);
     const logger = useLogger("@noyau/module-spa");
     setServerRenderer(await resolver.resolvePath("./runtime/renderer"));

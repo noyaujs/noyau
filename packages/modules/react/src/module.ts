@@ -18,7 +18,7 @@ export default defineNoyauModule<ModuleOptions>({
   },
   // Default configuration options of the Noyau module
   defaults: {},
-  async setup(options, noyau) {
+  async setup(options, { noyau }) {
     const resolver = createResolver(import.meta.url);
     // noyau.options.ssr === false; // Force SSR to false
     addVitePlugin(
