@@ -17,6 +17,6 @@
       ],
     }
   },
-  "include": ["src", "../kit/src/config.ts"],
+  "include": ["src", "./types.d.ts"],
   "references": [],
 }

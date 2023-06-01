@@ -19,6 +19,7 @@ export default defineNoyauModule<ModuleOptions>({
   meta: {
     name: "@noyau/module-tanstack-router",
     configKey: "tanstack-router",
+    modules: ["@noyau/module-react", "@noyau/module-routes"],
   },
   // Default configuration options of the Noyau module
   defaults: {

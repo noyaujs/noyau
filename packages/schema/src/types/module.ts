@@ -11,6 +11,8 @@ export interface ModuleMeta {
 
   configKey?: string;
 
+  modules?: (NoyauModule | string)[];
+
   [key: string]: any;
 }
 

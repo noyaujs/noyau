@@ -87,6 +87,9 @@ importers:
       '@parcel/watcher':
         specifier: ^2.1.0
         version: 2.1.0
+      '@pnpm/graph-sequencer':
+        specifier: ^1.1.1
+        version: 1.1.1
       c12:
         specifier: ^1.4.1
         version: 1.4.1
@@ -965,6 +968,10 @@ packages:
       micromatch: 4.0.5
       node-addon-api: 3.2.1
       node-gyp-build: 4.6.0
+
+  /@pnpm/graph-sequencer@1.1.1:
+    resolution: {integrity: sha512-nlLogZV9i8J2z9vw1cHtKAX8Caj3WeYUw63G1ni2ULLwvb+FfRAhdIfDsuce0gUHdOClF/gsKN+7H28yryNlAw==}
+    dev: false
 
   /@rollup/plugin-alias@5.0.0(rollup@3.23.0):
     resolution: {integrity: sha512-l9hY5chSCjuFRPsnRm16twWBiSApl2uYFLsepQYwtBuAxNMQ/1dJqADld40P0Jkqm65GRTLy/AC6hnpVebtLsA==}

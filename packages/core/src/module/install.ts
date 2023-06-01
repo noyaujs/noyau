@@ -3,13 +3,14 @@ import type { Noyau, NoyauModule } from "@noyau/schema";
 import { resolveAlias, resolvePath, importModule } from "@noyau/kit";
 import { dirname, isAbsolute } from "pathe";
 import { useNoyau } from "@noyau/kit";
+import graphSequencer from "@pnpm/graph-sequencer";
 
 /** Installs a module on a Noyau instance. */
 export async function installModule(
   moduleToInstall: string | NoyauModule,
   noyau: Noyau
 ) {
-  const { noyauModule } = await normalizeModule(moduleToInstall);
+  const { noyauModule } = await resolveModule(moduleToInstall);
 
   // Call module
   const res = (await noyauModule(noyau)) ?? {};
@@ -47,14 +48,13 @@ export const normalizeModuleTranspilePath = (p: string) => {
   return p.split("node_modules/").pop() as string;
 };
 
-async function normalizeModule(noyauModule: string | NoyauModule | unknown) {
+async function resolveModule(noyauModule: string | NoyauModule | unknown) {
   const noyau = useNoyau();
 
   // Import if input is string
   if (typeof noyauModule === "string") {
     const src = await resolvePath(noyauModule);
     try {
-      // Prefer ESM resolution if possible
       noyauModule = await importModule<NoyauModule>(
         src,
         noyau.options.modulesDir
@@ -80,3 +80,69 @@ async function normalizeModule(noyauModule: string | NoyauModule | unknown) {
     noyauModule: NoyauModule<any>;
   };
 }
+
+type Node = {
+  deps: string[];
+  module: NoyauModule<any>;
+};
+
+export const createModuleMap = async (
+  modulesToInstall: (NoyauModule | string)[],
+  moduleMap = new Map<string, Node>(),
+  parent = ""
+) => {
+  for (const module of modulesToInstall) {
+    const { noyauModule } = await resolveModule(module);
+    const moduleMeta = await noyauModule.getMeta?.();
+
+    const moduleName = `module:${
+      moduleMeta?.name ||
+      (typeof module === "string" ? module : Math.random() * 10000000)
+    }`;
+
+    const moduleDeps = moduleMeta?.modules || [];
+
+    if (parent && moduleMap.get(parent)?.deps.push(moduleName) === undefined) {
+      throw new Error(`Module ${parent} not found in module map`);
+    }
+
+    if (!moduleMap.get(moduleName)) {
+      moduleMap.set(moduleName, {
+        deps: [],
+        module: noyauModule,
+      });
+      await createModuleMap(moduleDeps, moduleMap, moduleName);
+    }
+  }
+
+  return moduleMap;
+};
+
+export const installModules = async (noyau: Noyau) => {
+  const modulesToInstall = noyau.options.modules;
+
+  const moduleMap = await createModuleMap(modulesToInstall);
+  const graph = new Map(
+    [...moduleMap.entries()].map(([name, { deps }]) => [name, deps])
+  );
+
+  const resolvedGraph = graphSequencer({
+    graph,
+    groups: [Array.from(graph.keys())],
+  });
+
+  if (resolvedGraph.safe == false) {
+    throw new Error("Circular dependency detected");
+  }
+
+  for (const chunk of resolvedGraph.chunks) {
+    await Promise.all(
+      chunk
+        .map((name) => moduleMap.get(name)?.module)
+        .filter((mod): mod is NoyauModule<any> => Boolean(mod))
+        .map((mod) => installModule(mod, noyau))
+    );
+  }
+
+  await noyau.callHook("modules:installed");
+};

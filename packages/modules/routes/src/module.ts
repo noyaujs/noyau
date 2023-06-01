@@ -78,8 +78,9 @@ export default defineNoyauModule<ModuleOptions>({
       noyau.callHook("routes:generate", await resolveRoutes(noyau, routesDir))
     );
     // TODO: move this to module:done hook
-
-    await debouncedUpdateTemplates();
+    noyau.hooks.hookOnce("modules:installed", async () => {
+      await debouncedUpdateTemplates();
+    });
     noyau.hook("watch", async (event, path) => {
       if (event === "create" || event === "delete") {
         if (path.startsWith(routesDir + "/")) {

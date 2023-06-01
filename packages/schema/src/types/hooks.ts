@@ -14,6 +14,7 @@ export type NoyauHooks = {
   close: (noyau: Noyau) => HookResult;
   "build:done": (noyau: Noyau) => HookResult;
   "server:devHandler": (handler: EventHandler) => HookResult;
+  "modules:installed": () => HookResult;
   "template:generate": (
     filter?: (template: ResolvedNoyauTemplate) => boolean
   ) => HookResult;

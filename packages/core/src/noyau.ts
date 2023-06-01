@@ -8,7 +8,7 @@ import { initNitro } from "./nitro";
 import { resolve } from "pathe";
 import { distDir, pkgDir } from "./dirs";
 import { bundle } from "./vite";
-import { installModule } from "./module/install";
+import { installModule, installModules } from "./module/install";
 import { watch } from "./watch";
 import { generateTemplates, setupDefaultTemplates } from "./templates";
 
@@ -64,9 +64,7 @@ const initNoyau = async (noyau: Noyau) => {
 
   // add modules
   // await noyau.callHook("modules:before", noyau);
-  for (const m of noyau.options.modules) {
-    await installModule(m, noyau);
-  }
+  await installModules(noyau);
   // await noyau.callHook("modules:done", noyau);
 
   setupDefaultTemplates(noyau);

@@ -63,7 +63,7 @@ export async function resolvePath(
   const extensions =
     opts.extensions ||
     (noyau ? noyau.options.extensions : [".ts", ".mjs", ".cjs", ".json"]);
-  // const modulesDir = noyau ? noyau.options.modulesDir : [];
+  const modulesDir = noyau ? noyau.options.modulesDir : [];
 
   // Resolve aliases
   path = resolveAlias(path);
@@ -100,7 +100,7 @@ export async function resolvePath(
   // Remove all this nonsense when https://github.com/unjs/mlly/pull/172 gets merged which fixes the types
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
   const resolveModulePath: string | null = await _resolvePath(_path, {
-    url: [cwd /* ...modulesDir */],
+    url: [cwd, ...modulesDir],
   }).catch(() => null);
 
   if (resolveModulePath) {
