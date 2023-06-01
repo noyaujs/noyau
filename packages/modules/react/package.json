@@ -22,7 +22,9 @@
     "build": "unbuild"
   },
   "dependencies": {
-    "@vitejs/plugin-react": "4.0.0"
+    "@vitejs/plugin-react": "4.0.0",
+    "@noyau/schema": "workspace:*",
+    "@noyau/kit": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^18",
@@ -31,9 +33,5 @@
     "nitropack": "^2.4.1",
     "pathe": "^1.1.0",
     "unbuild": "^1.2.1"
-  },
-  "peerDependencies": {
-    "@noyau/schema": "workspace:*",
-    "@noyau/kit": "workspace:*"
   }
 }
