@@ -7,7 +7,10 @@ export const watch = async (noyau: Noyau) => {
   try {
     await createWatcher(noyau);
   } catch (e) {
-    logger.info("failed to load @parcel/watcher, falling back to chokidar", e);
+    logger.info("failed to load @parcel/watcher, falling back to chokidar");
+    if (noyau.options.debug) {
+      logger.error(e);
+    }
     await createChokidarWatcher(noyau);
   }
 };

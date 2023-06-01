@@ -85,6 +85,7 @@ export default defineUntypedSchema({
       });
     },
   },
+  debug: false,
   $schema: {},
 });
 
