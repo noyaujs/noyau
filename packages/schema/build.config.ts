@@ -17,5 +17,12 @@ export default defineBuildConfig({
     },
     "src/index",
   ],
-  externals: ["h3", "Hookable", "vite", "@patcel/watcher"],
+  externals: [
+    "h3",
+    "Hookable",
+    "vite",
+    "@parcel/watcher",
+    "consola",
+    "nitropack",
+  ],
 });

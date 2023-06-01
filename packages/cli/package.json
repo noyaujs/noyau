@@ -15,7 +15,7 @@
     "noyau": "./bin/noyau.mjs"
   },
   "scripts": {
-    "prepack": "unbuild"
+    "build": "unbuild"
   },
   "dependencies": {
     "chokidar": "^3.5.3",

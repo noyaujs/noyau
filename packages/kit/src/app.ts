@@ -1,5 +1,3 @@
-import type { Nitro, NitroDevEventHandler, NitroEventHandler } from "nitropack";
-import { normalize } from "pathe";
 import { useNoyau } from "./context";
 
 export const setAppEntry = (handler: string) => {

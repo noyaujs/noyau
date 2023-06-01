@@ -1,7 +1,6 @@
 import type { NoyauOptions } from "./config";
 import type { Hookable } from "hookable";
 import type { NoyauHooks } from "./hooks";
-import { R } from "untyped/dist/types-a20127ea";
 
 // interface so it can be extended
 export interface NoyauTemplateContext {

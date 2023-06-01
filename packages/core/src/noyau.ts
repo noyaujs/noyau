@@ -8,7 +8,7 @@ import { initNitro } from "./nitro";
 import { resolve } from "pathe";
 import { distDir, pkgDir } from "./dirs";
 import { bundle } from "./vite";
-import { installModule, installModules } from "./module/install";
+import { installModules } from "./module/install";
 import { watch } from "./watch";
 import { generateTemplates, setupDefaultTemplates } from "./templates";
 

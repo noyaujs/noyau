@@ -22,7 +22,7 @@ export default defineBuildConfig({
     emitCJS: false,
     cjsBridge: true,
   },
-  externals: ["@noyau/schema", "@noyau/kit", "noyau"],
+  externals: ["@noyau/schema", "@noyau/kit", "noyau", "@vitejs/plugin-react"],
   hooks: {
     async "rollup:done"(ctx) {
       // Generate CommonJS stup

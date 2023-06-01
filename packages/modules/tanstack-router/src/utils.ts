@@ -1,4 +1,4 @@
-import { NoyauRoute, RouteSegment } from "@noyau/schema";
+import { type NoyauRoute, type RouteSegment } from "@noyau/schema";
 import { source } from "common-tags";
 import { genSafeVariableName } from "knitwork";
 

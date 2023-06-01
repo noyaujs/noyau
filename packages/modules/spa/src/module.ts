@@ -6,6 +6,7 @@ import {
   useLogger,
 } from "@noyau/kit";
 import { existsSync } from "node:fs";
+import {} from "@noyau/schema"; // This is needed so type-gen can infer the default export return type
 
 // Module options TypeScript interface definition
 export interface ModuleOptions {

@@ -1,4 +1,4 @@
-import { addTemplate, defineNoyauModule, updateTemplates } from "@noyau/kit";
+import { defineNoyauModule } from "@noyau/kit";
 import { existsSync, lstatSync } from "node:fs";
 import { resolveRoutes } from "./utils";
 import { logger } from "./logger";

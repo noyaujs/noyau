@@ -1,8 +1,8 @@
 import { stat, mkdir, writeFile } from "node:fs/promises";
-import { Noyau, TSReference } from "@noyau/schema";
+import { type Noyau, type TSReference } from "@noyau/schema";
 import { isAbsolute, join, relative, resolve } from "pathe";
-import { PackageJson, TSConfig } from "pkg-types";
-import { importModule, resolvePath, tryImportModule } from "@noyau/kit";
+import { type PackageJson, type TSConfig } from "pkg-types";
+import { tryImportModule } from "@noyau/kit";
 
 export const writeTypes = async (noyau: Noyau) => {
   const tsConfig: TSConfig = {
@@ -13,7 +13,8 @@ export const writeTypes = async (noyau: Noyau) => {
       module: "ESNext",
       moduleResolution: "Node",
       skipLibCheck: true,
-      strict: noyau.options.typescript?.strict ?? false,
+      // strict: noyau.options.typescript?.strict ?? false,
+      strict: false,
       allowJs: true,
       noEmit: true,
       resolveJsonModule: true,

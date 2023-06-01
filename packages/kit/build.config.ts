@@ -9,4 +9,5 @@ export default defineBuildConfig({
       input: "config",
     },
   ],
+  externals: ["@noyau/schema", "nitropack", "webpack", "vite", "h3"],
 });

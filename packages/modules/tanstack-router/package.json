@@ -19,7 +19,7 @@
     "dist"
   ],
   "scripts": {
-    "prepack": "unbuild"
+    "build": "unbuild"
   },
   "dependencies": {
     "@noyau/kit": "workspace:*",
