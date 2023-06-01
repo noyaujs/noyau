@@ -18,12 +18,6 @@ export async function installModule(
     return;
   }
 
-  // if (typeof moduleToInstall === "string") {
-  //   noyau.options.build.transpile.push(
-  //     normalizeModuleTranspilePath(moduleToInstall)
-  //   );
-  // }
-
   noyau.options._installedModules = noyau.options._installedModules || [];
   noyau.options._installedModules.push({
     meta: await noyauModule.getMeta?.(),
@@ -84,6 +78,7 @@ async function resolveModule(noyauModule: string | NoyauModule | unknown) {
 type Node = {
   deps: string[];
   module: NoyauModule<any>;
+  path?: string;
 };
 
 export const createModuleMap = async (
@@ -110,6 +105,8 @@ export const createModuleMap = async (
       moduleMap.set(moduleName, {
         deps: [],
         module: noyauModule,
+        path:
+          typeof module === "string" ? await resolvePath(module) : undefined,
       });
       await createModuleMap(moduleDeps, moduleMap, moduleName);
     }
@@ -138,9 +135,24 @@ export const installModules = async (noyau: Noyau) => {
   for (const chunk of resolvedGraph.chunks) {
     await Promise.all(
       chunk
-        .map((name) => moduleMap.get(name)?.module)
-        .filter((mod): mod is NoyauModule<any> => Boolean(mod))
-        .map((mod) => installModule(mod, noyau))
+        .map(
+          (name) =>
+            [moduleMap.get(name)?.module, moduleMap.get(name)?.path] as [
+              NoyauModule<any>,
+              string | undefined
+            ]
+        )
+        .filter((res): res is [NoyauModule<any>, string | undefined] =>
+          Boolean(res[0])
+        )
+        .map(async ([mod, path]) => {
+          await installModule(mod, noyau);
+          if (path) {
+            noyau.options.build.transpile.push(
+              normalizeModuleTranspilePath(path)
+            );
+          }
+        })
     );
   }
 

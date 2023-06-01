@@ -73,6 +73,9 @@ export const initNitro = async (noyau: Noyau & { _nitro?: Nitro }) => {
       inline: [
         ...(noyau.options.dev ? [] : ["@noyau/", noyau.options.buildDir]),
         distDir,
+        ...noyau.options.build.transpile.filter(
+          (i): i is string => typeof i === "string"
+        ),
       ],
     },
     plugins: noyau.options.nitro.plugins,
