@@ -46,7 +46,7 @@ export default defineNoyauModule<ModuleOptions>({
       addTemplate({
         filename: "tanstack/router.tsx",
         write: true,
-        async getContents(ctx) {
+        async getContents() {
           const hasRootFile = existsSync(
             await resolver.resolvePath(options.rootFile)
           );
@@ -80,7 +80,7 @@ export default defineNoyauModule<ModuleOptions>({
       );
     });
 
-    noyau.hook("types:prepare", async ({ references }) => {
+    noyau.hook("types:prepare", ({ references }) => {
       references.push({
         path: "tanstack/router.tsx",
       });

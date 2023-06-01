@@ -3,10 +3,10 @@ import { defineNoyauConfig } from "@noyau/kit/config";
 export default defineNoyauConfig({
   srcDir: "src",
   modules: [
-    "@noyau/module-spa",
-    "@noyau/module-react",
-    "@noyau/module-tanstack-router",
-    "@noyau/module-routes",
+    "@noyau/module-spa", // renderer
+    "@noyau/module-react", // hmr
+    "@noyau/module-tanstack-router", // generate routes with @tanstack/router node: only components are implemented for now
+    "@noyau/module-routes", // standardized filesystem routes
   ],
   spa: {
     entry: "~/entry.tsx",
