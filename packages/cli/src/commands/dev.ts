@@ -2,7 +2,7 @@ import { loadNoyauConfig } from "@noyau/kit";
 import { defineCommand } from "./index";
 import { debounce } from "perfect-debounce";
 import type { RequestListener } from "node:http";
-import watcher from "@parcel/watcher";
+import chokidar from "chokidar";
 import { relative, resolve } from "pathe";
 import consola from "consola";
 import { buildNoyau, loadNoyau, writeTypes } from "@noyau/core";
@@ -81,13 +81,15 @@ export default defineCommand({
     };
 
     const dLoad = debounce(load, 500);
-    watcher.subscribe(".", (err, events) => {
+    const watcher = chokidar.watch([rootDir], {
+      ignoreInitial: true,
+      depth: 0,
+    });
+    watcher.on("all", (_event, _file) => {
       // consola.log("watcher", err, events);
-      for (const event of events) {
-        const file = relative(rootDir, event.path);
-        if (RESTART_RE.test(file)) {
-          dLoad(true, `${file} updated`);
-        }
+      const file = relative(rootDir, _file);
+      if (RESTART_RE.test(file)) {
+        void dLoad(true, `${file} updated`);
       }
     });
 

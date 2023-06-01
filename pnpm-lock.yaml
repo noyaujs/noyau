@@ -35,9 +35,9 @@ importers:
       '@noyau/core':
         specifier: workspace:*
         version: link:../core
-      '@parcel/watcher':
-        specifier: ^2.1.0
-        version: 2.1.0
+      chokidar:
+        specifier: ^3.5.3
+        version: 3.5.3
       h3:
         specifier: ^1.6.6
         version: 1.6.6
