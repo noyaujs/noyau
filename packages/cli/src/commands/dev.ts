@@ -19,11 +19,12 @@ export default defineCommand({
     const { toNodeListener } = await import("h3");
     let currentHandler: RequestListener | undefined;
     const loadingMessage = "Noyau is starting...";
-    const loadingHandler: RequestListener = async (_req, res) => {
-      const { loading: loadingTemplate } = await import("@nuxt/ui-templates");
+    const loadingHandler: RequestListener = (_req, res) => {
       res.setHeader("Content-Type", "text/html; charset=UTF-8");
       res.statusCode = 503; // Service Unavailable
-      res.end(loadingTemplate({ loading: loadingMessage }));
+      res.end(
+        `<html><body>${loadingMessage}<script>setTimeout(() => window.location.reload(), 1000)</script></body></html>`
+      );
     };
     const serverHandler: RequestListener = (req, res) => {
       return currentHandler

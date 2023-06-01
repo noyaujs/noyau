@@ -25,7 +25,6 @@
   "devDependencies": {
     "@noyau/kit": "workspace:*",
     "@noyau/schema": "workspace:*",
-    "@nuxt/ui-templates": "^1.1.1",
     "c12": "^1.4.1",
     "colorette": "^2.0.20",
     "consola": "^3.1.0",
