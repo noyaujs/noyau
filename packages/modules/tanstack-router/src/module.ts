@@ -30,6 +30,17 @@ export default defineNoyauModule<ModuleOptions>({
 
     noyau.options.alias["#tanstack/router"] = "#build/tanstack/router.tsx";
 
+    noyau.hooks.hook("watch", async (event, path) => {
+      if (
+        (event === "create" || event === "delete") &&
+        path === (await resolver.resolvePath(options.rootFile))
+      ) {
+        await updateTemplates(
+          (template) => template.filename === "#tanstack/router"
+        );
+      }
+    });
+
     // @ts-expect-error asdf
     noyau.hook("routes:generate", async (routes: NoyauRoute[]) => {
       addTemplate({
@@ -39,7 +50,6 @@ export default defineNoyauModule<ModuleOptions>({
           const hasRootFile = existsSync(
             await resolver.resolvePath(options.rootFile)
           );
-
           return source`
             ${genImport("@tanstack/router", [
               "Route",
