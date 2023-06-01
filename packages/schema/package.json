@@ -15,6 +15,10 @@
   "scripts": {
     "build": "unbuild"
   },
+  "files": [
+    "dist",
+    "schema"
+  ],
   "dependencies": {
     "defu": "^6.1.2",
     "hookable": "^5.5.3",

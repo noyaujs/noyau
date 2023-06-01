@@ -17,6 +17,10 @@
   "scripts": {
     "build": "unbuild"
   },
+  "files": [
+    "bin",
+    "dist"
+  ],
   "dependencies": {
     "chokidar": "^3.5.3",
     "h3": "^1.6.6",
