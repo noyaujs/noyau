@@ -27,7 +27,7 @@ export default defineNoyauModule<ModuleOptions>({
       { prepend: true }
     );
     if (noyau.options.dev) {
-      addServerPlugin(await resolver.resolvePath("./runtime/fastRefresh.ts"));
+      addServerPlugin(await resolver.resolvePath("./runtime/fastRefresh"));
     }
   },
 });
