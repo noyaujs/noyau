@@ -23,7 +23,6 @@ const createWatcher = async (noyau: Noyau) => {
       if (err) {
         return;
       }
-      console.log(events);
       for (const event of events) {
         // todo checked ignored files
         void noyau.callHook("watch", event.type, normalize(event.path));
