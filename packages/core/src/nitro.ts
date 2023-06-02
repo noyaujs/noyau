@@ -120,36 +120,19 @@ export const initNitro = async (noyau: Noyau & { _nitro?: Nitro }) => {
     });
   });
 
-  // nuxt build/dev
   noyau.hook("build:done", async () => {
-    // await nuxt.callHook("nitro:build:before", nitro);
     if (noyau.options.dev) {
       await build(nitro);
     } else {
-      // throw new Error("Not implemented");
       await prepare(nitro);
       await copyPublicAssets(nitro);
-      // await prerender(nitro);
-      // if (!nuxt.options._generate) {
       logger.restoreAll();
       await build(nitro);
       logger.wrapAll();
-      // } else {
-      //   const distDir = resolve(nuxt.options.rootDir, "dist");
-      //   if (!existsSync(distDir)) {
-      //     await fsp
-      //       .symlink(nitro.options.output.publicDir, distDir, "junction")
-      //       .catch(() => {});
-      //   }
-      // }
     }
   });
 
   if (noyau.options.dev) {
-    // nuxt.hook("vite:compiled", () => {
-    //   nuxt.server.reload();
-    // });
-
     noyau.hook("server:devHandler", (h) => {
       devMiddlewareHandler.set(h);
     });

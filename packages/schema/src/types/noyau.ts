@@ -35,7 +35,7 @@ export type Noyau = {
   _version: string;
   // _ignore?: Ignore;
 
-  /** The resolved Nuxt configuration. */
+  /** The resolved Noyau configuration. */
   options: NoyauOptions;
   hooks: Hookable<NoyauHooks>;
   hook: Noyau["hooks"]["hook"];
@@ -49,6 +49,4 @@ export type Noyau = {
   server?: any;
 
   vfs: Record<string, string>;
-
-  // apps: Record<string, NuxtApp>;
 };
