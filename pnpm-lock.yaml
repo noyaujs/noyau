@@ -38,6 +38,12 @@ importers:
       '@noyau/core':
         specifier: workspace:*
         version: link:../core
+      '@noyau/kit':
+        specifier: workspace:*
+        version: link:../kit
+      '@noyau/schema':
+        specifier: workspace:*
+        version: link:../schema
       chokidar:
         specifier: ^3.5.3
         version: 3.5.3
@@ -48,12 +54,6 @@ importers:
         specifier: ^1.0.4
         version: 1.0.4
     devDependencies:
-      '@noyau/kit':
-        specifier: workspace:*
-        version: link:../kit
-      '@noyau/schema':
-        specifier: workspace:*
-        version: link:../schema
       c12:
         specifier: ^1.4.1
         version: 1.4.1
