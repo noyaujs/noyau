@@ -7,7 +7,8 @@
   "license": "MIT",
   "author": "",
   "scripts": {
-    "dev": "noyau dev"
+    "dev": "noyau dev",
+    "prod": "noyau build"
   },
   "dependencies": {
     "@noyau/cli": "workspace:*",

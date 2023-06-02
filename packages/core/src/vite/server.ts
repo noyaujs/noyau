@@ -2,12 +2,14 @@ import {
   mergeConfig,
   type InlineConfig as ViteInlineConfig,
   createServer as createViteServer,
+  build as viteBuild,
 } from "vite";
 import { type ViteBuildContext } from ".";
 import { resolve } from "pathe";
 import { joinURL } from "ufo";
 import { writeManifest } from "./manifest";
 import { initViteNodeServer } from "./vite-node";
+import { logger } from "@noyau/kit";
 
 export const buildServer = async (ctx: ViteBuildContext) => {
   const serverConfig = mergeConfig(ctx.config, {
@@ -79,27 +81,38 @@ export const buildServer = async (ctx: ViteBuildContext) => {
 
   const onBuild = () => ctx.noyau.callHook("vite:compiled");
 
-  await writeManifest(ctx);
+  if (ctx.noyau.options.dev) {
+    await writeManifest(ctx);
 
-  if (!ctx.noyau.options.ssr) {
+    if (!ctx.noyau.options.ssr) {
+      await onBuild();
+      return;
+    }
+
+    // Start development server
+    const viteServer = await createViteServer(serverConfig);
+    ctx.ssrServer = viteServer;
+
+    await ctx.noyau.callHook("vite:serverCreated", viteServer, {
+      isClient: false,
+      isServer: true,
+    });
+
+    // Close server on exit
+    ctx.noyau.hook("close", () => viteServer.close());
+
+    // Initialize plugins
+    await viteServer.pluginContainer.buildStart({});
+
+    await initViteNodeServer(ctx);
+  } else {
+    const start = Date.now();
+    logger.info("Building server bundle...");
+    logger.restoreAll();
+    await viteBuild(serverConfig);
+    logger.wrapAll();
+    await writeManifest(ctx);
+    logger.success(`Server bundle built in ${Date.now() - start}ms`);
     await onBuild();
-    return;
   }
-
-  // Start development server
-  const viteServer = await createViteServer(serverConfig);
-  ctx.ssrServer = viteServer;
-
-  await ctx.noyau.callHook("vite:serverCreated", viteServer, {
-    isClient: false,
-    isServer: true,
-  });
-
-  // Close server on exit
-  ctx.noyau.hook("close", () => viteServer.close());
-
-  // Initialize plugins
-  await viteServer.pluginContainer.buildStart({});
-
-  await initViteNodeServer(ctx);
 };

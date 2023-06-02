@@ -7,6 +7,7 @@ import { resolvePath } from "@noyau/kit";
 import { buildServer } from "./server";
 import { warmupViteServer } from "./utils/warmup";
 import virtual from "./plugins/virtual";
+import { withoutLeadingSlash } from "ufo";
 
 export interface ViteBuildContext {
   noyau: Noyau;
@@ -34,13 +35,18 @@ export const bundle = async (noyau: Noyau) => {
     noyau,
     entry,
     config: {
+      root: noyau.options.srcDir,
+      mode: noyau.options.dev ? "development" : "production",
       resolve: {
+        extensions: noyau.options.extensions,
         alias: {
           ...noyau.options.alias,
           "#build": noyau.options.buildDir,
         },
       },
       build: {
+        assetsDir: withoutLeadingSlash(noyau.options.app.buildAssetsDir),
+        emptyOutDir: false,
         copyPublicDir: false,
         rollupOptions: {
           output: {

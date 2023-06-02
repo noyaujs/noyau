@@ -3,6 +3,7 @@ import {
   type InlineConfig as ViteInlineConfig,
   createServer as createViteServer,
   type UserConfig as ViteUserConfig,
+  build as viteBuild,
 } from "vite";
 import { type ViteBuildContext } from ".";
 import { joinURL } from "ufo";
@@ -10,6 +11,7 @@ import { resolve } from "pathe";
 import { defineEventHandler } from "h3";
 import { type IncomingMessage, type ServerResponse } from "node:http";
 import { viteNodePlugin } from "./vite-node";
+import { logger } from "@noyau/kit";
 
 export const buildClient = async (ctx: ViteBuildContext) => {
   const clientConfig: ViteUserConfig = mergeConfig(ctx.config, {
@@ -118,5 +120,12 @@ export const buildClient = async (ctx: ViteBuildContext) => {
     ctx.noyau.hook("close", async () => {
       await viteServer.close();
     });
+  } else {
+    logger.info("Building client...");
+    const start = Date.now();
+    logger.restoreAll();
+    await viteBuild(clientConfig);
+    logger.wrapAll();
+    logger.success(`Client built in ${Date.now() - start}ms`);
   }
 };

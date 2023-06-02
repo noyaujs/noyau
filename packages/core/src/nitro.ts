@@ -6,11 +6,14 @@ import {
   build,
   scanHandlers,
   writeTypes,
+  prepare,
+  copyPublicAssets,
 } from "nitropack";
 import { createDevServer } from "nitropack";
 import { createNitro } from "nitropack";
 import { join, relative, resolve } from "pathe";
 import { distDir } from "./dirs";
+import { logger } from "@noyau/kit";
 
 export const initNitro = async (noyau: Noyau & { _nitro?: Nitro }) => {
   const nitroConfig: NitroConfig = {
@@ -123,15 +126,14 @@ export const initNitro = async (noyau: Noyau & { _nitro?: Nitro }) => {
     if (noyau.options.dev) {
       await build(nitro);
     } else {
-      throw new Error("Not implemented");
-      // await prepare(nitro);
-      // await copyPublicAssets(nitro);
-      // await nuxt.callHook("nitro:build:public-assets", nitro);
+      // throw new Error("Not implemented");
+      await prepare(nitro);
+      await copyPublicAssets(nitro);
       // await prerender(nitro);
       // if (!nuxt.options._generate) {
-      //   logger.restoreAll();
-      //   await build(nitro);
-      //   logger.wrapAll();
+      logger.restoreAll();
+      await build(nitro);
+      logger.wrapAll();
       // } else {
       //   const distDir = resolve(nuxt.options.rootDir, "dist");
       //   if (!existsSync(distDir)) {

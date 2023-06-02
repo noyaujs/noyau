@@ -9,7 +9,8 @@
   "scripts": {
     "build": "turbo build",
     "build:stub": "pnpm --filter './packages/**' build --stub",
-    "dev": "pnpm --filter './playground' dev",
+    "play": "pnpm --filter './playground' dev",
+    "play:build": "pnpm --filter './playground' prod",
     "lint": "eslint --ext .vue,.ts,.js,.mjs .",
     "typecheck": "tsc --noEmit"
   },

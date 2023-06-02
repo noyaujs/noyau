@@ -15,7 +15,7 @@ export default defineCommand({
     const rootDir = resolve(args._[0] || ".");
 
     const noyau = await loadNoyau({
-      rootDir,
+      cwd: rootDir,
     });
 
     await noyau.ready();
