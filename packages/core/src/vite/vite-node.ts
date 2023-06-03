@@ -206,7 +206,7 @@ function createViteNodeApp(
         ) {
           throw createError({ statusCode: 403 /* Restricted */ });
         }
-        const module = await node.fetchModule(moduleId).catch((err) => {
+        const module = await node.fetchModule(moduleId).catch((err: Error) => {
           const errorData = {
             code: "VITE_ERROR",
             id: moduleId,
@@ -224,12 +224,15 @@ function createViteNodeApp(
 }
 
 export async function initViteNodeServer(ctx: ViteBuildContext) {
+  if (!ctx.ssrServer) {
+    throw new Error("ssrServer must be defined to init vite node server");
+  }
   // Serialize and pass vite-node runtime options
   const viteNodeServerOptions = {
     baseURL: `${ctx.noyau.options.devServer.url}/__noyau_vite_node__`,
     root: ctx.noyau.options.srcDir,
     entryPath: ctx.entry,
-    base: ctx.ssrServer!.config.base || "/noyau/",
+    base: ctx.ssrServer.config.base || "/noyau/",
   };
   process.env.NOYAU_VITE_NODE_OPTIONS = JSON.stringify(viteNodeServerOptions);
 

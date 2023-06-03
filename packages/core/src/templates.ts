@@ -12,12 +12,7 @@ import {
   type NoyauTemplateContext,
 } from "@noyau/schema";
 import { dirname, join, relative, resolve } from "pathe";
-
-type DeepNotNullable<T> = {
-  [P in keyof T]: NonNullable<T[P]>;
-};
-type SelectiveRequired<T, K extends keyof T> = Omit<T, K> &
-  DeepNotNullable<Required<Pick<T, K>>>;
+import { type SelectiveRequired } from "./utils/types";
 
 export const setupDefaultTemplates = (noyau: Noyau) => {
   const schemaDtsPath = addTemplate({

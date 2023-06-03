@@ -1,8 +1,37 @@
 import { stat, mkdir, writeFile } from "node:fs/promises";
 import { type Noyau, type TSReference } from "@noyau/schema";
 import { isAbsolute, join, relative, resolve } from "pathe";
-import { type PackageJson, type TSConfig } from "pkg-types";
+import { type PackageJson } from "pkg-types";
 import { tryImportModule } from "@noyau/kit";
+import { type CompilerOptions, type TypeAcquisition } from "typescript";
+
+// inlined from pkg-types since their types don't work
+type StripEnums<
+  T extends Record<string, any>,
+  U extends Required<T> = Required<T>
+> = {
+  [K in keyof T]: U[K] extends boolean
+    ? T[K]
+    : U[K] extends string
+    ? T[K]
+    : U[K] extends object
+    ? T[K]
+    : U[K] extends Array<unknown>
+    ? T[K]
+    : U[K] extends undefined
+    ? undefined
+    : any;
+};
+
+interface TSConfig {
+  compilerOptions?: StripEnums<CompilerOptions>;
+  exclude?: string[];
+  compileOnSave?: boolean;
+  extends?: string;
+  files?: string[];
+  include?: string[];
+  typeAcquisition?: TypeAcquisition;
+}
 
 export const writeTypes = async (noyau: Noyau) => {
   const tsConfig: TSConfig = {
@@ -54,9 +83,11 @@ export const writeTypes = async (noyau: Noyau) => {
     ).catch(() => null /* file does not exist */);
     tsConfig.compilerOptions = tsConfig.compilerOptions || {};
     if (stats?.isDirectory()) {
+      tsConfig.compilerOptions.paths = tsConfig.compilerOptions.paths || {};
       tsConfig.compilerOptions.paths[alias] = [relativePath];
       tsConfig.compilerOptions.paths[`${alias}/*`] = [`${relativePath}/*`];
     } else {
+      tsConfig.compilerOptions.paths = tsConfig.compilerOptions.paths || {};
       tsConfig.compilerOptions.paths[alias] = [
         relativePath.replace(/(?<=\w)\.\w+$/g, ""),
       ]; /* remove extension */

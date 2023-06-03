@@ -91,7 +91,10 @@ export const buildClient = async (ctx: ViteBuildContext) => {
 
     const viteMiddleware = defineEventHandler(async (event) => {
       // Workaround: vite devmiddleware modifies req.url
-      const originalURL = event.node.req.url!;
+      if (!event.node.req.url) {
+        throw new Error("Missing req.url");
+      }
+      const originalURL = event.node.req.url;
 
       const viteRoutes = viteServer.middlewares.stack
         .map((m) => m.route)

@@ -79,13 +79,13 @@ export const buildServer = async (ctx: ViteBuildContext) => {
     isServer: true,
   });
 
-  const onBuild = () => ctx.noyau.callHook("vite:compiled");
+  // const onBuild = () => ctx.noyau.callHook("vite:compiled");
 
   if (ctx.noyau.options.dev) {
     await writeManifest(ctx);
 
     if (!ctx.noyau.options.ssr) {
-      await onBuild();
+      // await onBuild();
       return;
     }
 
@@ -113,6 +113,6 @@ export const buildServer = async (ctx: ViteBuildContext) => {
     logger.wrapAll();
     await writeManifest(ctx);
     logger.success(`Server bundle built in ${Date.now() - start}ms`);
-    await onBuild();
+    // await onBuild();
   }
 };

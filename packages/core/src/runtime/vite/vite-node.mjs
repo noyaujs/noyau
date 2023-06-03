@@ -12,12 +12,8 @@ let render;
 
 /** @param ssrContext {import('#app').NuxtSSRContext} */
 export default async (ssrContext) => {
-  // Workaround for stub mode
-  // https://github.com/nuxt/framework/pull/3983
-  process.server = true;
-
   // Invalidate cache for files changed since last rendering
-  const invalidates = await viteNodeFetch("/invalidates");
+  const invalidates = await viteNodeFetch<string[]>("/invalidates");
   const updates = runner.moduleCache.invalidateDepTree(invalidates);
 
   // Execute SSR bundle on demand
