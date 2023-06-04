@@ -10,5 +10,11 @@ export default defineBuildConfig({
       outDir: "dist",
     },
   ],
-  externals: ["@noyau/kit", "@noyau/core"],
+  externals: [
+    "@noyau/kit",
+    "@noyau/core",
+    "@noyau/schema",
+    "fsevents",
+    "unbuild",
+  ],
 });

@@ -1,7 +1,7 @@
 import mri from "mri";
 
 import { consola } from "consola";
-import type { Command, Commands} from "./commands";
+import type { Command, Commands } from "./commands";
 import { commands } from "./commands";
 import { showHelp } from "./utils/help";
 import { red } from "colorette";
@@ -19,7 +19,7 @@ async function main() {
   if (!isValidCommand(command)) {
     console.log("\n" + red("Invalid command " + command));
 
-    await commands.usage().then((r) => r.invoke());
+    await commands.usage().then((r) => r.invoke(args));
     return "error";
   }
 

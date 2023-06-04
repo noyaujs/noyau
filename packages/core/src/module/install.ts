@@ -7,8 +7,9 @@ import graphSequencer from "@pnpm/graph-sequencer";
 
 /** Installs a module on a Noyau instance. */
 export async function installModule(
-  moduleToInstall: string | NoyauModule,
-  noyau: Noyau
+  moduleToInstall: NoyauModule<any>,
+  noyau: Noyau,
+  path?: string
 ) {
   const { noyauModule } = await resolveModule(moduleToInstall);
 
@@ -17,15 +18,13 @@ export async function installModule(
   if (res === false /* setup aborted */) {
     return;
   }
-
+  const meta = await noyauModule.getMeta?.();
+  const entryPath = meta?.name || path;
   noyau.options._installedModules = noyau.options._installedModules || [];
   noyau.options._installedModules.push({
-    meta: await noyauModule.getMeta?.(),
+    meta: meta,
     timings: res.timings,
-    entryPath:
-      typeof moduleToInstall === "string"
-        ? resolveAlias(moduleToInstall)
-        : undefined,
+    entryPath: entryPath ? resolveAlias(entryPath) : undefined,
   });
 }
 
@@ -146,7 +145,7 @@ export const installModules = async (noyau: Noyau) => {
           Boolean(res[0])
         )
         .map(async ([mod, path]) => {
-          await installModule(mod, noyau);
+          await installModule(mod, noyau, path);
           if (path) {
             noyau.options.build.transpile.push(
               normalizeModuleTranspilePath(path)

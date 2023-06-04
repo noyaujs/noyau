@@ -8,7 +8,7 @@
   "author": "Aaron Bassett <arbassett4@outlook.com>",
   "scripts": {
     "build": "turbo build",
-    "build:stub": "pnpm --filter './packages/**' build --stub",
+    "build:stub": "turbo build:stub",
     "play": "pnpm --filter './playground' dev",
     "play:build": "pnpm --filter './playground' prod",
     "lint": "eslint --ext .vue,.ts,.js,.mjs .",

@@ -9,8 +9,7 @@
   "exports": {
     ".": {
       "types": "./dist/types.d.ts",
-      "import": "./dist/module.mjs",
-      "require": "./dist/module.cjs"
+      "import": "./dist/module.mjs"
     }
   },
   "types": "./dist/types.d.ts",
@@ -18,11 +17,14 @@
     "dist"
   ],
   "scripts": {
-    "build": "unbuild"
+    "build": "noyau module:build",
+    "build:stub": "noyau module:build --stub",
+    "prepare": "noyau module:prepare"
   },
   "dependencies": {
     "@noyau/kit": "workspace:*",
     "@noyau/schema": "workspace:*",
+    "@noyau/cli": "workspace:*",
     "escape-string-regexp": "^5.0.0",
     "perfect-debounce": "^1.0.0",
     "pathe": "^1.1.0"

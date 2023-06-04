@@ -4,6 +4,10 @@
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["./dist/**"]
+    },
+    "build:stub": {
+      "dependsOn": ["^build:stub"],
+      "outputs": ["./dist/**"]
     }
   }
 }

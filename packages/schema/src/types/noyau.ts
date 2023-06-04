@@ -1,6 +1,7 @@
 import type { NoyauOptions } from "./config";
 import type { Hookable } from "hookable";
 import type { NoyauHooks } from "./hooks";
+import { type NitroDevServer } from "nitropack";
 
 // interface so it can be extended
 export interface NoyauTemplateContext {
@@ -46,7 +47,7 @@ export type Noyau = {
   close: () => Promise<void>;
 
   /** The production or development server. */
-  server?: any;
+  server?: NitroDevServer;
 
   vfs: Record<string, string>;
 };

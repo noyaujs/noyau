@@ -6,9 +6,9 @@ import { loadNoyau, writeTypes, generateTemplates } from "@noyau/core";
 
 export default defineCommand({
   meta: {
-    name: "prepare",
-    usage: "npx noyau prepare [--log-level] [rootDir]",
-    description: "Prepare noyau for development/build",
+    name: "module:prepare",
+    usage: "npx noyau module:prepare [--log-level] [rootDir]",
+    description: "Prepare noyau module for development/build",
   },
   async invoke(args) {
     process.env.NODE_ENV = process.env.NODE_ENV || "production";
@@ -16,6 +16,9 @@ export default defineCommand({
 
     const noyau = await loadNoyau({
       cwd: rootDir,
+      overrides: {
+        modules: [resolve(rootDir, "./src/module")],
+      },
     });
 
     await noyau.ready();

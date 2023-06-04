@@ -17,7 +17,8 @@
   ],
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "unbuild"
+    "build": "unbuild",
+    "build:stub": "unbuild --stub"
   },
   "dependencies": {
     "@noyau/kit": "workspace:*",
