@@ -12,10 +12,10 @@
       "import": "./dist/index.mjs"
     }
   },
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
-  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "unbuild",
     "build:stub": "unbuild --stub"

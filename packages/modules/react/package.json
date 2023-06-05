@@ -23,9 +23,9 @@
     "dev:prepare": "noyau module:prepare"
   },
   "dependencies": {
-    "@vitejs/plugin-react": "4.0.0",
+    "@noyau/kit": "workspace:*",
     "@noyau/schema": "workspace:*",
-    "@noyau/kit": "workspace:*"
+    "@vitejs/plugin-react": "4.0.0"
   },
   "devDependencies": {
     "@noyau/cli": "workspace:*",

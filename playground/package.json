@@ -14,14 +14,14 @@
     "@noyau/cli": "workspace:*",
     "@noyau/core": "workspace:*",
     "@noyau/kit": "workspace:*",
-    "@noyau/schema": "workspace:*",
-    "@noyau/module-spa": "workspace:*",
     "@noyau/module-react": "workspace:*",
     "@noyau/module-routes": "workspace:*",
+    "@noyau/module-spa": "workspace:*",
     "@noyau/module-tanstack-router": "workspace:*",
+    "@noyau/schema": "workspace:*",
+    "@tanstack/router": "0.0.1-beta.86",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "@tanstack/router": "0.0.1-beta.86"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.37",

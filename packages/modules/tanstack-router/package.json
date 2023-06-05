@@ -27,14 +27,14 @@
     "knitwork": "^1.0.0"
   },
   "devDependencies": {
-    "@types/common-tags": "^1.8.1",
+    "@noyau/cli": "workspace:*",
     "@noyau/core": "workspace:*",
     "@noyau/kit": "workspace:*",
-    "@noyau/schema": "workspace:*",
     "@noyau/module-react": "workspace:*",
     "@noyau/module-routes": "workspace:*",
+    "@noyau/schema": "workspace:*",
     "@tanstack/router": "0.0.1-beta.86",
-    "@noyau/cli": "workspace:*",
+    "@types/common-tags": "^1.8.1",
     "@types/node": "^18",
     "consola": "^3.1.0",
     "mlly": "^1.3.0",
@@ -45,9 +45,9 @@
   "peerDependencies": {
     "@noyau/core": "workspace:*",
     "@noyau/kit": "workspace:*",
-    "@noyau/schema": "workspace:*",
     "@noyau/module-react": "workspace:*",
     "@noyau/module-routes": "workspace:*",
+    "@noyau/schema": "workspace:*",
     "@tanstack/router": "0.0.1-beta.86"
   }
 }

@@ -22,12 +22,12 @@
     "dev:prepare": "noyau module:prepare"
   },
   "dependencies": {
+    "@noyau/cli": "workspace:*",
     "@noyau/kit": "workspace:*",
     "@noyau/schema": "workspace:*",
-    "@noyau/cli": "workspace:*",
     "escape-string-regexp": "^5.0.0",
-    "perfect-debounce": "^1.0.0",
-    "pathe": "^1.1.0"
+    "pathe": "^1.1.0",
+    "perfect-debounce": "^1.0.0"
   },
   "devDependencies": {
     "@types/node": "^18",
