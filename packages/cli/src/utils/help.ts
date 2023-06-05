@@ -1,5 +1,5 @@
 import { cyan, magenta } from "colorette";
-import type { CommandMeta } from "../commands";
+import  { type CommandMeta } from "../commands";
 
 export function showHelp(meta?: Partial<CommandMeta>) {
   const sections: string[] = [];

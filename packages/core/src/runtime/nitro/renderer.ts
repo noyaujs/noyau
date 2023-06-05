@@ -1,7 +1,7 @@
-import { defineRenderHandler } from "#internal/nitro";
-import { useNitroApp } from "#internal/nitro/app";
 import { type EventHandler } from "h3";
 import { type RenderResponse } from "nitropack";
+import { defineRenderHandler } from "#internal/nitro";
+import { useNitroApp } from "#internal/nitro/app";
 
 export type HtmlContext = {
   htmlAttrs: string[];

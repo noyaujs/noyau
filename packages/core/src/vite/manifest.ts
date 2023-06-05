@@ -3,8 +3,8 @@ import { resolve } from "pathe";
 import { withTrailingSlash, withoutLeadingSlash } from "ufo";
 import escapeRE from "escape-string-regexp";
 import { normalizeViteManifest } from "vue-bundle-renderer";
-import type { Manifest } from "vue-bundle-renderer";
-import type { ViteBuildContext } from ".";
+import  { type Manifest } from "vue-bundle-renderer";
+import  { type ViteBuildContext } from ".";
 
 export async function writeManifest(ctx: ViteBuildContext, css: string[] = []) {
   // Write client manifest for use in vue-bundle-renderer

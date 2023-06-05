@@ -1,8 +1,8 @@
 import { relative, resolve } from "pathe";
 import { consola } from "consola";
+import { loadNoyau, writeTypes, generateTemplates } from "@noyau/core";
 import { clearBuildDir } from "../utils/fs";
 import { defineCommand } from "./index";
-import { loadNoyau, writeTypes, generateTemplates } from "@noyau/core";
 
 export default defineCommand({
   meta: {

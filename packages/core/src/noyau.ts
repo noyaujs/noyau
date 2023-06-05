@@ -1,11 +1,11 @@
 import { createHooks } from "hookable";
-import { version } from "../package.json";
 import { loadNoyauConfig, type LoadNoyauConfigOptions } from "@noyau/kit";
-import type { NoyauHooks, NoyauOptions, Noyau } from "@noyau/schema";
+import  { type NoyauHooks, type NoyauOptions, type Noyau } from "@noyau/schema";
 import { debounce } from "perfect-debounce";
 import { noyauCtx } from "@noyau/kit";
-import { initNitro } from "./nitro";
 import { resolve } from "pathe";
+import { version } from "../package.json";
+import { initNitro } from "./nitro";
 import { distDir, pkgDir } from "./dirs";
 import { bundle } from "./vite";
 import { installModules } from "./module/install";

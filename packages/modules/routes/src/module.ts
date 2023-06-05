@@ -1,11 +1,11 @@
-import { defineNoyauModule } from "@noyau/kit";
 import { existsSync, lstatSync } from "node:fs";
-import { resolveRoutes } from "./utils";
-import { logger } from "./logger";
+import { defineNoyauModule } from "@noyau/kit";
 import { debounce } from "perfect-debounce";
 import { resolve } from "pathe";
-import { name, version } from "../package.json";
 import { type NoyauRoute } from "@noyau/schema";
+import { name, version } from "../package.json";
+import { resolveRoutes } from "./utils";
+import { logger } from "./logger";
 
 // Module options TypeScript interface definition
 export interface ModuleOptions {

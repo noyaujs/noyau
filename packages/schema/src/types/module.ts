@@ -1,6 +1,6 @@
+import { type ConsolaInstance } from "consola";
 import { type NoyauHooks } from "./hooks";
 import { type Noyau } from "./noyau";
-import { type ConsolaInstance } from "consola";
 
 export interface ModuleMeta {
   /** Module name. */

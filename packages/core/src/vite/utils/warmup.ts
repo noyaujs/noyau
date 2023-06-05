@@ -1,4 +1,4 @@
-import type { ViteDevServer } from "vite";
+import  { type ViteDevServer } from "vite";
 
 export async function warmupViteServer(
   server: ViteDevServer,

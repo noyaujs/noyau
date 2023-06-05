@@ -1,5 +1,5 @@
-import type { SchemaDefinition } from "untyped";
-import type { ConfigSchema } from "../../schema/config";
+import  { type SchemaDefinition } from "untyped";
+import  { type ConfigSchema } from "../../schema/config";
 
 // look into changing function to something else
 // eslint-disable-next-line @typescript-eslint/ban-types

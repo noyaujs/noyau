@@ -1,5 +1,5 @@
-import { defineRenderHandler } from "#internal/nitro";
 import { type RenderResponse } from "nitropack";
+import { defineRenderHandler } from "#internal/nitro";
 
 export default defineRenderHandler(
   async (event): Promise<Partial<RenderResponse>> => {

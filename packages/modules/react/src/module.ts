@@ -4,8 +4,8 @@ import {
   addVitePlugin,
   addServerPlugin,
 } from "@noyau/kit";
-import { name, version } from "../package.json";
 import react from "@vitejs/plugin-react";
+import { name, version } from "../package.json";
 import {} from "@noyau/schema"; // This is needed so type-gen can infer the default export return type
 
 // Module options TypeScript interface definition

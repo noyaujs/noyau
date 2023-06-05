@@ -1,8 +1,8 @@
-import { useNoyau } from "./context";
-import type {
-  UserConfig as ViteConfig,
-  PluginOption as VitePlugin,
+import  {
+  type UserConfig as ViteConfig,
+  type PluginOption as VitePlugin,
 } from "vite";
+import { useNoyau } from "./context";
 
 export interface ExtendConfigOptions {
   /**

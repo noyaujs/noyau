@@ -1,7 +1,7 @@
-import type { LoadConfigOptions } from "c12";
+import  { type LoadConfigOptions } from "c12";
 import { loadConfig } from "c12";
 import { applyDefaults } from "untyped";
-import type { NoyauConfig, NoyauOptions } from "@noyau/schema";
+import  { type NoyauConfig, type NoyauOptions } from "@noyau/schema";
 import { NoyauConfigSchema } from "@noyau/schema";
 
 export type LoadNoyauConfigOptions = LoadConfigOptions<NoyauConfig>;

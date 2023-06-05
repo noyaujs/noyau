@@ -4,12 +4,12 @@ import {
   createServer as createViteServer,
   build as viteBuild,
 } from "vite";
-import { type ViteBuildContext } from ".";
 import { resolve } from "pathe";
 import { joinURL } from "ufo";
+import { logger } from "@noyau/kit";
 import { writeManifest } from "./manifest";
 import { initViteNodeServer } from "./vite-node";
-import { logger } from "@noyau/kit";
+import { type ViteBuildContext } from ".";
 
 export const buildServer = async (ctx: ViteBuildContext) => {
   const serverConfig = mergeConfig(ctx.config, {

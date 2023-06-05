@@ -1,10 +1,10 @@
 import mri from "mri";
 
 import { consola } from "consola";
-import type { Command, Commands } from "./commands";
+import { red } from "colorette";
+import  { type Command, type Commands } from "./commands";
 import { commands } from "./commands";
 import { showHelp } from "./utils/help";
-import { red } from "colorette";
 
 const isValidCommand = (command: string): command is Commands =>
   command in commands;
@@ -23,7 +23,7 @@ async function main() {
     return "error";
   }
 
-  const cmd = (await commands[command]()) as Command;
+  const cmd = (await commands[command]());
   if (args.h || args.help) {
     showHelp(cmd.meta);
   } else {

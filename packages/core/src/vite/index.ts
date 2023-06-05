@@ -1,13 +1,13 @@
-import { type Noyau } from "@noyau/schema";
 import { existsSync } from "node:fs";
+import { type Noyau } from "@noyau/schema";
 import { type UserConfig as ViteUserConfig, type ViteDevServer } from "vite";
-import { buildClient } from "./client";
 import { join, resolve } from "pathe";
 import { resolvePath } from "@noyau/kit";
+import { withoutLeadingSlash } from "ufo";
+import { buildClient } from "./client";
 import { buildServer } from "./server";
 import { warmupViteServer } from "./utils/warmup";
 import virtual from "./plugins/virtual";
-import { withoutLeadingSlash } from "ufo";
 
 export interface ViteBuildContext {
   noyau: Noyau;

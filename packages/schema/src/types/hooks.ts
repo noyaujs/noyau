@@ -1,8 +1,8 @@
-import type { Noyau, ResolvedNoyauTemplate } from "./noyau";
-import type { EventHandler } from "h3";
-import type { ViteDevServer, UserConfig as ViteConfig } from "vite";
-import type { EventType as ParcelWatcherEventType } from "@parcel/watcher";
+import  { type EventHandler } from "h3";
+import  { type ViteDevServer, type UserConfig as ViteConfig } from "vite";
+import  { type EventType as ParcelWatcherEventType } from "@parcel/watcher";
 import { type TSConfig } from "pkg-types";
+import  { type Noyau, type ResolvedNoyauTemplate } from "./noyau";
 
 type HookResult = void | Promise<void>;
 

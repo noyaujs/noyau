@@ -1,12 +1,12 @@
-import { loadNoyauConfig } from "@noyau/kit";
-import { defineCommand } from "./index";
+import  { type RequestListener } from "node:http";
 import { debounce } from "perfect-debounce";
-import type { RequestListener } from "node:http";
+import { loadNoyauConfig } from "@noyau/kit";
 import chokidar from "chokidar";
 import { relative, resolve } from "pathe";
 import consola from "consola";
 import { buildNoyau, loadNoyau, writeTypes } from "@noyau/core";
 import { type Noyau } from "@noyau/schema";
+import { defineCommand } from "./index";
 
 export default defineCommand({
   meta: {

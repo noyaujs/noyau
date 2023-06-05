@@ -1,4 +1,4 @@
-import type { Noyau } from "@noyau/schema";
+import { type Noyau } from "@noyau/schema";
 import { dynamicEventHandler } from "h3";
 import {
   type Nitro,
@@ -8,12 +8,12 @@ import {
   writeTypes,
   prepare,
   copyPublicAssets,
+  createDevServer,
+  createNitro,
 } from "nitropack";
-import { createDevServer } from "nitropack";
-import { createNitro } from "nitropack";
 import { join, relative, resolve } from "pathe";
-import { distDir } from "./dirs";
 import { logger } from "@noyau/kit";
+import { distDir } from "./dirs";
 
 export const initNitro = async (noyau: Noyau & { _nitro?: Nitro }) => {
   const nitroConfig: NitroConfig = {

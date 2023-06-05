@@ -1,4 +1,4 @@
-import type { Nitro, NitroDevEventHandler, NitroEventHandler } from "nitropack";
+import  { type Nitro, type NitroDevEventHandler, type NitroEventHandler } from "nitropack";
 import { normalize } from "pathe";
 import { useNoyau } from "./context";
 

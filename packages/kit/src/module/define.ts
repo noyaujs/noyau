@@ -1,13 +1,13 @@
 import { performance } from "node:perf_hooks";
 import { defu } from "defu";
 import { applyDefaults } from "untyped";
-import type {
-  ModuleDefinition,
-  ModuleOptions,
-  ModuleSetupReturn,
-  Noyau,
-  NoyauModule,
-  NoyauOptions,
+import  {
+  type ModuleDefinition,
+  type ModuleOptions,
+  type ModuleSetupReturn,
+  type Noyau,
+  type NoyauModule,
+  type NoyauOptions,
 } from "@noyau/schema";
 import { useNoyau } from "../context";
 import { useLogger } from "../logger";

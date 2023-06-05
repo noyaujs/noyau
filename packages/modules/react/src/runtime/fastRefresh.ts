@@ -1,6 +1,6 @@
+import { type NoyauRenderHTMLContext } from "@noyau/schema";
 import { defineNitroPlugin } from "#internal/nitro";
 import { buildAssetsURL } from "#noyau/paths";
-import { type NoyauRenderHTMLContext } from "@noyau/schema";
 
 export default defineNitroPlugin((nitroApp) => {
   nitroApp.hooks.hook("render:html", (html: NoyauRenderHTMLContext) => {

@@ -1,12 +1,12 @@
-import { resolve } from "pathe";
-import { defineCommand } from "./index";
+import { pathToFileURL } from "node:url";
+import { readFile, writeFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import { build } from "unbuild";
 import consola from "consola";
 import { type ModuleMeta, type NoyauModule } from "@noyau/schema";
-import { pathToFileURL } from "node:url";
-import { readFile, writeFile } from "node:fs/promises";
 import { findExports } from "mlly";
-import { existsSync } from "node:fs";
+import { resolve } from "pathe";
+import { defineCommand } from "./index";
 
 export default defineCommand({
   meta: {

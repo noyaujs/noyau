@@ -1,5 +1,5 @@
 import { resolve } from "pathe";
-import type { NoyauTemplate, ResolvedNoyauTemplate } from "@noyau/schema";
+import  { type NoyauTemplate, type ResolvedNoyauTemplate } from "@noyau/schema";
 import { tryUseNoyau, useNoyau } from "./context";
 
 /**

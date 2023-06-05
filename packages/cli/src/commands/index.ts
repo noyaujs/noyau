@@ -1,4 +1,4 @@
-import type { Argv } from "mri";
+import  { type Argv } from "mri";
 
 export const commands = {
   dev: () => import("./dev").then((m) => m.default),

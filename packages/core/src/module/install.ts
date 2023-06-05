@@ -1,13 +1,12 @@
 import { lstatSync } from "node:fs";
-import type { Noyau, NoyauModule } from "@noyau/schema";
+import  { type Noyau, type NoyauModule } from "@noyau/schema";
 import {
   resolveAlias,
   resolvePath,
   importModule,
   requireModule,
-} from "@noyau/kit";
+ useNoyau } from "@noyau/kit";
 import { dirname } from "pathe";
-import { useNoyau } from "@noyau/kit";
 import graphSequencer from "@pnpm/graph-sequencer";
 
 /** Installs a module on a Noyau instance. */

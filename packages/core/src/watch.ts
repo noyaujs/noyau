@@ -1,6 +1,6 @@
+import { join } from "path";
 import { logger } from "@noyau/kit";
 import { type Noyau } from "@noyau/schema";
-import { join } from "path";
 import { normalize } from "pathe";
 
 export const watch = async (noyau: Noyau) => {

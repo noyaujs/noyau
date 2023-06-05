@@ -1,5 +1,5 @@
 import { getContext } from "unctx";
-import type { Noyau } from "@noyau/schema";
+import  { type Noyau } from "@noyau/schema";
 
 /** Direct access to the Noyau context - see https://github.com/unjs/unctx. */
 export const noyauCtx = getContext<Noyau>("noyau");

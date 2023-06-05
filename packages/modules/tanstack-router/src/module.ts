@@ -1,15 +1,15 @@
+import { existsSync } from "node:fs";
 import {
   defineNoyauModule,
   createResolver,
   addTemplate,
   updateTemplates,
 } from "@noyau/kit";
-import { name, version } from "../package.json";
 import { type NoyauRoute } from "@noyau/schema";
 import { source } from "common-tags";
-import { generateRouteDefinitions, generateRouter } from "./utils";
 import { genImport } from "knitwork";
-import { existsSync } from "fs";
+import { name, version } from "../package.json";
+import { generateRouteDefinitions, generateRouter } from "./utils";
 
 // Module options TypeScript interface definition
 export interface ModuleOptions {

@@ -32,13 +32,13 @@ import { ViteNodeServer } from "vite-node/server";
 import fse from "fs-extra";
 import { isAbsolute, normalize, resolve } from "pathe";
 import { isFileServingAllowed } from "vite";
-import type { ModuleNode, Plugin as VitePlugin } from "vite";
+import  { type ModuleNode, type Plugin as VitePlugin } from "vite";
 import { resolve as resolveModule } from "mlly";
+import { normalizeViteManifest } from "vue-bundle-renderer";
 import { distDir } from "../dirs";
-import type { ViteBuildContext } from ".";
 import { isCSS } from "./utils";
 import { createIsExternal } from "./utils/external";
-import { normalizeViteManifest } from "vue-bundle-renderer";
+import  { type ViteBuildContext } from ".";
 // import { transpile } from "./utils/transpile";
 
 // TODO: Remove this in favor of registerViteNodeMiddleware

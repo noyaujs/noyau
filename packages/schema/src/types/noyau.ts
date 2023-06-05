@@ -1,7 +1,7 @@
-import type { NoyauOptions } from "./config";
-import type { Hookable } from "hookable";
-import type { NoyauHooks } from "./hooks";
+import  { type Hookable } from "hookable";
 import { type NitroDevServer } from "nitropack";
+import  { type NoyauOptions } from "./config";
+import  { type NoyauHooks } from "./hooks";
 
 // interface so it can be extended
 export interface NoyauTemplateContext {

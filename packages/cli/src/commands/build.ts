@@ -1,8 +1,8 @@
+import { write } from "fs";
 import { resolve } from "pathe";
-import { defineCommand } from ".";
 import { buildNoyau, loadNoyau, writeTypes } from "@noyau/core";
 import { clearBuildDir } from "../utils/fs";
-import { write } from "fs";
+import { defineCommand } from ".";
 
 export default defineCommand({
   meta: {
