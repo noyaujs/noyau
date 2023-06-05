@@ -32,13 +32,14 @@ import { ViteNodeServer } from "vite-node/server";
 import fse from "fs-extra";
 import { isAbsolute, normalize, resolve } from "pathe";
 import { isFileServingAllowed } from "vite";
-import  { type ModuleNode, type Plugin as VitePlugin } from "vite";
+import { type ModuleNode, type Plugin as VitePlugin } from "vite";
 import { resolve as resolveModule } from "mlly";
 import { normalizeViteManifest } from "vue-bundle-renderer";
 import { distDir } from "../dirs";
 import { isCSS } from "./utils";
 import { createIsExternal } from "./utils/external";
-import  { type ViteBuildContext } from ".";
+import { transpile } from "./utils/transpile";
+import { type ViteBuildContext } from ".";
 // import { transpile } from "./utils/transpile";
 
 // TODO: Remove this in favor of registerViteNodeMiddleware
@@ -171,9 +172,9 @@ function createViteNodeApp(
       const node: ViteNodeServer = new ViteNodeServer(viteServer, {
         deps: {
           inline: [
-            /\/(noyau|noyau3)\//, // TODO: check why nuxt3 was checked here
+            /\/noyau\//,
             /^#/,
-            // ...transpile({ isServer: true, isDev: ctx.noyau.options.dev }),
+            ...transpile({ isServer: true, isDev: ctx.noyau.options.dev }),
           ],
         },
         transformMode: {

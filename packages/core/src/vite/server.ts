@@ -9,6 +9,7 @@ import { joinURL } from "ufo";
 import { logger } from "@noyau/kit";
 import { writeManifest } from "./manifest";
 import { initViteNodeServer } from "./vite-node";
+import { transpile } from "./utils/transpile";
 import { type ViteBuildContext } from ".";
 
 export const buildServer = async (ctx: ViteBuildContext) => {
@@ -31,11 +32,11 @@ export const buildServer = async (ctx: ViteBuildContext) => {
     ssr: {
       external: ["#internal/nitro", "#internal/nitro/utils"],
       noExternal: [
+        ...transpile({ isServer: true, isDev: ctx.noyau.options.dev }),
         /\/esm\/.*\.js$/,
         /\.(es|esm|esm-browser|esm-bundler).js$/,
-        "#app",
         /^noyau(\/|$)/,
-        /(noyau|noyau3)\/(dist|src|app)/,
+        /noyau\/(dist|src|app)/,
       ],
     },
     cacheDir: resolve(
