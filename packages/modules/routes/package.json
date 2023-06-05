@@ -19,7 +19,7 @@
   "scripts": {
     "build": "noyau module:build",
     "build:stub": "noyau module:build --stub",
-    "prepare": "noyau module:prepare"
+    "dev:prepare": "noyau module:prepare"
   },
   "dependencies": {
     "@noyau/kit": "workspace:*",

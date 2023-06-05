@@ -1,6 +1,11 @@
 import { lstatSync } from "node:fs";
 import type { Noyau, NoyauModule } from "@noyau/schema";
-import { resolveAlias, resolvePath, importModule } from "@noyau/kit";
+import {
+  resolveAlias,
+  resolvePath,
+  importModule,
+  requireModule,
+} from "@noyau/kit";
 import { dirname, isAbsolute } from "pathe";
 import { useNoyau } from "@noyau/kit";
 import graphSequencer from "@pnpm/graph-sequencer";
@@ -48,10 +53,10 @@ async function resolveModule(noyauModule: string | NoyauModule | unknown) {
   if (typeof noyauModule === "string") {
     const src = await resolvePath(noyauModule);
     try {
-      noyauModule = await importModule<NoyauModule>(
-        src,
-        noyau.options.modulesDir
-      );
+      noyauModule =
+        (await importModule<NoyauModule>(src, noyau.options.modulesDir).catch(
+          (e) => null
+        )) ?? requireModule(src, { paths: noyau.options.modulesDir });
     } catch (error: unknown) {
       console.error(
         // eslint-disable-next-line @typescript-eslint/restrict-template-expressions

@@ -6,7 +6,7 @@ export default defineBuildConfig({
       input: "src/index",
     },
     // App
-    { input: "src/app/", outDir: "dist/app/", ext: "js" },
+    { input: "src/app/", outDir: "dist/app/", format: "esm" },
     { input: "src/runtime/", outDir: "dist/runtime", format: "esm" },
   ],
 });

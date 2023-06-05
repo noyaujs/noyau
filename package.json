@@ -7,8 +7,9 @@
   "license": "MIT",
   "author": "Aaron Bassett <arbassett4@outlook.com>",
   "scripts": {
-    "build": "turbo build",
-    "build:stub": "turbo build:stub",
+    "build": "pnpm --filter './packages/**' build",
+    "build:stub": "pnpm --filter './packages/**' build --stub",
+    "clean:dist": "rimraf -g 'packages/*/dist' 'packages/modules/*/dist'",
     "play": "pnpm --filter './playground' dev",
     "play:build": "pnpm --filter './playground' prod",
     "lint": "eslint --ext .vue,.ts,.js,.mjs .",
@@ -21,7 +22,7 @@
     "@typescript-eslint/parser": "^5.59.7",
     "eslint": "^8.41.0",
     "eslint-config-prettier": "^8.8.0",
-    "turbo": "^1.10.1",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "rimraf": "^5.0.1"
   }
 }

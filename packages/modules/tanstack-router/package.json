@@ -20,18 +20,20 @@
   "scripts": {
     "build": "noyau module:build",
     "build:stub": "noyau module:build --stub",
-    "prepare": "noyau module:prepare"
+    "dev:prepare": "noyau module:prepare"
   },
   "dependencies": {
-    "@noyau/kit": "workspace:*",
-    "@types/common-tags": "^1.8.1",
     "common-tags": "^1.8.2",
     "knitwork": "^1.0.0"
   },
   "devDependencies": {
+    "@types/common-tags": "^1.8.1",
+    "@noyau/core": "workspace:*",
+    "@noyau/kit": "workspace:*",
+    "@noyau/schema": "workspace:*",
     "@noyau/module-react": "workspace:*",
     "@noyau/module-routes": "workspace:*",
-    "@noyau/schema": "workspace:*",
+    "@tanstack/router": "0.0.1-beta.86",
     "@noyau/cli": "workspace:*",
     "@types/node": "^18",
     "consola": "^3.1.0",
@@ -41,6 +43,9 @@
     "unbuild": "^1.2.1"
   },
   "peerDependencies": {
+    "@noyau/core": "workspace:*",
+    "@noyau/kit": "workspace:*",
+    "@noyau/schema": "workspace:*",
     "@noyau/module-react": "workspace:*",
     "@noyau/module-routes": "workspace:*",
     "@tanstack/router": "0.0.1-beta.86"
