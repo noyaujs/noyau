@@ -88,6 +88,12 @@ export const bundle = async (noyau: Noyau) => {
     }
   });
 
+  noyau.hook("types:prepare", ({ references }) => {
+    references.push({
+      types: "vite/client",
+    });
+  });
+
   await buildClient(ctx);
   await buildServer(ctx);
 };
