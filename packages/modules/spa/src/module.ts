@@ -5,6 +5,7 @@ import {
   setAppEntry,
   useLogger,
 } from "@noyau/kit";
+import { name, version } from "../package.json";
 import { existsSync } from "node:fs";
 import {} from "@noyau/schema"; // This is needed so type-gen can infer the default export return type
 
@@ -15,7 +16,8 @@ export interface ModuleOptions {
 
 export default defineNoyauModule<ModuleOptions>({
   meta: {
-    name: "@noyau/spa",
+    name,
+    version,
     configKey: "spa",
   },
   // Default configuration options of the Nuxt module

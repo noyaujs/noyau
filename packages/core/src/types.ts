@@ -94,16 +94,18 @@ export const writeTypes = async (noyau: Noyau) => {
     }
   }
   const references: TSReference[] = await Promise.all(
-    [...noyau.options.modules]
-      .filter((f): f is string => typeof f === "string")
+    [...noyau.options._installedModules]
+      .filter(
+        (f): f is { entryPath: string } => typeof f.entryPath === "string"
+      )
       .map(async (id) => ({
         types:
           (
             await tryImportModule<PackageJson>(
-              `${id}/package.json`,
+              `${id.entryPath}/package.json`,
               noyau.options.modulesDir
             )
-          )?.name || id,
+          )?.name || id.entryPath,
       }))
   );
 

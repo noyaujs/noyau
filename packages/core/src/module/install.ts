@@ -6,17 +6,21 @@ import {
   importModule,
   requireModule,
 } from "@noyau/kit";
-import { dirname, isAbsolute } from "pathe";
+import { dirname } from "pathe";
 import { useNoyau } from "@noyau/kit";
 import graphSequencer from "@pnpm/graph-sequencer";
 
 /** Installs a module on a Noyau instance. */
-export async function installModule(
-  moduleToInstall: NoyauModule<any>,
-  noyau: Noyau,
-  path?: string
-) {
-  const { noyauModule } = await resolveModule(moduleToInstall);
+export async function installModule({
+  module,
+  noyau,
+  path,
+}: {
+  module: NoyauModule<any>;
+  noyau: Noyau;
+  path?: string;
+}) {
+  const { noyauModule } = await resolveModule(module);
 
   // Call module
   const res = (await noyauModule(noyau)) ?? {};
@@ -24,13 +28,21 @@ export async function installModule(
     return;
   }
   const meta = await noyauModule.getMeta?.();
-  const entryPath = meta?.name || path;
   noyau.options._installedModules = noyau.options._installedModules || [];
   noyau.options._installedModules.push({
     meta: meta,
     timings: res.timings,
-    entryPath: entryPath ? resolveAlias(entryPath) : undefined,
+    entryPath: path,
   });
+
+  // TODO: decide if submodules should have their config exposed
+  // noyau.hook("types:prepare", ({ references }) => {
+  //   path &&
+  //     parse(path) &&
+  //     references.push({
+  //       path: resolve(path),
+  //     });
+  // });
 }
 
 // --- Internal ---
@@ -109,8 +121,7 @@ export const createModuleMap = async (
       moduleMap.set(moduleName, {
         deps: [],
         module: noyauModule,
-        path:
-          typeof module === "string" ? await resolvePath(module) : undefined,
+        path: typeof module === "string" ? resolveAlias(module) : undefined,
       });
       await createModuleMap(moduleDeps, moduleMap, moduleName);
     }
@@ -149,8 +160,8 @@ export const installModules = async (noyau: Noyau) => {
         .filter((res): res is [NoyauModule<any>, string | undefined] =>
           Boolean(res[0])
         )
-        .map(async ([mod, path]) => {
-          await installModule(mod, noyau, path);
+        .map(async ([module, path]) => {
+          await installModule({ module, noyau, path });
           if (path) {
             noyau.options.build.transpile.push(
               normalizeModuleTranspilePath(path)

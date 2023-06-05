@@ -4,6 +4,7 @@ import { resolveRoutes } from "./utils";
 import { logger } from "./logger";
 import { debounce } from "perfect-debounce";
 import { resolve } from "pathe";
+import { name, version } from "../package.json";
 import { type NoyauRoute } from "@noyau/schema";
 
 // Module options TypeScript interface definition
@@ -17,7 +18,8 @@ export interface ModuleHooks {
 
 export default defineNoyauModule<ModuleOptions>({
   meta: {
-    name: "@noyau/routes",
+    name,
+    version,
     configKey: "routes",
   },
   // Default configuration options of the Noyau module

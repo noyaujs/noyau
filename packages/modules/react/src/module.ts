@@ -4,6 +4,7 @@ import {
   addVitePlugin,
   addServerPlugin,
 } from "@noyau/kit";
+import { name, version } from "../package.json";
 import react from "@vitejs/plugin-react";
 import {} from "@noyau/schema"; // This is needed so type-gen can infer the default export return type
 
@@ -12,7 +13,8 @@ export interface ModuleOptions {}
 
 export default defineNoyauModule<ModuleOptions>({
   meta: {
-    name: "@noyau/react",
+    name,
+    version,
     configKey: "react",
   },
   // Default configuration options of the Noyau module

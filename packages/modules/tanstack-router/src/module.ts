@@ -4,6 +4,7 @@ import {
   addTemplate,
   updateTemplates,
 } from "@noyau/kit";
+import { name, version } from "../package.json";
 import { type NoyauRoute } from "@noyau/schema";
 import { source } from "common-tags";
 import { generateRouteDefinitions, generateRouter } from "./utils";
@@ -17,7 +18,8 @@ export interface ModuleOptions {
 
 export default defineNoyauModule<ModuleOptions>({
   meta: {
-    name: "@noyau/module-tanstack-router",
+    name,
+    version,
     configKey: "tanstack-router",
     modules: ["@noyau/module-react", "@noyau/module-routes"],
   },
@@ -40,7 +42,6 @@ export default defineNoyauModule<ModuleOptions>({
         );
       }
     });
-
     // @ts-expect-error asdf
     noyau.hook("routes:generate", async (routes: NoyauRoute[]) => {
       addTemplate({
