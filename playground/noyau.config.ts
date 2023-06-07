@@ -1,6 +1,7 @@
 import { defineNoyauConfig } from "@noyau/kit/config";
 
 export default defineNoyauConfig({
+  ssr: false,
   srcDir: "src",
   modules: [
     "@noyau/module-spa", // renderer

@@ -16,6 +16,12 @@ export default defineUntypedSchema({
    * }[]} InstalledModule
    */
   _installedModules: [],
+
+  /**
+   * @private
+   * @type {typeof import("../src/types/noyau").NoyauPlugin[]}
+   */
+  _installedPlugins: [],
   /**
    * @private
    * TODO: move this into the core package

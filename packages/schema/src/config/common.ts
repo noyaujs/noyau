@@ -41,11 +41,18 @@ export default defineUntypedSchema({
       $resolve: async (val, get) =>
         val || (await get("dir.static")) || "public",
     },
+    plugins: "plugins",
   },
   /**
    * @type {(typeof import('../src/types/module').NoyauModule | string)[]}
    */
   modules: {
+    $resolve: (val) => [].concat(val).filter(Boolean),
+  },
+  /**
+   * @type {(typeof import('../src/types/noyau').NoyauPlugin | string)[]}
+   */
+  plugins: {
     $resolve: (val) => [].concat(val).filter(Boolean),
   },
   /** @type {Record<string, string>} */

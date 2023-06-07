@@ -2,7 +2,7 @@ import { defineNoyauModule } from "@noyau/kit";
 
 export default defineNoyauModule({
   meta: {},
-  setup: async () => {
+  setup() {
     console.log("hello world");
   },
 });

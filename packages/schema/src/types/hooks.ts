@@ -1,15 +1,15 @@
-import  { type EventHandler } from "h3";
-import  { type ViteDevServer, type UserConfig as ViteConfig } from "vite";
-import  { type EventType as ParcelWatcherEventType } from "@parcel/watcher";
+import { type EventHandler } from "h3";
+import { type ViteDevServer, type UserConfig as ViteConfig } from "vite";
+import { type EventType as ParcelWatcherEventType } from "@parcel/watcher";
 import { type TSConfig } from "pkg-types";
-import  { type Noyau, type ResolvedNoyauTemplate } from "./noyau";
+import { type Noyau, type ResolvedNoyauTemplate } from "./noyau";
 
 type HookResult = void | Promise<void>;
 
 // https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html
 export type TSReference = { types: string } | { path: string };
 
-export type NoyauHooks = {
+export interface NoyauHooks {
   ready: (noyau: Noyau) => HookResult;
   close: (noyau: Noyau) => HookResult;
   "build:done": (noyau: Noyau) => HookResult;
@@ -37,4 +37,8 @@ export type NoyauHooks = {
     declarations: string[];
     tsConfig: TSConfig;
   }) => HookResult;
-};
+}
+
+export interface RuntimeNoyauHooks {
+  "app:error": (error: Error) => HookResult;
+}

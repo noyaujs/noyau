@@ -4,6 +4,8 @@ import {
   genString,
   genInlineTypeImport,
   genAugmentation,
+  genSafeVariableName,
+  genArrayFromRaw,
 } from "knitwork";
 import { addTemplate, normalizeTemplate } from "@noyau/kit";
 import {
@@ -12,6 +14,8 @@ import {
   type NoyauTemplateContext,
 } from "@noyau/schema";
 import { dirname, join, relative, resolve } from "pathe";
+import { filename } from "pathe/utils";
+import { hash } from "ohash";
 import { type SelectiveRequired } from "./utils/types";
 
 export const setupDefaultTemplates = (noyau: Noyau) => {
@@ -57,6 +61,32 @@ export const setupDefaultTemplates = (noyau: Noyau) => {
       ].join("\n");
     },
   }).path;
+
+  addTemplate({
+    filename: "plugins/index.mjs",
+    write: true,
+    getContents(ctx) {
+      const plugins = ctx.noyau.options._installedPlugins;
+      const exports: string[] = [];
+      const imports: string[] = [];
+      for (const plugin of plugins) {
+        const path = relative(ctx.noyau.options.rootDir, plugin.src);
+        const variable =
+          genSafeVariableName(filename(plugin.src)).replace(
+            /_(45|46|47)/g,
+            "_"
+          ) +
+          "_" +
+          hash(path);
+        exports.push(variable);
+        imports.push(genImport(plugin.src, variable));
+      }
+
+      return [...imports, `export default ${genArrayFromRaw(exports)}`].join(
+        "\n"
+      );
+    },
+  });
 
   noyau.hook("types:prepare", ({ references }) => {
     references.push({

@@ -9,3 +9,4 @@ export * from "./app";
 export * from "./build";
 export * from "./template";
 export * from "./logger";
+export * from "./plugin";

@@ -1,7 +1,7 @@
-import  { type Hookable } from "hookable";
+import { type Hookable } from "hookable";
 import { type NitroDevServer } from "nitropack";
-import  { type NoyauOptions } from "./config";
-import  { type NoyauHooks } from "./hooks";
+import { type NoyauOptions } from "./config";
+import { type RuntimeNoyauHooks, type NoyauHooks } from "./hooks";
 
 // interface so it can be extended
 export interface NoyauTemplateContext {
@@ -18,6 +18,7 @@ export type ResolvedNoyauTemplate = NoyauTemplate & {
   path: string;
 };
 
+//TODO: move these into @noyau/module-routes
 export type RouteSegmentType = "static" | "dynamic" | "optional" | "splat";
 export type RouteSegment = {
   type: RouteSegmentType;
@@ -29,6 +30,10 @@ export type NoyauRoute = {
   path: RouteSegment | RouteSegment[];
   file: string;
   children?: NoyauRoute[];
+};
+
+export type NoyauPlugin = {
+  src: string;
 };
 
 export type Noyau = {
@@ -51,3 +56,15 @@ export type Noyau = {
 
   vfs: Record<string, string>;
 };
+
+// runtime noyau
+export type NoyauApp = {
+  ctx: NoyauAppContext;
+  hooks: Hookable<RuntimeNoyauHooks>;
+  hook: NoyauApp["hooks"]["hook"];
+  callHook: NoyauApp["hooks"]["callHook"];
+  runWithContext: <T extends (...args: any[]) => any>(fn: T) => ReturnType<T>;
+};
+
+// module extension
+export interface NoyauAppContext {}

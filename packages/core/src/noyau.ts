@@ -1,9 +1,9 @@
 import { createHooks } from "hookable";
 import { loadNoyauConfig, type LoadNoyauConfigOptions } from "@noyau/kit";
-import  { type NoyauHooks, type NoyauOptions, type Noyau } from "@noyau/schema";
+import { type NoyauHooks, type NoyauOptions, type Noyau } from "@noyau/schema";
 import { debounce } from "perfect-debounce";
 import { noyauCtx } from "@noyau/kit";
-import { resolve } from "pathe";
+import { join, resolve } from "pathe";
 import { version } from "../package.json";
 import { initNitro } from "./nitro";
 import { distDir, pkgDir } from "./dirs";
@@ -11,8 +11,10 @@ import { bundle } from "./vite";
 import { installModules } from "./module/install";
 import { watch } from "./watch";
 import { generateTemplates, setupDefaultTemplates } from "./templates";
+import { loadPlugins } from "./plugins";
 
 export const buildNoyau = async (noyau: Noyau) => {
+  await loadPlugins(noyau);
   await generateTemplates(noyau);
 
   if (noyau.options.dev) {
@@ -21,12 +23,25 @@ export const buildNoyau = async (noyau: Noyau) => {
       undefined,
       { leading: true }
     );
+    const debouncedLoadPlugins = debounce(() => loadPlugins(noyau), undefined, {
+      leading: true,
+    });
+
     await watch(noyau);
     noyau.hook("template:generate", async (filter) => {
       if (filter) {
         await generateTemplates(noyau, filter);
       }
       await debouncedGenerateTemplates();
+    });
+
+    noyau.hook("watch", async (event, path) => {
+      if (
+        event !== "update" &&
+        path.startsWith(join(noyau.options.srcDir, noyau.options.dir.plugins))
+      ) {
+        await debouncedLoadPlugins();
+      }
     });
   }
 

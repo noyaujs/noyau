@@ -4,6 +4,7 @@ import { type UserConfig as ViteUserConfig, type ViteDevServer } from "vite";
 import { join, resolve } from "pathe";
 import { resolvePath } from "@noyau/kit";
 import { withoutLeadingSlash } from "ufo";
+import { unctxPlugin } from "unctx/plugin";
 import { buildClient } from "./client";
 import { buildServer } from "./server";
 import { warmupViteServer } from "./utils/warmup";
@@ -19,9 +20,7 @@ export interface ViteBuildContext {
 
 export const bundle = async (noyau: Noyau) => {
   // TODO: make this configurable
-  const entry = await resolvePath(
-    noyau.options.app.entry || resolve(noyau.options.appDir, "entry")
-  );
+  const entry = await resolvePath(resolve(noyau.options.appDir, "entry"));
 
   let allowDirs = [noyau.options.alias["#app"], noyau.options.rootDir].filter(
     (d) => d && existsSync(d)
@@ -42,6 +41,10 @@ export const bundle = async (noyau: Noyau) => {
         alias: {
           ...noyau.options.alias,
           "#build": noyau.options.buildDir,
+          "#entry": await resolvePath(
+            noyau.options.app.entry ||
+              resolve(noyau.options.appDir, "entry-noop")
+          ),
         },
       },
       build: {
@@ -59,7 +62,15 @@ export const bundle = async (noyau: Noyau) => {
           },
         },
       },
-      plugins: [virtual(noyau.vfs, noyau.options.extensions)],
+      plugins: [
+        unctxPlugin.vite({
+          asyncFunctions: ["defineNoyauPlugin"],
+          objectDefinitions: {
+            defineNoyauPlugin: ["setup"],
+          },
+        }),
+        virtual(noyau.vfs, noyau.options.extensions),
+      ],
       server: {
         fs: {
           allow: allowDirs,

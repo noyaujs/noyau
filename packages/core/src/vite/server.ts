@@ -6,13 +6,16 @@ import {
 } from "vite";
 import { resolve } from "pathe";
 import { joinURL } from "ufo";
-import { logger } from "@noyau/kit";
+import { logger, resolvePath } from "@noyau/kit";
 import { writeManifest } from "./manifest";
 import { initViteNodeServer } from "./vite-node";
 import { transpile } from "./utils/transpile";
 import { type ViteBuildContext } from ".";
 
 export const buildServer = async (ctx: ViteBuildContext) => {
+  const entry = ctx.noyau.options.ssr
+    ? ctx.entry
+    : await resolvePath(resolve(ctx.noyau.options.appDir, "entry-noop"));
   const serverConfig = mergeConfig(ctx.config, {
     base: ctx.noyau.options.dev
       ? joinURL(
@@ -48,7 +51,7 @@ export const buildServer = async (ctx: ViteBuildContext) => {
       outDir: resolve(ctx.noyau.options.buildDir, "dist/server"),
       ssr: true,
       rollupOptions: {
-        input: { server: ctx.entry },
+        input: { server: entry },
         external: ["#internal/nitro"],
         output: {
           entryFileNames: "[name].mjs",
