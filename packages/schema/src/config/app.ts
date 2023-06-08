@@ -3,7 +3,7 @@ import { defineUntypedSchema } from "untyped";
 
 export default defineUntypedSchema({
   app: {
-    entry: "",
+    entry: "~/entry",
     baseURL: {
       $resolve: async (val) => val || process.env.NOYAU_APP_BASE_URL || "/",
     },

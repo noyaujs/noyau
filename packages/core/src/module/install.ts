@@ -1,11 +1,12 @@
 import { lstatSync } from "node:fs";
-import  { type Noyau, type NoyauModule } from "@noyau/schema";
+import { type Noyau, type NoyauModule } from "@noyau/schema";
 import {
   resolveAlias,
   resolvePath,
   importModule,
   requireModule,
- useNoyau } from "@noyau/kit";
+  useNoyau,
+} from "@noyau/kit";
 import { dirname } from "pathe";
 import graphSequencer from "@pnpm/graph-sequencer";
 

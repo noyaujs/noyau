@@ -1,7 +1,7 @@
 import { existsSync } from "node:fs";
 import { type Noyau } from "@noyau/schema";
 import { type UserConfig as ViteUserConfig, type ViteDevServer } from "vite";
-import { join, resolve } from "pathe";
+import { dirname, join, resolve } from "pathe";
 import { resolvePath } from "@noyau/kit";
 import { withoutLeadingSlash } from "ufo";
 import { unctxPlugin } from "unctx/plugin";
@@ -22,13 +22,18 @@ export const bundle = async (noyau: Noyau) => {
   // TODO: make this configurable
   const entry = await resolvePath(resolve(noyau.options.appDir, "entry"));
 
-  let allowDirs = [noyau.options.alias["#app"], noyau.options.rootDir].filter(
-    (d) => d && existsSync(d)
-  );
+  //TODO: allow for all modules runetime dir to work
+  let allowDirs = [
+    noyau.options.alias["#app"],
+    noyau.options.rootDir,
+    dirname(noyau.options.app.entry),
+  ].filter((d) => d && existsSync(d));
 
   for (const dir of allowDirs) {
     allowDirs = allowDirs.filter((d) => !d.startsWith(dir) || d === dir);
   }
+
+  console.log("allowDirs", allowDirs);
 
   const ctx: ViteBuildContext = {
     noyau,

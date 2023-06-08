@@ -15,6 +15,7 @@
     "@noyau/core": "workspace:*",
     "@noyau/kit": "workspace:*",
     "@noyau/module-react": "workspace:*",
+    "@noyau/module-react-ssr": "workspace:*",
     "@noyau/module-routes": "workspace:*",
     "@noyau/module-spa": "workspace:*",
     "@noyau/module-tanstack-router": "workspace:*",
