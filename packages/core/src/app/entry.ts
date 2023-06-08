@@ -26,4 +26,8 @@ if (!import.meta.env.SSR) {
   entryPromise = entry().catch((err: unknown) => {
     console.error(`Error while running app entry: ${err}`);
   });
+} else {
+  //TODO: ssr
 }
+
+export default () => {};

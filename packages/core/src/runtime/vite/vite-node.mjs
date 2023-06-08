@@ -13,7 +13,7 @@ let render;
 /** @param ssrContext {import('#app').NuxtSSRContext} */
 export default async (ssrContext) => {
   // Invalidate cache for files changed since last rendering
-  const invalidates = await viteNodeFetch<string[]>("/invalidates");
+  const invalidates = await viteNodeFetch("/invalidates");
   const updates = runner.moduleCache.invalidateDepTree(invalidates);
 
   // Execute SSR bundle on demand
