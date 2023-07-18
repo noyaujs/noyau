@@ -1,4 +1,4 @@
-import  { type RequestListener } from "node:http";
+import { type RequestListener } from "node:http";
 import { debounce } from "perfect-debounce";
 import { loadNoyauConfig } from "@noyau/kit";
 import chokidar from "chokidar";
@@ -73,6 +73,10 @@ export default defineCommand({
         await currentNoyau.ready();
 
         await Promise.all([buildNoyau(currentNoyau), writeTypes(currentNoyau)]);
+
+        if (!currentNoyau.server?.app) {
+          throw new Error("No app found");
+        }
 
         currentHandler = toNodeListener(currentNoyau.server.app);
       } catch (err) {

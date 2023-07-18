@@ -16,7 +16,7 @@ type StripEnums<
     ? T[K]
     : U[K] extends object
     ? T[K]
-    : U[K] extends Array<unknown>
+    : U[K] extends unknown[]
     ? T[K]
     : U[K] extends undefined
     ? undefined

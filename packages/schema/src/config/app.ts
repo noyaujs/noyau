@@ -5,10 +5,10 @@ export default defineUntypedSchema({
   app: {
     entry: "~/entry",
     baseURL: {
-      $resolve: async (val) => val || process.env.NOYAU_APP_BASE_URL || "/",
+      $resolve: (val) => val || process.env.NOYAU_APP_BASE_URL || "/",
     },
     buildAssetsDir: {
-      $resolve: async (val) =>
+      $resolve: (val) =>
         val || process.env.NOYAU_APP_BUILD_ASSETS_DIR || "/_noyau/",
     },
   },

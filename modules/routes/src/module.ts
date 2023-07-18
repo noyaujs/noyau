@@ -26,7 +26,7 @@ export default defineNoyauModule<ModuleOptions>({
   defaults: {
     routesDir: "routes",
   },
-  async setup(options, { noyau }) {
+  setup(options, { noyau }) {
     const routesDir = resolve(noyau.options.srcDir, options.routesDir);
 
     const checkRoutesDir = (notifyNew = false) => {

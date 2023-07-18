@@ -1,4 +1,3 @@
-import { write } from "fs";
 import { resolve } from "pathe";
 import { buildNoyau, loadNoyau, writeTypes } from "@noyau/core";
 import { clearBuildDir } from "../utils/fs";

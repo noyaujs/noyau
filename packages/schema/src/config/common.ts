@@ -96,12 +96,13 @@ export default defineUntypedSchema({
   $schema: {},
 });
 
-function provideFallbackValues(obj: Record<string, any>) {
+function provideFallbackValues(obj: Record<string, unknown>) {
   for (const key in obj) {
-    if (typeof obj[key] === "undefined" || obj[key] === null) {
+    const value = obj[key];
+    if (typeof value === "undefined" || value === null) {
       obj[key] = "";
-    } else if (typeof obj[key] === "object") {
-      provideFallbackValues(obj[key]);
+    } else if (typeof value === "object") {
+      provideFallbackValues(value);
     }
   }
 }

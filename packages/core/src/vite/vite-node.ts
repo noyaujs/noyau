@@ -144,7 +144,7 @@ function getManifest(ctx: ViteBuildContext) {
 
 function createViteNodeApp(
   ctx: ViteBuildContext,
-  invalidates: Set<string> = new Set()
+  invalidates = new Set<string>()
 ) {
   const app = createApp();
 

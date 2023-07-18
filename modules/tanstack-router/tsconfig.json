@@ -2,6 +2,7 @@
   "extends": "./.noyau/tsconfig.json",
   "compilerOptions": {
     "rootDir": ".",
+    "strictNullChecks": true,
     "paths": {
       "#internal/nitro": [
         "./node_modules/nitropack/dist/runtime"

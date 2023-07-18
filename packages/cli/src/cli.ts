@@ -2,7 +2,7 @@ import mri from "mri";
 
 import { consola } from "consola";
 import { red } from "colorette";
-import  { type Command, type Commands } from "./commands";
+import { type Commands } from "./commands";
 import { commands } from "./commands";
 import { showHelp } from "./utils/help";
 
@@ -23,7 +23,7 @@ async function main() {
     return "error";
   }
 
-  const cmd = (await commands[command]());
+  const cmd = await commands[command]();
   if (args.h || args.help) {
     showHelp(cmd.meta);
   } else {

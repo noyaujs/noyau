@@ -1,5 +1,5 @@
 import { resolve } from "pathe";
-import  { type NoyauTemplate, type ResolvedNoyauTemplate } from "@noyau/schema";
+import { type NoyauTemplate, type ResolvedNoyauTemplate } from "@noyau/schema";
 import { tryUseNoyau, useNoyau } from "./context";
 
 /**
@@ -42,5 +42,5 @@ export function normalizeTemplate(
 export async function updateTemplates(
   filter?: (template: ResolvedNoyauTemplate) => boolean
 ) {
-  return await tryUseNoyau()?.hooks.callHook("template:generate", filter);
+  return await tryUseNoyau()?.callHook("template:generate", filter);
 }

@@ -53,7 +53,7 @@ export default defineCommand({
           if (!moduleFn) {
             return;
           }
-          const moduleMeta = (await moduleFn.getMeta?.()) || {};
+          const moduleMeta = (await moduleFn.getMeta?.()) ?? {};
 
           // Enhance meta using package.json
           if (ctx.pkg) {

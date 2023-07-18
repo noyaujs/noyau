@@ -62,8 +62,8 @@ function getRequireCacheItem(id: string) {
 function resolveModule(id: string, opts: ResolveModuleOptions = {}) {
   return normalize(
     _require.resolve(id, {
-      paths: ([] as Array<string | undefined>)
-        .concat(opts.paths || [], process.cwd())
+      paths: ([] as (string | undefined)[])
+        .concat(opts.paths ?? [], process.cwd())
         .filter(Boolean) as string[],
     })
   );

@@ -11,7 +11,7 @@ export default defineCommand({
     description: "Prepare noyau for development/build",
   },
   async invoke(args) {
-    process.env.NODE_ENV = process.env.NODE_ENV || "production";
+    process.env.NODE_ENV = process.env.NODE_ENV ?? "production";
     const rootDir = resolve(args._[0] || ".");
 
     const noyau = await loadNoyau({

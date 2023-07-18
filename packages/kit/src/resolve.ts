@@ -59,9 +59,9 @@ export async function resolvePath(
 
   // Use current noyau options
   const noyau = tryUseNoyau();
-  const cwd = opts.cwd || (noyau ? noyau.options.rootDir : process.cwd());
+  const cwd = opts.cwd ?? (noyau ? noyau.options.rootDir : process.cwd());
   const extensions =
-    opts.extensions ||
+    opts.extensions ??
     (noyau ? noyau.options.extensions : [".ts", ".mjs", ".cjs", ".json"]);
   const modulesDir = noyau ? noyau.options.modulesDir : [];
 
@@ -146,7 +146,7 @@ export function resolveAlias(
   alias?: Record<string, string>
 ): string {
   if (!alias) {
-    alias = tryUseNoyau()?.options.alias || {};
+    alias = tryUseNoyau()?.options.alias ?? {};
   }
   return _resolveAlias(path, alias);
 }

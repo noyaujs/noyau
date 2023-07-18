@@ -1,4 +1,4 @@
-import  {
+import {
   type UserConfig as ViteConfig,
   type PluginOption as VitePlugin,
 } from "vite";
@@ -64,7 +64,7 @@ export function addVitePlugin(
     const plugin =
       typeof pluginOrGetter === "function" ? pluginOrGetter() : pluginOrGetter;
 
-    config.plugins = config.plugins || [];
+    config.plugins = config.plugins ?? [];
     if (Array.isArray(plugin)) {
       config.plugins[method](...plugin);
     } else {

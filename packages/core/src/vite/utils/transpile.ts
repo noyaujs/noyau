@@ -8,7 +8,7 @@ interface Envs {
   isServer?: boolean;
 }
 
-export function transpile(envs: Envs): Array<string | RegExp> {
+export function transpile(envs: Envs): (string | RegExp)[] {
   const noyau = useNoyau();
   const transpile = [];
 

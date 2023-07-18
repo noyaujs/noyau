@@ -47,16 +47,16 @@ export default defineUntypedSchema({
 
     /** Dev server listening port */
     port:
-      process.env.NOYAU_PORT ||
-      process.env.NITRO_PORT ||
-      process.env.PORT ||
+      process.env.NOYAU_PORT ??
+      process.env.NITRO_PORT ??
+      process.env.PORT ??
       3000,
 
     /** Dev server listening host */
     host:
-      process.env.NOYAU_HOST ||
-      process.env.NITRO_HOST ||
-      process.env.HOST ||
+      process.env.NOYAU_HOST ??
+      process.env.NITRO_HOST ??
+      process.env.HOST ??
       "",
 
     /**

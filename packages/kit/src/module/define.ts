@@ -1,7 +1,7 @@
 import { performance } from "node:perf_hooks";
 import { defu } from "defu";
 import { applyDefaults } from "untyped";
-import  {
+import {
   type ModuleDefinition,
   type ModuleOptions,
   type ModuleSetupReturn,
@@ -30,7 +30,7 @@ export function defineNoyauModule<OptionsT extends ModuleOptions>(
 
   // Resolves module options from inline options, [configKey] in noyau.config, defaults and schema
   async function getOptions(noyau: Noyau = useNoyau()) {
-    const configKey = definition.meta!.configKey || definition.meta!.name!;
+    const configKey = definition.meta!.configKey ?? definition.meta!.name!;
     const _defaults =
       definition.defaults instanceof Function
         ? definition.defaults(noyau)
@@ -48,7 +48,7 @@ export function defineNoyauModule<OptionsT extends ModuleOptions>(
   // Module format is always a simple function
   async function normalizedModule(this: any, noyau: Noyau) {
     // Avoid duplicate installs
-    const uniqueKey = definition.meta!.name || definition.meta!.configKey;
+    const uniqueKey = definition.meta!.name ?? definition.meta!.configKey;
     if (uniqueKey) {
       noyau.options._requiredModules = noyau.options._requiredModules || {};
       if (noyau.options._requiredModules[uniqueKey]) {
@@ -67,7 +67,7 @@ export function defineNoyauModule<OptionsT extends ModuleOptions>(
 
     // Call setup
     const key = `noyau:module:${
-      uniqueKey || Math.round(Math.random() * 10000)
+      uniqueKey ?? Math.round(Math.random() * 10000)
     }`;
     const mark = performance.mark(key);
     const logger = useLogger(key);
@@ -83,7 +83,7 @@ export function defineNoyauModule<OptionsT extends ModuleOptions>(
     if (setupTime > 5000) {
       console.warn(
         `Slow module \`${
-          uniqueKey || "<no name>"
+          uniqueKey ?? "<no name>"
         }\` took \`${setupTime}ms\` to setup.`
       );
     }
@@ -101,11 +101,11 @@ export function defineNoyauModule<OptionsT extends ModuleOptions>(
     }
 
     // Return module install result
-    return defu(res, <ModuleSetupReturn>{
+    return defu(res, {
       timings: {
         setup: setupTime,
       },
-    });
+    } satisfies ModuleSetupReturn);
   }
 
   // Define getters for options and meta

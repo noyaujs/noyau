@@ -14,7 +14,9 @@ export async function tryResolveModule(
   try {
     // Remove sting cast when https://github.com/unjs/mlly/pull/172 gets merged
     return (await resolvePath(id, { url })) as string;
-  } catch {}
+  } catch {
+    /* empty */
+  }
 }
 
 export async function importModule<T>(
@@ -32,5 +34,7 @@ export async function tryImportModule<T>(
 ) {
   try {
     return await importModule<T>(id, url);
-  } catch {}
+  } catch {
+    /* empty */
+  }
 }

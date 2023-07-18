@@ -1,10 +1,7 @@
-import { existsSync } from "node:fs";
 import {
   defineNoyauModule,
   createResolver,
   setServerRenderer,
-  setAppEntry,
-  useLogger,
 } from "@noyau/kit";
 import { name, version } from "../package.json";
 import {} from "@noyau/schema"; // This is needed so type-gen can infer the default export return type

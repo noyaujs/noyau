@@ -1,4 +1,8 @@
-import  { type Nitro, type NitroDevEventHandler, type NitroEventHandler } from "nitropack";
+import {
+  type Nitro,
+  type NitroDevEventHandler,
+  type NitroEventHandler,
+} from "nitropack";
 import { normalize } from "pathe";
 import { useNoyau } from "./context";
 
@@ -17,7 +21,7 @@ function normalizeHandlerMethod(handler: NitroEventHandler) {
   const [, method = undefined] =
     handler.handler.match(
       /\.(get|head|patch|post|put|delete|connect|options|trace)(\.\w+)*$/
-    ) || [];
+    ) ?? [];
   return {
     method,
     ...handler,

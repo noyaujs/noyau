@@ -2,6 +2,7 @@
   "extends": "./.noyau/tsconfig.json",
   "compilerOptions": {
     "composite": false,
+    "strictNullChecks": true,
     "rootDir": ".",
     "paths": {
       "#internal/nitro/app": [

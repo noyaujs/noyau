@@ -68,7 +68,7 @@ export const generateRoutesFromFiles = (files: string[], routesDir: string) => {
               : parentRoute.path.type) === "splat"
           )
       );
-      if (child && child.children) {
+      if (child?.children) {
         parent = child.children;
         if (Array.isArray(route.path)) {
           route.path[route.path.length - 1].value = "";
@@ -128,7 +128,7 @@ const prepareRoutes = (
       if (names.has(route.name)) {
         const existingRoute = findRouteByName(route.name, routes);
         const extra =
-          existingRoute && existingRoute.name !== undefined
+          existingRoute?.name !== undefined
             ? `is the same as \`${relative(
                 tryUseNoyau()?.options.srcDir ?? "",
                 existingRoute.file
@@ -229,16 +229,16 @@ export const parseSegment = (segment: string) => {
   return { type, value };
 };
 
-const getLastSegment = (segment: RouteSegment | RouteSegment[]) => {
-  if (Array.isArray(segment)) {
-    return [segment[segment.length - 1], true];
-  }
-  return [segment, false];
-};
+// const getLastSegment = (segment: RouteSegment | RouteSegment[]) => {
+//   if (Array.isArray(segment)) {
+//     return [segment[segment.length - 1], true];
+//   }
+//   return [segment, false];
+// };
 
-const getFirstSegment = (segment: RouteSegment | RouteSegment[]) => {
-  if (Array.isArray(segment)) {
-    return [segment[0], true];
-  }
-  return [segment, false];
-};
+// const getFirstSegment = (segment: RouteSegment | RouteSegment[]) => {
+//   if (Array.isArray(segment)) {
+//     return [segment[0], true];
+//   }
+//   return [segment, false];
+// };

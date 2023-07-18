@@ -7,7 +7,7 @@ import {
   requireModule,
   useNoyau,
 } from "@noyau/kit";
-import { dirname } from "pathe";
+import { dirname, isAbsolute } from "pathe";
 import graphSequencer from "@pnpm/graph-sequencer";
 
 /** Installs a module on a Noyau instance. */
@@ -55,10 +55,10 @@ export const normalizeModuleTranspilePath = (p: string) => {
   } catch (e) {
     // maybe the path is absolute but does not exist, allow this to bubble up
   }
-  return p.split("node_modules/").pop() as string;
+  return p.split("node_modules/").pop()!;
 };
 
-async function resolveModule(noyauModule: string | NoyauModule | unknown) {
+async function resolveModule(noyauModule: string | NoyauModule) {
   const noyau = useNoyau();
 
   // Import if input is string

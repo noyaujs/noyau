@@ -3,9 +3,8 @@
 module.exports = {
   extends: [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:@typescript-eslint/recommended-type-checked",
+    "plugin:@typescript-eslint/stylistic-type-checked",
     "prettier",
   ],
   plugins: ["@typescript-eslint", "import"],
@@ -14,11 +13,19 @@ module.exports = {
     sourceType: "module",
     project: [
       "./tsconfig.eslint.json",
-      "./packages/**/tsconfig.json",
+      "./packages/*/tsconfig.json",
+      "./modules/*/tsconfig.json",
+      "./examples/*/tsconfig.json",
       "./playground/tsconfig.json",
     ],
   },
   root: true,
+  ignorePatterns: [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/.noyau/**",
+  ],
   rules: {
     "@typescript-eslint/restrict-template-expressions": "off",
     "@typescript-eslint/no-unused-vars": [
@@ -36,6 +43,7 @@ module.exports = {
     ],
     "import/order": "error",
 
+    "@typescript-eslint/consistent-type-definitions": "off",
     // todo: enable this rule
     "@typescript-eslint/no-unsafe-call": "off",
   },
