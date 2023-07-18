@@ -8,7 +8,7 @@
   "author": "Aaron Bassett <arbassett4@outlook.com>",
   "scripts": {
     "build": "pnpm --filter './packages/**' build",
-    "build:stub": "pnpm --filter './packages/**' build --stub",
+    "build:stub": "pnpm --filter './packages/*' --filter './modules/*' build --stub",
     "clean:dist": "rimraf -g 'packages/*/dist' 'packages/modules/*/dist'",
     "play": "pnpm --filter './playground' dev",
     "play:build": "pnpm --filter './playground' prod",
