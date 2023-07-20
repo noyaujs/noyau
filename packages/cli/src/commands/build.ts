@@ -1,16 +1,13 @@
 import { resolve } from "pathe";
 import { buildNoyau, loadNoyau, writeTypes } from "@noyau/core";
+import { Argument, Command } from "@commander-js/extra-typings";
 import { clearBuildDir } from "../utils/fs";
-import { defineCommand } from ".";
 
-export default defineCommand({
-  meta: {
-    name: "build",
-    description: "Build your application",
-    usage: "noyau build [rootDir]",
-  },
-  async invoke(args) {
-    const rootDir = resolve(args._[0] || ".");
+const buildCommand = new Command("build")
+  .description("Build a Noyau project")
+  .addArgument(new Argument("[rootDir]", "Root directory").default("."))
+  .action(async (rootDirArg) => {
+    const rootDir = resolve(rootDirArg);
 
     const noyau = await loadNoyau({
       cwd: rootDir,
@@ -22,5 +19,6 @@ export default defineCommand({
 
     await writeTypes(noyau);
     await buildNoyau(noyau);
-  },
-});
+  });
+
+export default buildCommand;

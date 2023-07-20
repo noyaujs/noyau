@@ -1,23 +1,20 @@
 import { type RequestListener } from "node:http";
-import { debounce } from "perfect-debounce";
-import { loadNoyauConfig } from "@noyau/kit";
-import chokidar from "chokidar";
-import { relative, resolve } from "pathe";
-import consola from "consola";
-import { buildNoyau, loadNoyau, writeTypes } from "@noyau/core";
+import { Argument, Command, Option } from "@commander-js/extra-typings";
 import { type Noyau } from "@noyau/schema";
-import { defineCommand } from "./index";
 
-export default defineCommand({
-  meta: {
-    name: "dev",
-    usage: "noyau dev [rootDir]",
-    description: "Run noyau development server",
-  },
-  async invoke(args) {
+const RESTART_RE = /^noyau\.config\.(js|ts|mjs|cjs)$/;
+
+const devCommand = new Command("dev")
+  .description("Start a development server")
+  .addArgument(new Argument("[rootDir]", "Root directory").default("."))
+  .addOption(new Option("-o, --open", "Open browser"))
+  .addOption(new Option("-p, --port <port>", "Port number"))
+  .addOption(new Option("-h, --host <host>", "Host name"))
+  .action(async (rootDirArg, options) => {
     const { listen } = await import("listhen");
     const { toNodeListener } = await import("h3");
-    let currentHandler: RequestListener | undefined;
+    const consola = (await import("consola")).default;
+
     const loadingMessage = "Noyau is starting...";
     const loadingHandler: RequestListener = (_req, res) => {
       res.setHeader("Content-Type", "text/html; charset=UTF-8");
@@ -26,13 +23,20 @@ export default defineCommand({
         `<html><body>${loadingMessage}<script>setTimeout(() => window.location.reload(), 1000)</script></body></html>`
       );
     };
+
+    let currentHandler: RequestListener | undefined;
+
     const serverHandler: RequestListener = (req, res) => {
       return currentHandler
         ? currentHandler(req, res)
         : loadingHandler(req, res);
     };
 
-    const rootDir = resolve(args._[0] || ".");
+    const { resolve, relative } = await import("pathe");
+
+    const rootDir = resolve(rootDirArg);
+
+    const { loadNoyauConfig } = await import("@noyau/kit");
 
     const config = await loadNoyauConfig({
       overrides: {
@@ -40,15 +44,16 @@ export default defineCommand({
       },
     });
 
-    const listener = await listen(serverHandler, {
+    await listen(serverHandler, {
       showURL: true,
-      open: args.open || args.o,
-      port: args.port || args.p || config.devServer.port,
-      hostname: args.host || args.h || config.devServer.host,
+      open: options.open,
+      port: options.port ?? config.devServer.port,
+      hostname: options.host ?? config.devServer.host,
     });
 
     let currentNoyau: Noyau;
 
+    const { loadNoyau, buildNoyau, writeTypes } = await import("@noyau/core");
     const load = async (isRestart: boolean, reason?: string) => {
       try {
         if (isRestart) {
@@ -85,6 +90,8 @@ export default defineCommand({
       }
     };
 
+    const { debounce } = await import("perfect-debounce");
+    const chokidar = await import("chokidar");
     const dLoad = debounce(load, 500);
     const watcher = chokidar.watch([rootDir], {
       ignoreInitial: true,
@@ -99,9 +106,6 @@ export default defineCommand({
     });
 
     void load(false);
+  });
 
-    return "wait" as const;
-  },
-});
-
-const RESTART_RE = /^noyau\.config\.(js|ts|mjs|cjs)$/;
+export default devCommand;

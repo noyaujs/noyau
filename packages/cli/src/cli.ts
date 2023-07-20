@@ -1,35 +1,27 @@
-import mri from "mri";
+import { Command } from "@commander-js/extra-typings";
+import consola from "consola";
+import devCommand from "./commands/dev";
+import buildCommand from "./commands/build";
+import prepareCommand from "./commands/prepare";
+import moduleBuildCommand from "./commands/module_build";
+import modulePrepareCommand from "./commands/module_prepare";
 
-import { consola } from "consola";
-import { red } from "colorette";
-import { type Commands } from "./commands";
-import { commands } from "./commands";
-import { showHelp } from "./utils/help";
+const cli = new Command("noyau")
+  .description("Noyau Cli")
+  .addCommand(devCommand)
+  .addCommand(buildCommand)
+  .addCommand(prepareCommand)
+  .addCommand(
+    new Command("module")
+      .description("Module commands")
+      .addCommand(moduleBuildCommand)
+      .addCommand(modulePrepareCommand)
+  );
 
-const isValidCommand = (command: string): command is Commands =>
-  command in commands;
+const main = async () => await cli.parseAsync(process.argv);
 
-async function main() {
-  const args = mri(process.argv.slice(2), {
-    boolean: ["no-clear"],
-  });
-
-  const command = args._.shift() ?? "usage";
-
-  if (!isValidCommand(command)) {
-    console.log("\n" + red("Invalid command " + command));
-
-    await commands.usage().then((r) => r.invoke(args));
-    return "error";
-  }
-
-  const cmd = await commands[command]();
-  if (args.h || args.help) {
-    showHelp(cmd.meta);
-  } else {
-    const result = await cmd.invoke(args);
-    return result;
-  }
+if (process.argv.length === 2) {
+  cli.help();
 }
 
 // Wrap all console logs with consola for better DX
@@ -42,15 +34,7 @@ process.on("uncaughtException", (err) =>
   consola.error("[uncaughtException]", err)
 );
 
-main()
-  .then((result) => {
-    if (result === "error") {
-      process.exit(1);
-    } else if (result !== "wait") {
-      process.exit();
-    }
-  })
-  .catch((error) => {
-    consola.error(error);
-    process.exit(1);
-  });
+main().catch((error) => {
+  consola.error(error);
+  process.exit(1);
+});

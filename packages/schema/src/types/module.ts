@@ -1,4 +1,3 @@
-import { type ConsolaInstance } from "consola";
 import { type NoyauHooks } from "./hooks";
 import { type Noyau } from "./noyau";
 
@@ -41,7 +40,7 @@ export interface ModuleDefinition<T extends ModuleOptions = ModuleOptions> {
   setup?: (
     this: void,
     resolvedOptions: T,
-    context: { noyau: Noyau; logger: ConsolaInstance }
+    context: { noyau: Noyau }
   ) => _ModuleSetupReturn;
 }
 

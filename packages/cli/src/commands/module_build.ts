@@ -6,82 +6,10 @@ import consola from "consola";
 import { type ModuleMeta, type NoyauModule } from "@noyau/schema";
 import { findExports } from "mlly";
 import { resolve } from "pathe";
-import { defineCommand } from "./index";
-
-export default defineCommand({
-  meta: {
-    name: "module:build",
-    usage: "noyau module:build [rootDir]",
-    description: "Build a module",
-  },
-  async invoke(args) {
-    const rootDir = resolve(args._[0] || ".");
-
-    await build(rootDir, false, {
-      declaration: true,
-      stub: typeof args.stub === "boolean" ? args.stub : false,
-      rollup: {
-        emitCJS: false,
-      },
-      entries: [
-        "src/module",
-        { input: "src/runtime/", outDir: `dist/runtime`, ext: "mjs" },
-      ],
-      externals: ["@noyau/schema", "@noyau/kit", "noyau"],
-      hooks: {
-        async "rollup:done"(ctx) {
-          // Load module meta
-          const moduleEntryPath = resolve(ctx.options.outDir, "module.mjs");
-          const moduleFn = await import(
-            pathToFileURL(moduleEntryPath).toString()
-          )
-            .then(
-              (r: { default: unknown }) =>
-                (r.default ||
-                  Promise.reject(
-                    new Error("Module does not have default export")
-                  )) as NoyauModule
-            )
-            .catch((err) => {
-              consola.error(err);
-              consola.error(
-                "Cannot load module. Please check dist:",
-                moduleEntryPath
-              );
-              return null;
-            });
-          if (!moduleFn) {
-            return;
-          }
-          const moduleMeta = (await moduleFn.getMeta?.()) ?? {};
-
-          // Enhance meta using package.json
-          if (ctx.pkg) {
-            if (!moduleMeta?.name) {
-              moduleMeta.name = ctx.pkg.name;
-            }
-            if (!moduleMeta?.version) {
-              moduleMeta.version = ctx.pkg.version;
-            }
-          }
-
-          // Write meta
-          const metaFile = resolve(ctx.options.outDir, "module.json");
-          await writeFile(
-            metaFile,
-            JSON.stringify(moduleMeta, null, 2),
-            "utf8"
-          );
-
-          // Generate types
-          await writeTypes(ctx.options.outDir, moduleMeta);
-        },
-      },
-    });
-  },
-});
+import { Argument, Command, Option } from "@commander-js/extra-typings";
 
 async function writeTypes(distDir: string, meta: ModuleMeta) {
+  consola.info("Generating types...");
   const dtsFile = resolve(distDir, "types.d.ts");
   if (existsSync(dtsFile)) {
     return;
@@ -139,3 +67,75 @@ export { ${typeExports[0].names.join(", ")} } from './module'
 
   await writeFile(dtsFile, dtsContents, "utf8");
 }
+
+const moduleBuildCommand = new Command("build")
+  .description("Build a Noyau module")
+  .addArgument(new Argument("[rootDir]", "Root directory").default("."))
+  .addOption(new Option("--stub", "Stub module"))
+  .action(async (rootDirArg, options) => {
+    const rootDir = resolve(rootDirArg);
+
+    await build(rootDir, false, {
+      declaration: true,
+      stub: typeof options.stub === "boolean" ? options.stub : false,
+      rollup: {
+        emitCJS: false,
+      },
+      entries: [
+        "src/module",
+        { input: "src/runtime/", outDir: `dist/runtime`, ext: "mjs" },
+      ],
+      externals: ["@noyau/schema", "@noyau/kit", "@noyau/core"],
+      hooks: {
+        async "rollup:done"(ctx) {
+          // Load module meta
+          const moduleEntryPath = resolve(ctx.options.outDir, "module.mjs");
+          const moduleFn = await import(
+            pathToFileURL(moduleEntryPath).toString()
+          )
+            .then(
+              (r: { default: unknown }) =>
+                (r.default ||
+                  Promise.reject(
+                    new Error("Module does not have default export")
+                  )) as NoyauModule
+            )
+            .catch((err) => {
+              consola.error(err);
+              consola.error(
+                "Cannot load module. Please check dist:",
+                moduleEntryPath
+              );
+              return null;
+            });
+          if (!moduleFn) {
+            return;
+          }
+          const moduleMeta = (await moduleFn.getMeta?.()) ?? {};
+
+          // Enhance meta using package.json
+          if (ctx.pkg) {
+            if (!moduleMeta?.name) {
+              moduleMeta.name = ctx.pkg.name;
+            }
+            if (!moduleMeta?.version) {
+              moduleMeta.version = ctx.pkg.version;
+            }
+          }
+
+          // Write meta
+          const metaFile = resolve(ctx.options.outDir, "module.json");
+          await writeFile(
+            metaFile,
+            JSON.stringify(moduleMeta, null, 2),
+            "utf8"
+          );
+
+          // Generate types
+          await writeTypes(ctx.options.outDir, moduleMeta);
+        },
+      },
+    });
+  });
+
+export default moduleBuildCommand;
