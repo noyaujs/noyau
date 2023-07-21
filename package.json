@@ -5,6 +5,7 @@
   "description": "",
   "keywords": [],
   "license": "MIT",
+  "packageManager": "pnpm@8.6.9",
   "author": "Aaron Bassett <arbassett4@outlook.com>",
   "scripts": {
     "build": "pnpm --filter './packages/*' --filter './modules/*' build",
