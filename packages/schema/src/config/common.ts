@@ -32,7 +32,7 @@ export default defineUntypedSchema({
       ...(await Promise.all(
         val.map(async (dir: string) => resolve(await get("rootDir"), dir))
       )),
-      resolve(process.cwd(), "node_modules"),
+      // resolve(process.cwd(), "node_modules"),
     ],
   },
   dir: {
