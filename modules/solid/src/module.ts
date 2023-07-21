@@ -19,12 +19,8 @@ export default defineNoyauModule<ModuleOptions>({
   },
   // Default configuration options of the Noyau module
   defaults: {},
-  async setup(options, { noyau }) {
-    const resolver = createResolver(import.meta.url);
+  setup() {
     // noyau.options.ssr === false; // Force SSR to false
     addVitePlugin(solid(), { prepend: true });
-    if (noyau.options.dev) {
-      addServerPlugin(await resolver.resolvePath("./runtime/fastRefresh"));
-    }
   },
 });

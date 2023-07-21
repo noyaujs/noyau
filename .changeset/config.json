@@ -1,0 +1,11 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@2.3.1/schema.json",
+  "changelog": ["@changesets/changelog-github", { "repo": "noyaujs/noyau" }],
+  "commit": false,
+  "fixed": [["@noyau/core", "@noyau/kit", "@noyau/cli", "@noyau/schema"]],
+  "linked": [],
+  "access": "public",
+  "baseBranch": "main",
+  "updateInternalDependencies": "patch",
+  "ignore": []
+}
