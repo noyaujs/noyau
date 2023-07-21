@@ -18,9 +18,10 @@
     "dist"
   ],
   "scripts": {
-    "build": "noyau module build",
+    "build": "pnpm build:prepare && pnpm build:module",
+    "build:module": "noyau module build",
     "build:stub": "noyau module build --stub",
-    "dev:prepare": "noyau module prepare"
+    "build:prepare": "noyau module prepare"
   },
   "dependencies": {
     "@noyau/kit": "workspace:*"
