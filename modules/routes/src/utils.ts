@@ -38,7 +38,8 @@ export const generateRoutesFromFiles = (files: string[], routesDir: string) => {
   const isIndexSegment = (segment: RouteSegment) =>
     segment.type === "static" &&
     (segment.value === "index" ||
-      (segment.value.startsWith("(") && segment.value.endsWith(")")));
+      (segment.value.startsWith("(") && segment.value.endsWith(")")) ||
+      segment.value === "/");
 
   for (const file of files) {
     const segments = relative(routesDir, file)
@@ -86,9 +87,17 @@ export const generateRoutesFromFiles = (files: string[], routesDir: string) => {
         }
       } else if (!isIndexSegment(parsedSegment)) {
         if (!Array.isArray(route.path) && route.path.value) {
-          route.path = [route.path, parsedSegment];
+          if (isIndexSegment(route.path)) {
+            route.path = parsedSegment;
+          } else {
+            route.path = [route.path, parsedSegment];
+          }
         } else if (Array.isArray(route.path)) {
-          route.path.push(parsedSegment);
+          if (isIndexSegment(route.path[route.path.length - 1])) {
+            route.path[route.path.length - 1] = parsedSegment;
+          } else {
+            route.path.push(parsedSegment);
+          }
         } else {
           route.path = parsedSegment;
         }
@@ -226,6 +235,7 @@ export const parseSegment = (segment: string) => {
     }
     return segment;
   })();
+  console.log(segment, type, value);
   return { type, value };
 };
 
