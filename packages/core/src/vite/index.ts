@@ -1,6 +1,10 @@
 import { existsSync } from "node:fs";
 import { type Noyau } from "@noyau/schema";
-import { type UserConfig as ViteUserConfig, type ViteDevServer } from "vite";
+import {
+  type UserConfig as ViteUserConfig,
+  type ViteDevServer,
+  searchForWorkspaceRoot,
+} from "vite";
 import { dirname, join, resolve } from "pathe";
 import { resolvePath } from "@noyau/kit";
 import { withoutLeadingSlash } from "ufo";
@@ -27,13 +31,12 @@ export const bundle = async (noyau: Noyau) => {
     noyau.options.alias["#app"],
     noyau.options.rootDir,
     dirname(noyau.options.app.entry),
+    searchForWorkspaceRoot(noyau.options.rootDir),
   ].filter((d) => d && existsSync(d));
 
   for (const dir of allowDirs) {
     allowDirs = allowDirs.filter((d) => !d.startsWith(dir) || d === dir);
   }
-
-  console.log("allowDirs", allowDirs);
 
   const ctx: ViteBuildContext = {
     noyau,
