@@ -14,19 +14,9 @@
     "@noyau/cli": "workspace:*",
     "@noyau/core": "workspace:*",
     "@noyau/kit": "workspace:*",
-    "@noyau/module-react": "workspace:*",
-    "@noyau/module-routes": "workspace:*",
-    "@noyau/module-spa": "workspace:*",
-    "@noyau/module-tanstack-router": "workspace:*",
-    "@noyau/schema": "workspace:*",
-    "@tanstack/react-query": "^4.29.12",
-    "@tanstack/router": "0.0.1-beta.86",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "@noyau/schema": "workspace:*"
   },
   "devDependencies": {
-    "@types/react": "^18.0.37",
-    "@types/react-dom": "^18.0.11",
     "h3": "^1.6.6"
   }
 }

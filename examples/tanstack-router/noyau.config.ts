@@ -5,8 +5,7 @@ export default defineNoyauConfig({
   modules: [
     "@noyau/module-react", // hmr
     "@noyau/module-spa", // renderer
-    "@noyau/module-tanstack-router", // generate routes with @tanstack/router. note: only components are implemented for now
+    "./module-tanstack-router/module.ts", // generate routes with @tanstack/router. note: only components are implemented for now
     "@noyau/module-routes", // standardized filesystem routes
-    "./test.ts",
   ],
 });
