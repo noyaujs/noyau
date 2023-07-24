@@ -1,9 +1,4 @@
-import {
-  defineNoyauModule,
-  createResolver,
-  addVitePlugin,
-  addServerPlugin,
-} from "@noyau/kit";
+import { defineNoyauModule, addVitePlugin } from "@noyau/kit";
 import solid from "vite-plugin-solid";
 import { name, version } from "../package.json";
 import {} from "@noyau/schema"; // This is needed so type-gen can infer the default export return type
@@ -20,7 +15,13 @@ export default defineNoyauModule<ModuleOptions>({
   // Default configuration options of the Noyau module
   defaults: {},
   setup() {
-    // noyau.options.ssr === false; // Force SSR to false
     addVitePlugin(solid(), { prepend: true });
+  },
+  hooks: {
+    "types:prepare": ({ tsConfig }) => {
+      tsConfig.compilerOptions ??= {};
+      tsConfig.compilerOptions.jsxImportSource = "solid-js";
+      tsConfig.compilerOptions.jsx = "preserve";
+    },
   },
 });
