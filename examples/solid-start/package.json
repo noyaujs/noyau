@@ -1,0 +1,34 @@
+{
+  "name": "@examples/solid-start",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "keywords": [],
+  "license": "MIT",
+  "author": "",
+  "scripts": {
+    "dev": "noyau dev",
+    "prod": "noyau build"
+  },
+  "dependencies": {
+    "@noyau/cli": "workspace:*",
+    "@noyau/core": "workspace:*",
+    "@noyau/kit": "workspace:*",
+    "@noyau/module-routes": "workspace:*",
+    "@noyau/module-solid": "workspace:*",
+    "@noyau/module-spa": "workspace:*",
+    "@noyau/schema": "workspace:*",
+    "@solidjs/router": "^0.8.2",
+    "@types/common-tags": "^1.8.1",
+    "common-tags": "^1.8.2",
+    "knitwork": "1.0.0",
+    "mlly": "^1.4.0",
+    "solid-js": "^1.7.8",
+    "solid-start": "^0.2.27",
+    "typescript": "^5.1.6"
+  },
+  "devDependencies": {
+    "pathe": "^1.1.0",
+    "vite-plugin-solid": "^2.7.0"
+  }
+}
