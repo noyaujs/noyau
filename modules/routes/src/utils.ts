@@ -235,7 +235,6 @@ export const parseSegment = (segment: string) => {
     }
     return segment;
   })();
-  console.log(segment, type, value);
   return { type, value };
 };
 
