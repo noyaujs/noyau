@@ -15,7 +15,9 @@ export default defineNoyauModule<ModuleOptions>({
   // Default configuration options of the Noyau module
   defaults: {},
   setup() {
-    addVitePlugin(solid(), { prepend: true });
+    addVitePlugin(({ isServer }) => solid({ ssr: isServer }), {
+      prepend: true,
+    });
   },
   hooks: {
     "types:prepare": ({ tsConfig }) => {
