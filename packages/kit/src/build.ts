@@ -28,7 +28,10 @@ export interface ExtendConfigOptions {
 }
 
 export const extendViteConfig = (
-  fn: (config: ViteConfig) => void,
+  fn: (
+    config: ViteConfig,
+    env: { isClient: boolean; isServer: boolean }
+  ) => void,
   options: ExtendConfigOptions = {}
 ) => {
   const noyau = useNoyau();
@@ -40,29 +43,33 @@ export const extendViteConfig = (
     return;
   }
 
-  if (options.server !== false && options.client !== false) {
-    // Call fn() only once
-    return noyau.hook("vite:extend", ({ config }) => fn(config));
-  }
+  // if (options.server !== false && options.client !== false) {
+  //   // Call fn() only once
+  //   return noyau.hook("vite:extend", ({ config, env }) => fn(config, env));
+  // }
 
   noyau.hook("vite:extendConfig", (config, { isClient, isServer }) => {
     if (options.server !== false && isServer) {
-      return fn(config);
+      return fn(config, { isClient, isServer });
     }
     if (options.client !== false && isClient) {
-      return fn(config);
+      return fn(config, { isClient, isServer });
     }
   });
 };
 
 export function addVitePlugin(
-  pluginOrGetter: VitePlugin | (() => VitePlugin),
+  pluginOrGetter:
+    | VitePlugin
+    | ((env: { isClient: boolean; isServer: boolean }) => VitePlugin),
   options?: ExtendConfigOptions
 ) {
-  extendViteConfig((config) => {
+  extendViteConfig((config, env) => {
     const method: "push" | "unshift" = options?.prepend ? "unshift" : "push";
     const plugin =
-      typeof pluginOrGetter === "function" ? pluginOrGetter() : pluginOrGetter;
+      typeof pluginOrGetter === "function"
+        ? pluginOrGetter(env)
+        : pluginOrGetter;
 
     config.plugins = config.plugins ?? [];
     if (Array.isArray(plugin)) {
