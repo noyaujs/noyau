@@ -1,4 +1,7 @@
+import { type AppPlugin } from "@noyau/schema";
+import { createNoyauApp, installPlugins } from "./noyau";
 import appEntry from "#entry";
+import plugins from "#build/plugins";
 
 let entry;
 
@@ -12,8 +15,12 @@ if (!import.meta.env.SSR) {
     if (entryPromise) {
       return entryPromise;
     }
+    const noyau = createNoyauApp();
+    console.log(plugins);
+    // TODO: plugins
+    await installPlugins(noyau, plugins as AppPlugin[]);
 
-    await appEntry();
+    await appEntry(noyau);
   };
 
   entryPromise = entry().catch((err: unknown) => {

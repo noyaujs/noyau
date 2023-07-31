@@ -24,7 +24,12 @@ export interface ViteBuildContext {
 
 export const bundle = async (noyau: Noyau) => {
   // TODO: make this configurable
-  const entry = await resolvePath(resolve(noyau.options.appDir, "entry"));
+  const entry = await resolvePath(
+    resolve(
+      noyau.options.appDir,
+      noyau.options.experimental.runtime ? "entry-runtime" : "entry"
+    )
+  );
 
   //TODO: allow for all modules runetime dir to work
   let allowDirs = [
