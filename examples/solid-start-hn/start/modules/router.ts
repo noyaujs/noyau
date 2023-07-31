@@ -245,12 +245,13 @@ const generateRouteDefinitons = (routes: NoyauRoute[]) => {
   return source`
     ${dataExports.join("\n")}
 
-    const fileRoutes = [
+    export const fileRoutes = [
       ${routeDefinitions}
     ]
 
     export const FileRoutes = () => {
       return fileRoutes as unknown as JSX.Element;
     };
+    
   `;
 };

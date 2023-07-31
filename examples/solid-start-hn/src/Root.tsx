@@ -1,9 +1,11 @@
 import { Routes } from "@solidjs/router";
 import { Suspense } from "solid-js/web";
+import ErrorBoundary from "solid-start/error-boundary";
+
 import Nav from "./components/nav";
 import { FileRoutes } from "#solid-start/router";
 import { Body, Head, Html } from "~~/start";
-import "./Root.css"
+import "./Root.css";
 
 const Root = () => (
   <Html lang="en">
@@ -16,13 +18,13 @@ const Root = () => (
     </Head>
     <Body>
       <Nav />
-      {/* <ErrorBoundary> */}
-      <Suspense fallback={<div class="news-list-nav">Loading...</div>}>
-        <Routes>
-          <FileRoutes />
-        </Routes>
-      </Suspense>
-      {/* </ErrorBoundary> */}
+      <ErrorBoundary>
+        <Suspense fallback={<div class="news-list-nav">Loading...</div>}>
+          <Routes>
+            <FileRoutes />
+          </Routes>
+        </Suspense>
+      </ErrorBoundary>
       {/* <Scripts /> */}
     </Body>
   </Html>
